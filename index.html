@@ -50,7 +50,7 @@ $("step").addEventListener("click",step);$("reset").addEventListener("click",res
 $("display").addEventListener("change",e=>{document.body.className=e.target.value==="dark"?"":e.target.value;localStorage.setItem("agent-academy-display",e.target.value)});const saved=localStorage.getItem("agent-academy-display");if(["dark","light","projector"].includes(saved)){$("display").value=saved;document.body.className=saved==="dark"?"":saved}
 const initial=$("code").value;
 $("py-reset").addEventListener("click",()=>{$("code").value=initial});
-let worker=null,seq=0,pending=new Map();
+let worker=null,seq=0,runGeneration=0,pending=new Map();
 function terminatePython(reason="Interrompu"){
   if(worker){worker.terminate();worker=null}
   for(const [id,item] of pending){clearTimeout(item.timeout);item.reject(new Error(reason))}
@@ -74,21 +74,20 @@ function requestPython(kind,args,timeoutMs=12000){
   });
 }
 $("py-stop").addEventListener("click",()=>{
-  epoch++;stop();terminatePython("Arrêt demandé");busy=false;
+  epoch++;runGeneration++;stop();terminatePython("Arrêt demandé");busy=false;
   $("py-status").textContent="Interrompu";
   $("py-output").textContent="Exécution Python arrêtée.";
   $("py-run").disabled=false;
   reset();
 });
 $("py-run").addEventListener("click",async()=>{
-  const button=$("py-run");button.disabled=true;
+  const button=$("py-run");const generation=++runGeneration;button.disabled=true;
   $("py-status").textContent="Exécution isolée…";
   $("py-output").textContent="Initialisation de Python dans le Web Worker…";
   try{
     const result=await requestPython("run",{code:$("code").value},12000);
-    $("py-status").textContent="Python prêt";
-    $("py-output").textContent=result.output;
-  }catch(e){$("py-status").textContent="Erreur / interruption";$("py-output").textContent=String(e.message||e)}
+    if(generation===runGeneration){$("py-status").textContent="Python prêt";$("py-output").textContent=result.output;}
+  }catch(e){if(generation===runGeneration){$("py-status").textContent="Erreur / interruption";$("py-output").textContent=String(e.message||e)}}
   finally{button.disabled=false}
 });
 reset();
