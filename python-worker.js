@@ -26,12 +26,19 @@ self.onmessage = async ({data}) => {
         await py.runPythonAsync(code,{globals});
         const f=globals.get("decider");
         if(!f) throw Error("Définissez une fonction decider(position, objectif, obstacles).");
-        const result=f(position,goal,obstacles);
-        const action=result===null?null:String(result);
-        if(result&&typeof result.destroy==="function")result.destroy();
-        if(f.destroy)f.destroy();
-        if(!["droite","gauche","haut","bas","arrêt",null].includes(action))throw Error("Action non reconnue : "+action);
-        self.postMessage({id,ok:true,action,output:lines.join("\n")});
+        try {
+          globals.set("__position",position);
+          globals.set("__goal",goal);
+          globals.set("__obstacles",obstacles);
+          // Convert JavaScript arrays to genuine Python tuples for consistent comparisons.
+          await py.runPythonAsync("__result = decider(tuple(__position), tuple(__goal), [tuple(p) for p in __obstacles])",{globals});
+          const result=globals.get("__result");
+          const action=result===null?null:String(result);
+          if(result&&typeof result.destroy==="function")result.destroy();
+          if(!["droite","gauche","haut","bas","arrêt",null].includes(action))throw Error("Action non reconnue : "+action);
+          self.postMessage({id,ok:true,action,output:lines.join("\\n")});
+        } finally {if(f.destroy)f.destroy();}
+
       } finally {globals.destroy();}
     } else throw Error("Commande inconnue");
   } catch(err) {self.postMessage({id,ok:false,error:String(err)});}
