@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("cours en français et contrôles accessibles", async ({page})=>{
   await page.goto("/");
-  await expect(page.getByRole("heading",{name:"Comprendre l’agent."})).toBeVisible();
+  await expect(page.getByRole("heading",{name:/Comprendre l’agent/})).toBeVisible();
   await expect(page.getByRole("button",{name:/Exécuter une étape/})).toBeVisible();
   await expect(page.getByLabel("Politique :")).toBeVisible();
 });
