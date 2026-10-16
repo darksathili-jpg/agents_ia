@@ -65,7 +65,7 @@ test("bouton stop disponible même pendant une boucle",async({page})=>{
   await page.goto("/");
   await page.locator("#py-run").click();
   await page.locator("#py-stop").click();
-  await expect(page.locator("#py-output")).toContainText("interrompue");
+  await expect(page.locator("#py-output")).toHaveText("Exécution Python arrêtée.");
   await expect(page.locator("#py-run")).toBeEnabled();
   expect(await page.evaluate(()=>window.__terminated)).toBe(true);
 });
