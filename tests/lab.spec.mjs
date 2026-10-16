@@ -10,7 +10,6 @@ test("politique gloutonne bloquée, puis BFS aboutit",async({page})=>{
   await page.goto("/");
   await page.getByRole("button",{name:/Exécuter une étape/}).click();
   await page.getByRole("button",{name:/Exécuter une étape/}).click();
-  await page.getByRole("button",{name:/Exécuter une étape/}).click();
   await expect(page.locator("#state")).toHaveText("Bloqué");
   await page.locator("#policy").selectOption("bfs");
   for(let i=0;i<35;i++){
