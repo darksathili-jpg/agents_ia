@@ -74,3 +74,14 @@ test("mise en page mobile sans débordement horizontal important",async({page})=
   await page.goto("/");
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2)).toBe(true);
 });
+test("Pyodide réel : exécution Python, décision et gestion d'arrêt",async({page})=>{
+  test.setTimeout(150000);
+  await page.goto("/");
+  await page.locator("#code").fill('def decider(position, objectif, obstacles):\n    return "arrêt"\nprint("PYTHON_REEL_OK")');
+  await page.locator("#py-run").click();
+  await expect(page.locator("#py-output")).toContainText("PYTHON_REEL_OK",{timeout:90000});
+  await page.locator("#policy").selectOption("python");
+  await page.locator("#step").click();
+  await expect(page.locator("#state")).toHaveText("Bloqué",{timeout:20000});
+  await expect(page.locator("#observation")).toContainText("arrêt");
+});
