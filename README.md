@@ -1,39 +1,43 @@
 # Agent Academy — Laboratoire d'apprentissage des agents IA
 
-Plateforme pédagogique interactive **en français** pour étudier les agents IA, leurs architectures, leur fonctionnement et leur évaluation.
+Plateforme de formation interactive **en français**, développée progressivement pour comprendre, programmer et évaluer des agents.
 
-## Prototype 01 — Observer, décider, agir
+## Jalon 03 — Observer, décider, agir
 
-Le prototype initial contient :
-- une leçon sur la définition d'un agent et la boucle observation/décision/action ;
-- un environnement déterministe 7 × 5 avec des obstacles et un objectif ;
-- deux stratégies comparables : une politique gloutonne volontairement limitée et un parcours en largeur (BFS) ;
-- un journal transparent des décisions, un mode pas à pas et un mode automatique ;
-- une mini-évaluation formative ;
-- un éditeur Python avec exécution réelle grâce à Pyodide 0.27.7 dans un Web Worker (chargé à la demande) ;
-- une politique Python personnalisable reliée à la grille (« Mon agent Python »), avec arrêt et limite d’exécution ;
-- des modes sombre, clair et vidéoprojecteur, ainsi qu'une interface adaptable aux mobiles.
+Le prototype comprend :
+- un cours introductif sur les agents, leurs observations, politiques de décision et actions ;
+- un environnement 7 × 5 avec obstacles, une politique gloutonne et une recherche en largeur (BFS) ;
+- une politique Python éditable qui prend directement des décisions dans la grille ;
+- un journal et une explication structurée de chaque décision (observation → politique → action) ;
+- une mini-évaluation, trois thèmes (clair, sombre, vidéoprojecteur) et une mise en page mobile ;
+- un interpréteur **Pyodide 0.27.7** dans un **Web Worker** séparé, avec bouton Stop et délai limite.
 
-**Limites assumées de ce premier jalon :** le code Python de l'atelier n'est pas encore relié au moteur de la grille ; le simulateur est écrit en JavaScript. Il ne s'agit pas d'une simulation de LLM. Pyodide est chargé depuis un CDN et nécessite donc une connexion au premier lancement. L'exécution Python dans le fil principal n'offre pas de bouton d'arrêt robuste contre une boucle infinie : réserver les expériences à du code de confiance et prévoir un Web Worker dédié lors du prochain jalon.
+L'application est entièrement statique et peut être hébergée sur GitHub Pages. Au premier lancement, Pyodide doit être téléchargé depuis un CDN. Aucune clé d'API n'est requise. Le laboratoire démontre d'abord les agents déterministes, **pas un LLM**.
 
-## Tester
+### Utilisation
 
-Ouvrir `index.html` dans un navigateur récent ou servir le dossier avec un serveur statique. GitHub Pages peut héberger le site sans étape de compilation.
+Ouvrir le site via un serveur web statique (et non directement en `file://`). Choisir la politique « Mon agent Python » pour relier votre fonction `decider(position, objectif, obstacles)` à la grille. Les actions admises sont `droite`, `gauche`, `haut`, `bas` et `arrêt`.
 
-1. Choisir « Gloutonne », cliquer sur « Exécuter une étape » : elle se bloque sur le mur en (2,2).
-2. Réinitialiser, choisir « Recherche en largeur (BFS) », puis lancer l'exécution : l'agent contourne le mur et atteint (6,2).
-3. Vérifier le journal et la mini-évaluation.
-4. Exécuter le code Python proposé et vérifier l'affichage de `droite`.
-7. Vérifier les modes visuels, le clavier et le format mobile.
+L'exemple Python emploie une recherche en largeur et contourne les obstacles. La politique gloutonne se bloque volontairement pour illustrer les limites d'un choix local.
 
-## Références scientifiques et techniques
+### Tests
 
-- [Hugging Face — Agents Course (français)](https://huggingface.co/learn/agents-course/fr/unit0/introduction)
-- [Yao et al., ReAct](https://arxiv.org/abs/2210.03629)
+```bash
+npm install
+npx playwright install chromium
+npm run test:browser
+```
+
+Les tests couvrent l'affichage, BFS, les modes, le mobile, l'intégration du Worker (simulée), l'arrêt, et **une exécution réelle de Pyodide** sans simulation. Le test Pyodide dépend de l'accès au CDN : un échec réseau ne doit pas être confondu avec une erreur de Python.
+
+**Limites** : le code Python s'exécute dans le navigateur et le Web Worker peut être terminé, mais cela ne constitue pas une sandbox de sécurité pour du code non fiable. Les protections d'accès aux API et d'isolation sont à renforcer. Les tests ne prouvent pas encore la sécurité ou la fiabilité de tous les programmes.
+
+## Références
+
+- [Hugging Face — Agents Course, français](https://huggingface.co/learn/agents-course/fr/unit0/introduction)
+- [Yao et al. — ReAct](https://arxiv.org/abs/2210.03629)
 - [Anthropic — Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)
 
-## Suite proposée
+## Développement
 
-Le jalon 02 intègre une première politique Python pilotant la simulation via un Web Worker avec limite de temps, interruption et traçabilité. Des tests navigateurs automatisés et une isolation renforcée restent à apporter. Les modules ultérieurs introduiront les appels d'outils, l'état et les agents fondés sur un LLM.
-
-**Statut :** prototype de revue. Pas encore validé par des tests navigateur automatisés.
+La PR #1 reste en brouillon. Ne pas fusionner avant validation du workflow et des essais utilisateur sur ordinateur et mobile.
