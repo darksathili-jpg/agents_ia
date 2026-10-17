@@ -1,6 +1,6 @@
 # Sujets de TP et banque d’exercices
 
-Les cinq TP constituent les supports expérimentaux de la progression, pas cinq nouvelles interfaces. TP01 accompagne S01.1. Pour le TP02 et la préparation au TP03, utiliser maintenant les [activités détaillées S02](ACTIVITES_S02.md), leurs scripts `s02_*` et les fiches élève ; les paragraphes ci-dessous conservent les repères du plan général. TP03 complet et TP04–05 restent des supports de conception, sans cours S3–S5 rédigés. Les corrections sont distribuées séparément par l’enseignant.
+Les cinq TP constituent les supports expérimentaux de la progression, pas cinq nouvelles interfaces. TP01 accompagne S01.1. Pour le TP02 et la préparation au TP03, utiliser les [activités détaillées S02](ACTIVITES_S02.md) et leurs scripts `s02_*`. Le TP03 courant est intégralement décrit dans [S03](SEANCE_03.md), avec [amorce spécifique](python/s03_depart.py), [fiche élève](SUPPORT_ELEVE_S03.md) et correction séparée. Les paragraphes TP03 ci-dessous conservent les repères du plan général ; ils ne remplacent pas ce protocole. TP04–05 restent des supports de conception sans cours rédigés. Les corrections sont distribuées séparément par l’enseignant.
 
 ## Mode opératoire commun
 

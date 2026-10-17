@@ -49,4 +49,10 @@ try{
   await executer(await readFile(resolve(dir,nom+'.py'),'utf8'),marqueur);
  }
  console.log('Jalon S01.1/S02 : 7 tests et 4 scripts exécutés dans Pyodide réel.');
+ const sourceS03=await readFile(resolve(dir,'s03_tp.py'),'utf8');
+ const testsS03=await readFile(resolve(dir,'tests_s03.py'),'utf8');
+ await executer(`import sys, types\nmodule = types.ModuleType("s03_tp")\nexec(${JSON.stringify(sourceS03)}, module.__dict__)\nsys.modules["s03_tp"] = module\nexec(${JSON.stringify(testsS03)})`,'TESTS_S03_OK 7');
+ await executer(sourceS03,'TP03_S03_OK');
+ await executer(await readFile(resolve(dir,'s03_depart.py'),'utf8'),'DEPART_S03_OK');
+ console.log('S03 : 7 tests, corrigé et amorce exécutés dans Pyodide réel.');
 }finally{await browser?.close();serveur.close();}

@@ -4,6 +4,8 @@ Ce parcours possède ses propres problèmes, preuves et productions. Pour S01.1,
 
 ## 1. Une définition est un instrument d’analyse
 
+**Actualisation S03 :** le [parcours enseignant complet](ENSEIGNANT_S03.md) remplace les orientations historiques S3 de cette page pour la séance courante ; il inclut conventions temporelles, preuve, contre-exemples, lecture critique et transposition. S04/S05 restent non rédigées.
+
 Le cadre fonctionnel classique de R1 décrit le comportement à partir de perceptions et d’actions. R2 met davantage l’accent sur le contrôle autonome et l’interaction ; parler d’un agent implique alors des choix de délimitation et de capacité. La proposition « tout programme est un agent » peut se défendre avec des frontières très larges, mais perdre presque toute puissance explicative.
 
 **Problème enseignant S1** : choisir successivement comme système la fonction `decider`, son Worker et l’ensemble contrôleur-environnement. Pour chacun, indiquer entrées, sorties, état conservé et décisions effectivement sous contrôle. La fonction seule retourne une chaîne ; la boucle et le moteur lui donnent une portée d’action. Ni le mot « agent » ni l’emploi de Python ne démontrent de compétence générale.

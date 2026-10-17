@@ -4,6 +4,8 @@
 
 ## Retour formatif du pilote S1
 
+**Jalon S03 :** bilan individuel B1–B5 et critères observables dans [la fiche S03](SUPPORT_ELEVE_S03.md), réponses et remédiations dans [les corrigés séparés](CORRIGES_S03.md). Le seuil proposé ne constitue pas une certification et n’a pas été étalonné auprès d’élèves. Les épreuves S5 ci-dessous restent des propositions.
+
 **Mise à jour S01.1/S02 :** S01 commence désormais par un diagnostic de huit minutes, sans note, corrigé dans `CORRIGES.md`. Le bilan S02 B1–B5 et ses critères sont dans `SEANCE_02.md` et `SUPPORT_ELEVE_S02.md` ; correction séparée. Ces deux contrôles formatifs s’ajoutent à l’alignement du dossier sans rédiger S03–S05 ni modifier les épreuves finales proposées ci-dessous.
 
 Billet de sortie (10 min inclus dans S1) : schéma observation/politique/action/environnement, exemple de recouvrement automate-agent, différence entre notre Python et un agent LLM, test manquant de sa fonction. Réussite proposée : trois éléments corrects sur quatre, dont la distinction commande/effet ; remédiation courte avant la séance suivante si celle-ci manque. Ne pas noter uniquement les définitions récitées.

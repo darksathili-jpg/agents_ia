@@ -1,8 +1,10 @@
 # Module 01 — Fondements scientifiques des agents intelligents
 
-**Jalon courant : S01.1 consolidée et S02 rédigée — validation humaine requise avant S03.**
+**Jalon courant : S03 conçue — validation humaine requise avant S04.**
 
-Pilote de référence : `729f38b`, sur `docs/module-01-conception-pilote`, issu de la V2 et de sa stabilisation. Le jalon courant est sur `docs/module-01-s01-1-s02`, créé depuis `4526e32` : ce dernier commit utilisateur a déjà versionné `AGENTS.md`, dont le contenu reste intact dans notre travail. Aucun changement de l’application, du laboratoire, du Worker ou des ressources graphiques. L’ancienne [note exploratoire](../module-01-fondements-scientifiques.md) reste historique : **le présent dossier remplace sa progression en sept séquences par cinq séances de deux heures**.
+La branche `docs/module-01-s03` part du commit `bf009acb226ce6a53453529d72fa27ebf6f7af96` de `docs/module-01-s01-1-s02`. Lire le [cours S03](SEANCE_03.md), le [support élève](SUPPORT_ELEVE_S03.md), le [parcours enseignant](ENSEIGNANT_S03.md), les [corrigés S03](CORRIGES_S03.md) et l’[audit S03](AUDIT_S03.md). Le TP03 courant utilise `python/s03_depart.py` et sa correction séparée `python/s03_tp.py` ; il remplace pour cette séance l’amorce générique historique `tp03_depart.py`.
+
+Pilote de référence : `729f38b`, sur `docs/module-01-conception-pilote`, issu de la V2 et de sa stabilisation. Le jalon précédent est sur `docs/module-01-s01-1-s02`, créé depuis `4526e32` : ce dernier commit utilisateur a déjà versionné `AGENTS.md`, dont le contenu reste intact dans notre travail. Aucun changement de l’application, du laboratoire, du Worker ou des ressources graphiques. L’ancienne [note exploratoire](../module-01-fondements-scientifiques.md) reste historique : **le présent dossier remplace sa progression en sept séquences par cinq séances de deux heures**.
 
 ## Lire selon son rôle
 
@@ -15,7 +17,7 @@ Les corrections sont séparées matériellement pour leur distribution ; un dép
 
 ## Périmètre de ce jalon
 
-S01 a reçu une validation externe sous réserves. Le jalon courant consolide son support de classe, son diagnostic et son organisation ; S02 est maintenant rédigée pour les deux publics, avec activités et corrigés. Le TP02 et l’observation masquée préparatoire ont des supports dédiés. Les **cours détaillés S03–S05 ne sont pas rédigés** ; les fiches et codes du plan général ne valent pas autorisation de les poursuivre. Les évaluations finales proposées n’annoncent pas un module complet déjà livré.
+S01.1/S02 ont reçu un avis favorable à la poursuite. S03 est maintenant conçue pour les deux publics, avec TP03 autonome, supports et corrigés. Les **cours détaillés S04/S05 ne sont pas rédigés** ; les fiches et codes du plan général ne valent pas autorisation de les poursuivre. Les évaluations finales proposées n’annoncent pas un module complet déjà livré.
 
 Durée : 10 h, cinq séances de 120 min, activités et évaluation incluses. Le parcours enseignant remplace certaines aides élèves par de l’analyse et de la lecture ; il ne consiste pas à ajouter des heures de cours savant à une séance déjà pleine. Approfondissements longs : travail facultatif hors des 10 h, explicitement identifié.
 
@@ -35,4 +37,4 @@ Les scripts corrigés et les vérifications techniques sont rangés dans `python
 
 ## Point d’arrêt
 
-Validation attendue sur S01.1/S02 : précision scientifique, progressivité, profondeur enseignant, adéquation Première/Terminale et temps proposés. **Arrêt après audit : pas de rédaction des séances 03–05, pas d’intégration d’interface, pas de fusion, pas de déploiement.**
+Validation attendue sur S03 : précision scientifique, progressivité, profondeur enseignant, adéquation Première/Terminale et temps proposés. **Arrêt après S03 : pas de rédaction des séances 04/05, pas d’intégration d’interface, pas de fusion, pas de déploiement.**

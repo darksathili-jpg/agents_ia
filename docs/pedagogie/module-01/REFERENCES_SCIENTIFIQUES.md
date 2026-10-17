@@ -27,6 +27,8 @@ Consultation le **17 octobre 2026**. Aucun extrait long ni illustration des sour
 
 ## Questions de lecture proposées
 
+Relecture S03, 17 octobre 2026 : [R3, §2.1.1–2.1.3](https://artint.info/3e/html/ArtInt3e.Ch2.S1.html), contrôleur, histoire et mémoire finie ; [R1, extrait public §2.4](https://aima.cs.berkeley.edu/4th-ed/pdfs/newchap02.pdf), repères d’architectures. Liens consultés et sections contrôlées ; réserve d’édition du PDF inchangée. P0 reconsultée pour situer les acquis NSI. Voir [la lecture critique S03](ENSEIGNANT_S03.md) et les limites d’attribution : nos mondes et preuves sont originaux, ces manuels ne valident pas l’efficacité pédagogique de notre TP.
+
 S1 : pourquoi R1 et R2 ne découpent-ils pas exactement le même objet ? S2 : que perd-on en remplaçant l’histoire par l’observation courante [R3] ? S3 : mémoire et modèle du monde sont-ils équivalents [R1, R3] ? S4 : quelles hypothèses sont nécessaires à l’optimalité de BFS [R3] ? S5 : quelle comparaison de R4 étaye réellement l’apport des observations externes, et quelle conclusion serait excessive ? Confronter ensuite taxonomie de revue [R5] et convention industrielle [R7].
 
 Les réponses attendues sont dans le parcours enseignant. La bibliographie est vérifiée pour ce jalon, pas une promesse de permanence des URL ni un inventaire complet du domaine.
