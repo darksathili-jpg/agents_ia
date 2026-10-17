@@ -4,7 +4,7 @@ test('Microduck explique les trois étapes au clavier et conserve le choix',asyn
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/');
  const decide=page.getByRole('button',{name:'2. Décider',exact:true});
- await decide.focus();await page.keyboard.press('Space');
+ await decide.scrollIntoViewIfNeeded();await decide.press('Space');
  await expect(decide).toBeFocused();await expect(decide).toHaveAttribute('aria-pressed','true');
  await expect(page.locator('#mission-note')).toContainText('BFS');
  await expect(page.locator('#robot-message')).toContainText('Comparons');

@@ -1,0 +1,31 @@
+/* Carnet pédagogique : prolonge les matières et caractères de la V2. */
+body.formation{margin:0} .formation main{max-width:1248px;margin:auto;padding:0 32px 50px}
+.formation .masthead{flex-wrap:wrap}.formation .masthead nav{flex-wrap:wrap}
+.formation .cover{border:2px solid var(--ink);background:var(--paper);box-shadow:7px 7px #f4c542;margin:30px 0;padding:30px;position:relative}
+.formation .cover h1{font:clamp(30px,4vw,52px)/1.3 'Henny Penny',serif;margin:14px 0;max-width:900px}
+.formation .cover .robot-picture{float:right;width:100px;height:130px;margin:0 0 15px 25px}
+.formation .eyebrow{font-weight:900;color:var(--blue);letter-spacing:.08em}
+.formation .reading{display:grid;grid-template-columns:250px minmax(0,1fr);gap:30px;align-items:start}
+.formation .reading>article,.formation .contents{min-width:0}
+.formation .masthead select{max-width:240px}
+.formation .contents{position:sticky;top:12px;background:var(--paper);border:2px solid var(--ink);padding:18px;font-size:16px;max-height:90vh;overflow:auto}
+.formation .contents ol{padding-left:22px}.formation .contents li{margin:10px 0}.formation .contents a[aria-current]{font-weight:900;text-decoration-thickness:3px}
+.formation .sheet{background:var(--paper);border:1px solid var(--line);border-top:5px solid #f28c38;padding:28px;margin-bottom:28px;scroll-margin-top:20px;min-width:0}
+.formation h2{font:900 clamp(23px,2.3vw,30px)/1.35 Nunito,sans-serif;margin-top:0}.formation h3{font-size:22px}
+.formation p,.formation li{max-width:85ch}.formation .sheet>p{margin:16px 0}
+.formation pre{background:var(--wash);border:1px solid var(--line);padding:16px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.formation code{font: .91em/1.6 'JetBrains Mono',monospace;overflow-wrap:anywhere}
+.formation .table-scroll{overflow:auto}.formation table{border-collapse:collapse;width:100%;font-size:16px}.formation th,.formation td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.formation th{background:var(--wash)}
+.formation label{display:block;font-weight:800;margin:12px 0}.formation textarea,.formation input[type=text]{width:100%;font:inherit;background:var(--bg);color:var(--ink);border:2px solid var(--line);border-radius:4px;padding:12px;min-height:100px}.formation input[type=text]{min-height:48px}
+.formation button,.formation .action-link{display:inline-block;background:#f4c542;color:#1f2a44;border:2px solid #1f2a44;padding:10px 16px;min-height:44px;font:900 17px/1.5 Nunito,sans-serif;cursor:pointer;text-decoration:none;margin:6px 6px 6px 0;border-radius:4px}
+.formation button:hover,.formation .action-link:hover{box-shadow:3px 3px #f28c38}.formation .callout{background:var(--wash);border-left:5px solid var(--blue);padding:18px;margin:22px 0}
+.formation .work{border-top:2px dashed var(--line);margin-top:24px;padding-top:20px}.formation .feedback{font-weight:800;white-space:pre-line;min-height:30px}
+.formation iframe{width:100%;border:2px solid var(--ink);height:1060px;background:var(--paper)}.formation iframe.observation-frame{height:770px}
+.formation .session-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.formation .session-list .sheet{margin:0}.formation .session-list .future{border-top-color:var(--line)}
+.formation .page-turn{display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:18px;margin-top:24px}.formation .page-turn a{font-weight:900}
+.formation fieldset{border:1px solid var(--line);margin:18px 0;padding:16px}.formation legend{font-weight:900}.formation fieldset label{font-weight:400}.formation input[type=radio],.formation input[type=checkbox]{width:20px;height:20px;vertical-align:middle;accent-color:var(--blue)}
+.formation summary{cursor:pointer;font-weight:900;padding:10px}.formation footer{border-top:3px double var(--line);padding:25px 32px;max-width:1248px;margin:auto}.formation .local-state{font-size:16px}
+.formation.projector{--bg:#fff;--paper:#fff;--wash:#f6f6f0;--ink:#18243b;--muted:#33445b;font-size:21px}.formation.projector table,.formation.projector .contents,.formation.projector .local-state,.formation.projector button{font-size:20px}
+@media(max-width:850px){.formation .reading{grid-template-columns:1fr}.formation .contents{position:static;max-height:none}.formation .contents ol{display:flex;flex-wrap:wrap;gap:8px 25px}.formation .contents li{margin:4px}.formation .session-list{grid-template-columns:1fr}}
+@media(max-width:500px){.formation main{padding:0 14px 30px}.formation .masthead{padding:16px}.formation .cover,.formation .sheet{padding:18px}.formation .cover .robot-picture{width:65px;height:90px}.formation iframe{height:1500px}.formation iframe.observation-frame{height:1120px}.formation .page-turn{flex-wrap:wrap}}
+@media print{.formation .masthead,.formation .contents,.formation button,.formation iframe{display:none}.formation .reading{display:block}.formation .sheet{break-inside:avoid;border:1px solid #999}.formation textarea{min-height:90px}.formation .cover{box-shadow:none}}

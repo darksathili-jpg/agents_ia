@@ -2,6 +2,14 @@
 
 Plateforme de formation interactive **en français**, développée progressivement pour comprendre, programmer et évaluer des agents.
 
+## Ouvrir la séance S01 intégrée
+
+Sous Windows, double-cliquer sur **Ouvrir-Agent-Academy.cmd** (Python doit être installé). Laisser la fenêtre du serveur ouverte ; Ctrl+C l’arrête. Ouvrir au besoin `http://127.0.0.1:8765/module01.html` dans Edge ou Chrome. Si le port est occupé : `python scripts/ouvrir-academy.py --port 8766`.
+
+Le module propose S01 de bout en bout, un parcours enseignant distinct et les documents S02/S03. S04/S05 restent à venir. Les réponses écrites sont conservées localement et exportables ; aucun suivi enseignant distant n’est annoncé. Internet est nécessaire pour charger Pyodide.
+
+Voir la [démonstration commentée et ses captures complètes](docs/visualisation-s01/index.html) et le [bilan technique et pédagogique](docs/visualisation-s01/BILAN.md). Les pages HTML sont déjà produites : aucun serveur de compilation ni installation npm n’est nécessaire pour les consulter.
+
 ## Jalon 03 — Observer, décider, agir
 
 Le prototype comprend :

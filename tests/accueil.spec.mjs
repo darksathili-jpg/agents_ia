@@ -3,7 +3,7 @@ for(const theme of ['light','dark','projector']){
  test(`accueil et laboratoire ${theme}`,async({page},testInfo)=>{
   await page.goto('/');await page.locator('#home-display').selectOption(theme);
   await expect(page.getByRole('heading',{level:1})).toContainText('apprivoise');
-  expect(await page.locator('.classroom img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  await expect.poll(()=>page.locator('.classroom img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
   await page.screenshot({path:testInfo.outputPath(`accueil-${theme}.png`),fullPage:true});
   await page.getByRole('link',{name:/Commencer/}).click();
   await expect(page).toHaveURL(/laboratoire.html/);await expect(page.locator('#display')).toHaveValue(theme);
