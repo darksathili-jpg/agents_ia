@@ -1,5 +1,7 @@
 ﻿# Accueil et laboratoire — architecture et vérification
 
+> **État courant — stabilisation du 17 octobre 2026 :** validation artistique V2 de principe reçue. Campagne finale : **24/24 tests réussis** ; corrections sémantiques, captures V2 intactes. Voir le [bilan de stabilisation et plan de fusion](stabilisation-v2-et-plan-fusion.md). Les sections suivantes conservent l’historique ; leurs mentions de validation artistique attendue décrivent l’état d’alors.
+
 ## Audit initial
 `main` contenait seulement le README. Le prototype du jalon 03 se trouvait sur `origin/feature/agent-academy-mvp` (3670b3d). La branche artistique part de ce prototype. Aucun AGENTS.md dans le dépôt. Le laboratoire était une page statique autonome, avec un Worker Pyodide séparé et sept scénarios Playwright. Le mode projector appliquait #050b14 au fond : anomalie confirmée.
 
