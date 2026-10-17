@@ -29,7 +29,7 @@ Une prédiction initiale incorrecte n’annule pas l’apprentissage. La preuve 
 
 Le deuxième essai ne part pas de E : ce serait appliquer à tort une règle d’enchaînement alors que l’indépendance est explicitement annoncée. Les cas sont étudiés sur papier ; ils ne supposent pas un changement du départ de la grille réelle.
 
-**A2.** L’affirmation de Maya n’est pas compatible avec les données. Le sujet indique que la commande droite a déjà été choisie dans l’essai 2. Le maintien en B est le résultat de la vérification de C par le moteur. Conclure à l’absence de droite à partir du seul non-déplacement confond le choix et sa réalisation.
+**A2 — Prolongement facultatif.** L’affirmation de Maya n’est pas compatible avec les données. Le sujet indique que la commande droite a déjà été choisie dans l’essai 2. Le maintien en B est le résultat de la vérification de C par le moteur. Conclure à l’absence de droite à partir du seul non-déplacement confond le choix et sa réalisation.
 
 ## 3. Transfert T1–T2
 
@@ -46,7 +46,22 @@ Dans l’essai 1, aucune clé ou ouverture automatique ne peut être invoquée :
 
 Ce transfert vérifie la même distinction que la piste : un déplacement demandé n’est pas nécessairement accompli. La réponse ne demande pas de connaître le fonctionnement d’une porte réelle.
 
-## 4. Bilan individuel B1
+## 4. Vérification individuelle I1–I2 : troisième scénario
+
+**I1.** Les essais sont indépendants : leur ordre ne change pas les positions avant données par le tableau.
+
+| Essai | Position avant | Commande choisie | Position après | Déplacement ? | Justification |
+|---|---|---|---|---|---|
+| 1 | fin | DROITE | fin | Non | Depuis fin, la règle conserve fin : aucune position plus à droite n’est autorisée. |
+| 2 | début | DROITE | fin | Oui | Depuis début, la règle place le curseur à fin ; il change donc de position. |
+
+Les deux positions après sont identiques, mais cela ne signifie pas que les deux effets sont des déplacements : il faut comparer chaque position après à sa propre position avant. Le texte reste X ; il n’est ni déplacé ni effacé.
+
+**I2.** L’affirmation est incompatible avec les données. La commande DROITE a explicitement été choisie dans l’essai 1. Le curseur est à fin avant et après, car aucune position plus à droite n’est autorisée. Le non-déplacement est donc compatible avec une commande de déplacement effectivement choisie. Il ne prouve pas l’absence de commande.
+
+On n’a pas besoin d’inventer un mur, une porte, un retour au début ou un délai : la seule limite est celle des positions permises dans ce nouvel éditeur. Les réponses doivent expliquer cette règle, pas seulement reprendre « deux commandes, un déplacement » du cas Microduck.
+
+## 4 bis. Bilan B1 — prolongement facultatif, hors budget essentiel
 
 AVANCER indique une demande, pas la preuve d’un changement de pièce. Dans l’essai 1, Nora est dans le hall avant la commande et reste dans le hall après. La porte est fermée ; le moteur applique la règle qui empêche le passage. La commande a été choisie, mais le déplacement n’a pas été réalisé.
 

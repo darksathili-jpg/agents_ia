@@ -1,6 +1,6 @@
 # U01 — Commander n’est pas déplacer
 
-**Cours élève — première version expérimentale.** Durée indicative : vingt minutes, à ajuster après essai. Pour travailler, vous devez disposer de ce cours et des [activités élève](ACTIVITES_ELEVE.md), sur papier ou à l’écran. Aucun ancien cours n’est nécessaire. Les corrigés sont remis après votre recherche.
+**Cours élève — version expérimentale U01.1.** Le parcours essentiel est prévu pour vingt minutes : c’est une hypothèse à mesurer, pas une durée déjà observée. Pour travailler, vous devez disposer de ce cours et des [activités élève](ACTIVITES_ELEVE.md), sur papier ou à l’écran. Aucun ancien cours n’est nécessaire. Les corrigés sont remis après votre recherche.
 
 Vous avez seulement besoin de savoir repérer une case à droite d’une autre et comparer deux positions. Vous n’avez pas de programme à écrire.
 
@@ -56,4 +56,6 @@ Il y a donc deux commandes, mais un seul déplacement. Lors du refus, la command
 
 ## 4. S’entraîner, transférer, faire le bilan — 12 à 20 minutes
 
-Passez aux [activités élève](ACTIVITES_ELEVE.md) : entraînement A1–A2, situation de la porte T1–T2, puis bilan B1. Le transfert et le bilan sont individuels. Vous pouvez justifier en phrases courtes ; aucune formule ni définition générale n’est demandée.
+Passez aux [activités élève](ACTIVITES_ELEVE.md) : entraînement A1, situation de la porte T1–T2, puis vérification I1–I2 dans une troisième situation. Le transfert et la vérification finale sont individuels. Vous pouvez justifier en phrases courtes ; aucune formule ni définition générale n’est demandée.
+
+A2 et B1 sont des prolongements facultatifs, hors des vingt minutes. Ils ne remplacent ni les prédictions, ni l’explication, ni le transfert, ni la vérification finale. Si le parcours essentiel prend plus de temps, l’enseignant en relève la durée et adapte la suite sans supprimer ces phases.

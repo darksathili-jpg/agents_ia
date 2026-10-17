@@ -1,8 +1,26 @@
 # U01 — Deux audits internes de la version expérimentale
 
-Base : cadrage de refondation `5041bfd8035065479747edd745cf95988559c779`. Périmètre : U01 seulement ; ni ancien cours corrigé, ni interface modifiée, ni nouvelle unité.
+Version courante : **U01.1**, consolidée depuis `6eed4029726681d116e831d06d4eb3263a863757`, sur `docs/u01-1-consolidation`. Les contrôles U01 ci-dessous sont conservés comme historique ; la présente consolidation ne traite que les trois réserves autorisées. Périmètre : U01 seulement ; ni ancien TP corrigé, ni interface modifiée, ni nouvelle unité.
 
-## Méthode et indépendance : ce qui a réellement été fait
+## U01.1 — Résolution des ajouts à partir des sujets
+
+Cette résolution est consignée avant l’ajout du corrigé I1–I2. Le troisième scénario donne deux positions possibles du curseur, début et fin, et une commande DROITE déjà choisie. La règle conduit de début à fin et laisse fin inchangée ; les essais sont indépendants. **I1 :** essai 1, fin après, aucun déplacement ; essai 2, fin après, déplacement réalisé depuis début. **I2 :** l’affirmation est incompatible avec les données : DROITE a été choisie, mais aucun emplacement plus à droite n’est autorisé depuis fin. Ce résultat n’exige ni connaissance d’un éditeur réel ni règle de retour automatique, explicitement exclue.
+
+L’exemple Python enseignant est confronté à la table de transition existante : hall/fermée reste hall/fermée ; hall/ouverte devient bureau/ouverte ; bureau/fermée et bureau/ouverte restent inchangés. La commande reste AVANCER. Les appels sont indépendants ; les valeurs invalides relèvent d’erreurs de contrat, pas d’états supplémentaires.
+
+## U01.1 — Résultats des contrôles de consolidation
+
+| Réserve demandée | Correction documentaire réalisée | Contrôle et limite |
+|---|---|---|
+| Troisième scénario individuel | I1–I2 : curseur dans un texte fixe X, positions début/fin, commande DROITE et règles intégrales | Résolution depuis le sujet avant ajout du corrigé, puis comparaison : fin/non et fin/oui ; I2 distingue commande présente et mouvement impossible depuis fin. Le corrigé et V1–V3 concordent. La réussite réelle d’apprenants n’est pas mesurée. |
+| Essentiel et prolongements | A1, Nora et I1–I2 restent essentiels ; A2/B1 deviennent des prolongements facultatifs hors budget | Prédictions P1/P2, expérience et explication conservées. Plages essentielles continues de 0 à 20 min ; le budget réduit de l’entraînement et les trois minutes de vérification finale doivent être éprouvés, pas considérés acquis. |
+| Python enseignant | Code court appliquant AVANCER aux quatre états, paramètres et retours définis, cas affichés et vérifiés | Bloc extrait du document et exécuté sous CPython : quatre résultats conformes à la table, quatre assertions réussies, quatre lignes affichées ; trois entrées invalides distinctes déclenchent ValueError comme annoncé. Aucun changement du laboratoire ou de Pyodide ; pas de test de ce code dans Pyodide revendiqué. |
+
+Les deux ajouts questionnés, I1 et I2, n’exigent aucune donnée du corrigé : les positions et règles utiles figurent intégralement dans le sujet. La variante numérique n’est pas un test de connaissance d’un logiciel particulier. Deux positions finales identiques ne prouvent pas deux déplacements : comparer chaque avant/après évite ce raccourci. Les anciens exercices et les règles de la porte sont conservés ; les contrôles historiques ci-dessous ne sont pas présentés comme de nouveaux essais U01.1.
+
+La réserve sur l’absence de troisième situation est donc traitée dans les documents. Le réalisme de la durée, la lisibilité, la compréhension du nouveau scénario et le caractère autonome des réponses restent à expérimenter. Les prolongements ne doivent pas être réintroduits implicitement dans les vingt minutes. Le Python reste une préparation enseignante séparée.
+
+## Historique U01 — Méthode et indépendance : ce qui a réellement été fait
 
 Deux contrôles distincts sont conduits : **A, compréhension et suffisance des consignes** ; **B, rigueur scientifique et cohérence des mécanismes**. Ils sont réalisés par le même agent rédacteur, à partir de grilles différentes. Ils ne constituent donc pas deux expertises externes indépendantes. Aucune observation humaine, aucun score de qualité et aucune efficacité mesurée ne sont revendiqués.
 
@@ -89,7 +107,7 @@ Contrôle documentaire : sept fichiers U01, douze liens locaux résolus, blocs d
 | Accès accompagné à un laboratoire contenant d’autres contrôles | Les interfaces BFS/Python/auto restent présentes. Observer leur éventuel effet de distraction ; ne pas prétendre disposer d’une interface U01 dédiée. |
 | Double désignation lettres/repères du laboratoire | La table rend les données explicites, mais son coût de lecture n’est pas encore connu. Accepter les lettres pour éviter de confondre lecture de coordonnées et mécanisme. |
 | Variante de transfert familière à certains lecteurs | Les règles excluent les hypothèses importées d’une porte réelle ; vérifier néanmoins si elles sont comprises et mobilisées sans aide. Aucune équivalence de difficulté avec la piste n’est démontrée. |
-| Bilan utilisant le même transfert, et non une troisième situation | Il vérifie la formulation individuelle du mécanisme ; ce n’est pas une nouvelle preuve indépendante de généralisation ni de rétention différée. |
+| Efficacité du troisième scénario non mesurée | U01.1 ajoute I1–I2, distinct de la piste et de la porte. L’énoncé fournit ses propres règles ; sa difficulté réelle et la compréhension sans aide restent à observer. |
 | Pas de banque de remédiations étalonnée | La grille décrit des interventions et les critères d’une nouvelle preuve ; elle ne prétend pas fournir des variantes déjà testées et équivalentes. |
 | Lisibilité matérielle non essayée | Impression, projection, lecture d’écran et usage avec les apprenants restent à observer en conditions réelles. |
 

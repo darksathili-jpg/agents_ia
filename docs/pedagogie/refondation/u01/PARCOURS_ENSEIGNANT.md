@@ -48,6 +48,44 @@ Hypothèses : ces deux informations suffisent pour ce jeu ; la porte ne change p
 
 Une même commande ne détermine donc pas à elle seule l’état après. En outre, l’absence de déplacement ne signifie pas toujours un refus devant un obstacle : Nora déjà dans le bureau ne se déplace pas davantage. La preuve élève reste volontairement centrée sur le refus depuis le hall ; ce troisième cas approfondit les limites d’une inférence à partir du seul effet.
 
+### Exemple Python facultatif — reproduire les quatre lignes de la table
+
+Cet exemple appartient à la préparation enseignante, hors des vingt minutes élèves. Il ne demande aucune connaissance de la théorie des agents et ne modifie pas le laboratoire. On peut copier le bloc entier dans un interpréteur Python local. La commande est fournie à la fonction ; celle-ci applique la commande, elle ne la choisit pas.
+
+Les trois paramètres sont des chaînes de caractères : `position` vaut exactement `"hall"` ou `"bureau"` ; `porte` vaut exactement `"fermée"` ou `"ouverte"` ; `commande` vaut uniquement `"AVANCER"`. Le résultat est un couple `(position_apres, porte_apres)` qui décrit l’état après. L’état de la porte est toujours conservé. Une valeur hors de ces listes déclenche `ValueError`, pour signaler une entrée étrangère au modèle au lieu de lui inventer un résultat.
+
+```python
+def appliquer_porte(position, porte, commande):
+    if position not in ("hall", "bureau"):
+        raise ValueError("Position inconnue")
+    if porte not in ("fermée", "ouverte"):
+        raise ValueError("État de porte inconnu")
+    if commande != "AVANCER":
+        raise ValueError("Commande inconnue")
+    if position == "hall" and porte == "ouverte":
+        return "bureau", porte
+    return position, porte
+
+
+# Chaque ligne donne : position avant, porte avant, état après attendu.
+cas = [
+    ("hall", "fermée", ("hall", "fermée")),
+    ("hall", "ouverte", ("bureau", "ouverte")),
+    ("bureau", "fermée", ("bureau", "fermée")),
+    ("bureau", "ouverte", ("bureau", "ouverte")),
+]
+for position, porte, attendu in cas:
+    resultat = appliquer_porte(position, porte, "AVANCER")
+    assert resultat == attendu
+    print((position, porte), "AVANCER ->", resultat)
+```
+
+Les trois premiers tests de la fonction vérifient le contrat d’entrée. Le test avec `and` exige à la fois le départ dans le hall et une porte ouverte : c’est la seule situation qui change la position. Dans ce cas, le premier `return` renvoie bureau et la porte inchangée. Dans les trois autres cas valides, le dernier `return` conserve les deux informations : refus depuis le hall fermé, ou absence de destination plus loin depuis le bureau.
+
+La liste `cas` reprend les quatre états avant, avec leur état après attendu selon la table. À chaque tour de la boucle, la fonction calcule le résultat ; `assert` vérifie son égalité avec l’attendu et signale un échec si la comparaison est fausse ; `print` affiche l’état avant et le résultat. Les quatre lignes sont des appels indépendants, pas un trajet de Nora : le résultat précédent ne devient pas le départ suivant. Aucune variable cachée ni mémoire entre appels n’est nécessaire.
+
+Les sorties correspondent, dans l’ordre, à `(hall, fermée)`, `(bureau, ouverte)`, `(bureau, fermée)` et `(bureau, ouverte)` comme états après. Le couple retourné est la valeur calculée ; son affichage ne déplace pas un personnage dans l’application. Cette fonction représente exactement T sur les quatre états du modèle ; les erreurs d’entrée sont un contrôle supplémentaire, hors de cette table.
+
 ## 5. Erreurs possibles et remédiations
 
 Ces erreurs sont anticipées ; elles ne sont pas présentées comme observées auprès d’une classe.
