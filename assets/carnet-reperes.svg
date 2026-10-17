@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Dessins du carnet : traits d'encre communs, détails propres à chaque étape. -->
+  <symbol id="marque" viewBox="0 0 72 72">
+    <path d="M14 9 59 6l4 56-46 5Z" fill="#FFFDF9" stroke="#1F2A44" stroke-width="2.5"/>
+    <path d="M20 9 23 65M9 19h11M10 31h11M11 43h11M12 55h11" stroke="#1F2A44" stroke-width="3" stroke-linecap="round"/>
+    <path d="m26 23 27-3 3 24-27 4Z" fill="#F4C542" stroke="#1F2A44" stroke-width="2.5"/>
+    <circle cx="41" cy="33" r="8" fill="#FFFDF9" stroke="#1F2A44" stroke-width="2.5"/>
+    <circle cx="41" cy="33" r="4" fill="#1F2A44"/>
+    <path d="m29 48 25-3" stroke="#F28C38" stroke-width="5"/>
+    <path d="m34 55 17-2" stroke="#2F5AA8" stroke-width="2"/>
+  </symbol>
+  <symbol id="comprendre" viewBox="0 0 120 96">
+    <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 50Q47 13 81 48 47 82 12 50Z"/><circle cx="47" cy="49" r="14" fill="#F4C542"/><circle cx="47" cy="49" r="5"/>
+      <path d="m81 27 17-9M87 45h20M84 65l16 9M29 15l-4-7M46 12V4M65 14l4-7"/>
+      <path d="m14 83 56-3" stroke="#2F5AA8"/>
+    </g>
+  </symbol>
+  <symbol id="experimenter" viewBox="0 0 120 96">
+    <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m14 18 85-4 4 66-86 5Z"/>
+      <path d="m16 41 84-5M17 62l85-5M41 18l3 65M69 16l3 65" opacity=".4"/>
+      <path d="M28 72 56 70 54 47 82 45" stroke="#2F5AA8" stroke-width="4"/>
+      <path d="m76 40 8 5-7 6" stroke="#2F5AA8"/>
+      <path d="m47 24 15-1 1 12-15 1Z" fill="#F28C38"/>
+      <circle cx="82" cy="69" r="7" fill="#F4C542"/>
+    </g>
+  </symbol>
+  <symbol id="programmer" viewBox="0 0 120 96">
+    <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m15 12 89 5-4 65-88-5Z"/><path d="m15 28 88 5"/><path d="m20 21 1 0m7 1h1m7 0h1"/>
+      <path d="m43 42-13 10 12 10m30-19 13 11-14 9m-10-25-9 29" stroke="#2F5AA8" stroke-width="4"/>
+      <path d="m21 89 69-1" stroke="#F28C38" stroke-width="5"/>
+    </g>
+  </symbol>
+  <symbol id="evaluer" viewBox="0 0 120 96">
+    <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m25 14 67-5 5 73-68 5Z"/><path d="m39 10 3-5 29-2 3 6"/>
+      <path d="m37 30 5 5 9-12m-13 27 5 5 9-12" stroke="#317044" stroke-width="4"/>
+      <path d="m58 29 22-2m-21 22 22-2m-37 24 38-3"/>
+      <path d="m11 60 7 3m-2 12 6-2M102 25l7-4" stroke="#F28C38"/>
+    </g>
+  </symbol>
+</svg>

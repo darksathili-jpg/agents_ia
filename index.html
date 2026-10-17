@@ -1,8 +1,87 @@
-<!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#FFF8EF"><title>Agent Academy — Le carnet des agents IA</title><link rel="stylesheet" href="academy.css"><script src="accueil.js" defer></script></head>
-<body class="home light"><a class="skip" href="#parcours">Aller au parcours</a><header class="masthead"><a class="brand" href="./">Agent Academy<span>Le carnet des agents IA</span></a><nav aria-label="Navigation principale"><a href="#parcours">Le parcours</a><a href="#laboratoire">Le labo</a><label>Affichage <select id="home-display"><option value="light">Clair</option><option value="dark">Sombre</option><option value="projector">Vidéoprojecteur</option></select></label></nav></header>
-<main><section class="opening" aria-labelledby="welcome"><div class="issue">CARNET D’EXPLORATION / N° 01 <span>Observer · Décider · Agir</span></div><div class="title-strip"><p>Une question, une expérience, une découverte.</p><h1 id="welcome">Les agents IA ?<br>On les apprivoise.</h1></div><figure class="classroom"><img src="assets/microduck-classe.png" width="1448" height="1086" alt="Dans une classe de NSI, des élèves et leur enseignante expérimentent ensemble autour de Microduck, un robot blanc, orange et jaune."><figcaption>Notre point de départ : la curiosité, un peu de Python… et le droit de se tromper.</figcaption></figure><div class="intro"><img class="intro-robot" src="assets/microduck-mascotte.png" width="180" height="168" alt="Microduck"><p class="hand">Bienvenue dans le labo !</p><h2>Comprends les agents IA.<br>Programme-les. Observe leurs décisions.</h2><p>Un laboratoire interactif pour découvrir comment les agents intelligents perçoivent leur environnement, prennent des décisions et utilisent des outils.</p><div class="actions"><a class="button primary" href="laboratoire.html">Commencer l’aventure <span aria-hidden="true">↗</span></a><a class="text-link lab-link" href="laboratoire.html">Entrer dans le laboratoire →</a></div><p class="annotation">Premier chapitre disponible · Python dans le navigateur · Sans clé d’API</p></div></section>
-<section id="parcours" class="chapter"><p class="kicker">01 / La carte de ton aventure</p><h2>Une idée à la fois.<br>Un agent qui prend forme.</h2><div class="journey"><a class="available" href="laboratoire.html"><span class="number">01</span><div><small>DISPONIBLE — COURS + LABORATOIRE</small><h3>Observer, décider, agir</h3><p>Découvre la boucle d’un agent, compare deux politiques et programme sa prochaine action.</p><strong>Ouvrir le premier chapitre →</strong></div></a><ol start="2"><li><span>Programmer</span><small>À venir · approfondir les politiques Python</small></li><li><span>Planifier</span><small>À venir · décomposer un objectif</small></li><li><span>Utiliser des outils</span><small>À venir · relier l’agent au monde</small></li><li><span>Construire un agent LLM</span><small>À venir · langage et décisions</small></li><li><span>Évaluer et sécuriser</span><small>À venir · mesurer et encadrer</small></li></ol></div></section>
-<section id="laboratoire" class="lab-preview chapter"><div><p class="kicker">02 / La paillasse numérique</p><h2>Et si le chemin<br>le plus court était bloqué ?</h2><p>Observe les décisions du robot, modifie une politique et exécute ton Python. Compare la stratégie gloutonne à la recherche en largeur (BFS) : leurs erreurs racontent autant que leurs réussites.</p><p>Dans ce premier laboratoire, l’agent est déterministe. Il n’utilise pas de LLM.</p><a class="button primary lab-link" href="laboratoire.html">Entrer dans le laboratoire →</a></div><figure class="experiment"><div class="bubble" id="robot-message" aria-live="polite">On teste ?</div><a class="mascot lab-link" href="laboratoire.html" aria-label="Rejoindre Microduck au laboratoire"><span class="robot-picture" role="img" aria-label="Microduck, le petit robot de la classe"></span></a><figcaption>MISSION 01 / Contourner l’obstacle<br><code>observation → politique → action</code></figcaption></figure></section>
-<section class="chapter method"><p class="kicker">03 / Les bons réflexes</p><h2>Apprendre avec méthode</h2><ol><li><b>01</b><h3>Comprendre</h3><p>Décrire ce que l’agent observe et ce qu’il cherche.</p></li><li><b>02</b><h3>Expérimenter</h3><p>Faire un pas. Lire la décision. Changer de stratégie.</p></li><li><b>03</b><h3>Programmer</h3><p>Écrire une politique Python et voir son effet.</p></li><li><b>04</b><h3>Évaluer</h3><p>Comparer les résultats et expliquer les limites.</p></li></ol></section>
-<section class="chapter sources"><p class="kicker">04 / La bibliothèque du labo</p><h2>La curiosité a ses sources.</h2><p>Pour prolonger l’expérience vers les agents à modèles de langage.</p><a href="https://huggingface.co/learn/agents-course/fr/unit0/introduction"><span>LE COURS · EN FRANÇAIS</span><strong>Hugging Face — Agents Course</strong> ↗</a><a href="https://arxiv.org/abs/2210.03629"><span>LA PUBLICATION · YAO ET AL.</span><strong>ReAct : raisonner et agir</strong> ↗</a><a href="https://www.anthropic.com/engineering/building-effective-agents"><span>LE GUIDE · ANTHROPIC</span><strong>Building Effective Agents</strong> ↗</a></section></main><footer class="home-footer"><span class="brand">Agent Academy</span><p>Comprendre avant d’automatiser. Tester avant de conclure.</p><small>Prototype pédagogique · Chapitre 01 disponible · Les autres chapitres sont en préparation.</small></footer></body></html>
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#FFF8EF"><title>Agent Academy — Le carnet des agents IA</title>
+  <link rel="stylesheet" href="academy.css"><script src="accueil.js" defer></script>
+</head>
+<body class="home light">
+<a class="skip" href="#parcours">Aller au parcours</a>
+<header class="masthead">
+  <a class="brand" href="./" aria-label="Agent Academy — Accueil">
+    <svg class="brand-mark" aria-hidden="true"><use href="assets/carnet-reperes.svg#marque"/></svg>
+    <span class="brand-copy"><span class="brand-title">Agent Academy</span><span class="brand-subtitle">Le carnet des agents IA</span></span>
+  </a>
+  <nav aria-label="Navigation principale">
+    <a href="#parcours">Le parcours</a><a href="#laboratoire">Le labo <span aria-hidden="true">↗</span></a>
+    <label>Affichage <select id="home-display"><option value="light">Clair</option><option value="dark">Sombre</option><option value="projector">Vidéoprojecteur</option></select></label>
+  </nav>
+</header>
+<main>
+<section class="opening" aria-labelledby="welcome">
+  <div class="issue">CARNET D’EXPLORATION / N° 01 <span>Observer · Décider · Agir</span></div>
+  <div class="title-strip"><p>Une question, une expérience, une découverte.</p><h1 id="welcome">Les agents IA ?<br>On les apprivoise.</h1></div>
+  <figure class="classroom">
+    <img src="assets/microduck-classe.png" width="1448" height="1086" alt="Dans une classe de NSI, des élèves et leur enseignante expérimentent ensemble autour de Microduck, un robot blanc, orange et jaune.">
+    <figcaption>Notre point de départ : la curiosité, un peu de Python… et le droit de se tromper.</figcaption>
+  </figure>
+  <div class="intro">
+    <div class="welcome-guide">
+      <p class="bubble welcome-bubble" id="welcome-message">Bienvenue dans le labo !<span>Moi, c’est Microduck. On apprend en essayant ?</span></p>
+      <a class="welcome-mascot lab-link" href="laboratoire.html" aria-label="Suivre Microduck au laboratoire"><span class="robot-picture" role="img" aria-label="Microduck t’accueille dans son carnet"></span></a>
+      <span class="guide-signature">Microduck / compagnon de labo</span>
+    </div>
+    <div class="intro-copy">
+      <p class="kicker">Ton premier agent commence ici</p>
+      <h2>Comprends les agents IA.<br>Programme-les. Observe leurs décisions.</h2>
+      <p>Un laboratoire interactif pour découvrir comment les agents intelligents perçoivent leur environnement, prennent des décisions et utilisent des outils.</p>
+      <div class="actions"><a class="button primary lab-link" href="laboratoire.html">Commencer l’aventure <span aria-hidden="true">↗</span></a><a class="text-link lab-link" href="laboratoire.html">Entrer dans le laboratoire →</a></div>
+      <p class="annotation">Premier chapitre disponible · Python dans le navigateur · Sans clé d’API</p>
+    </div>
+  </div>
+</section>
+<section id="parcours" class="chapter">
+  <p class="kicker">01 / La carte de ton aventure</p><h2>Une idée à la fois.<br>Un agent qui prend forme.</h2>
+  <div class="journey">
+    <a class="available" href="laboratoire.html">
+      <span class="chapter-ticket"><span class="number">01</span><svg aria-hidden="true"><use href="assets/carnet-reperes.svg#experimenter"/></svg></span>
+      <div><small class="chapter-status">DISPONIBLE — COURS + LABORATOIRE</small><h3>Observer,<br>décider, agir</h3><p>Découvre la boucle d’un agent, compare deux politiques et programme sa prochaine action.</p><p class="chapter-tools">Une grille · Deux stratégies · Ton Python</p><strong>Ouvrir le premier chapitre <span aria-hidden="true">↗</span></strong></div>
+    </a>
+    <div class="future-route"><p class="route-caption">Les prochaines pages du carnet <span>En préparation</span></p>
+      <ol start="2"><li><span>Programmer</span><small>À venir · approfondir les politiques Python</small></li><li><span>Planifier</span><small>À venir · décomposer un objectif</small></li><li><span>Utiliser des outils</span><small>À venir · relier l’agent au monde</small></li><li><span>Construire un agent LLM</span><small>À venir · langage et décisions</small></li><li><span>Évaluer et sécuriser</span><small>À venir · mesurer et encadrer</small></li></ol>
+    </div>
+  </div>
+</section>
+<section id="laboratoire" class="lab-preview chapter">
+  <div class="mission-copy"><p class="kicker">02 / La paillasse numérique</p><h2>Et si le chemin<br>le plus court était bloqué ?</h2><p>Observe les décisions du robot, modifie une politique et exécute ton Python. Compare la stratégie gloutonne à la recherche en largeur (BFS) : leurs erreurs racontent autant que leurs réussites.</p><p>Dans ce premier laboratoire, l’agent est déterministe. Il n’utilise pas de LLM.</p><a class="button primary lab-link" href="laboratoire.html">Entrer dans le laboratoire →</a><p class="annotation">À toi de jouer : exécute une étape et lis la décision.</p></div>
+  <figure class="experiment">
+    <div class="mission-heading"><span>FICHE DE MISSION / 01</span><strong>Contourner l’obstacle</strong></div>
+    <div class="mission-scene">
+      <div class="bubble" id="robot-message" aria-live="polite">On teste ? Observe avant de choisir !</div>
+      <img class="mission-map" src="assets/mission-obstacles.svg" width="350" height="250" alt="Schéma de la grille du labo : le chemin direct orange bute sur le mur ; le détour bleu passe par le haut jusqu’à la cible verte.">
+      <a class="mascot lab-link" href="laboratoire.html" aria-label="Rejoindre Microduck au laboratoire"><span class="robot-picture" role="img" aria-label="Microduck, le petit robot de la classe"></span></a>
+    </div>
+    <div class="mission-notes">
+      <div class="mission-steps" role="group" aria-label="Explorer la boucle de décision"><button type="button" data-mission-step="observer" aria-pressed="true">1. Observer</button><button type="button" data-mission-step="decider" aria-pressed="false">2. Décider</button><button type="button" data-mission-step="agir" aria-pressed="false">3. Agir</button></div>
+      <p id="mission-note" aria-live="polite">L’agent connaît sa position, la cible et les obstacles. Le chemin direct est coupé par un mur.</p>
+    </div>
+    <figcaption>Repère illustré · Explore la boucle, puis teste dans le labo.<br><code>observation → politique → action</code></figcaption>
+  </figure>
+</section>
+<section class="chapter method">
+  <p class="kicker">03 / Les bons réflexes</p><h2>Apprendre avec méthode</h2>
+  <ol>
+    <li><div class="method-drawing"><b>01</b><svg aria-hidden="true"><use href="assets/carnet-reperes.svg#comprendre"/></svg></div><h3>Comprendre</h3><p>Décrire ce que l’agent observe et ce qu’il cherche.</p></li>
+    <li><div class="method-drawing"><b>02</b><svg aria-hidden="true"><use href="assets/carnet-reperes.svg#experimenter"/></svg></div><h3>Expérimenter</h3><p>Faire un pas. Lire la décision. Changer de stratégie.</p></li>
+    <li><div class="method-drawing"><b>03</b><svg aria-hidden="true"><use href="assets/carnet-reperes.svg#programmer"/></svg></div><h3>Programmer</h3><p>Écrire une politique Python et voir son effet.</p></li>
+    <li><div class="method-drawing"><b>04</b><svg aria-hidden="true"><use href="assets/carnet-reperes.svg#evaluer"/></svg></div><h3>Évaluer</h3><p>Comparer les résultats et expliquer les limites.</p></li>
+  </ol>
+</section>
+<section class="chapter sources"><p class="kicker">04 / La bibliothèque du labo</p><h2>La curiosité a ses sources.</h2><p>Pour prolonger l’expérience vers les agents à modèles de langage.</p>
+  <a href="https://huggingface.co/learn/agents-course/fr/unit0/introduction"><span>LE COURS · EN FRANÇAIS</span><strong>Hugging Face — Agents Course</strong> ↗</a>
+  <a href="https://arxiv.org/abs/2210.03629"><span>LA PUBLICATION · YAO ET AL.</span><strong>ReAct : raisonner et agir</strong> ↗</a>
+  <a href="https://www.anthropic.com/engineering/building-effective-agents"><span>LE GUIDE · ANTHROPIC</span><strong>Building Effective Agents</strong> ↗</a>
+</section>
+</main>
+<footer class="home-footer"><span class="brand footer-brand">Agent Academy</span><p>Comprendre avant d’automatiser. Tester avant de conclure.</p><small>Prototype pédagogique · Chapitre 01 disponible · Les autres chapitres sont en préparation.</small></footer>
+</body></html>

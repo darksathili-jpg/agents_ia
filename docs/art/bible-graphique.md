@@ -18,3 +18,11 @@ Clair : papier crème. Sombre : papier bleu désaturé, texte crème, illustrati
 
 ## Ressources et limites
 Image de classe fournie par le commanditaire ; ses droits de diffusion restent ceux de la ressource d’origine. Mascotte dérivée par génération, à valider artistiquement. Les bulles demeurent du texte HTML accessible. La progression du parcours indique une disponibilité éditoriale, pas un suivi personnel inventé.
+
+## Revue artistique V2 — 17 octobre 2026
+- **Identité** : nom porté à 38 px sur ordinateur, signe original carnet/caméra et sous-titre distinct. Le signe reste lié à l’observation et à Microduck, même sans la grande illustration.
+- **Compagnon** : bulle attachée au robot dès la bienvenue ; dans la mission, Microduck apparaît devant un schéma fidèle aux obstacles du laboratoire. Les trois boutons expliquent observation, politique et validation de l’action. Ce repère ne prétend pas exécuter une simulation.
+- **Parcours** : chapitre accessible présenté comme une page ouverte ; ligne pointillée et pages numérotées pour les activités futures. Aucun pourcentage ni progression personnelle inventée.
+- **Méthode et sources** : quatre dessins SVG originaux (œil, grille, code, vérification), reliés par des flèches ; index de bibliothèque avec signets. Les illustrations servent les concepts, les ressources scientifiques restent les mêmes.
+- **Mouvement** : balancement et obturateur limités à trois cycles, puis repos. Survol/focus et choix d’une étape déclenchent des réponses. Aucun suivi continu du curseur. Mouvement réduit et projection désactivent les animations.
+- **Projection** : secondaires à 18 px minimum dans l’échantillon, navigation et contrôles principaux à 20 px, filets renforcés, code et console à 20 px. Papier clair conservé. Sur mobile, les dispositions se replient pour garder les textes et contrôles accessibles.
