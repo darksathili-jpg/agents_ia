@@ -2,7 +2,11 @@
 
 **Fiche élève — 120 minutes.** Objectifs O1, O3, O4, O5. Prérequis : appeler une fonction, lire `if` et `return`, comprendre deux coordonnées. La séance ne demande ni graphes, ni classe Python, ni réseau neuronal. Matériel : navigateur, laboratoire ouvert, feuille de trace et code de départ fourni. L’enseignant utilise en parallèle le parcours de préparation distinct.
 
-## A. Situation-problème — 0 à 10 min
+## Diagnostic initial — 0 à 8 min
+
+Distribuer [la fiche élève S01.1](SUPPORT_ELEVE_S01.md), diagnostic D1–D5 : fonctions, conditions, retour et coordonnées. Répondre sans exécuter pendant cinq minutes, puis confronter à `python/s01_diagnostic.py` pendant trois minutes. Le diagnostic n’est pas noté. Si `print` et `return` sont confondus, fournir un appel guidé au début du TP ; si les coordonnées posent problème, fournir le repère dessiné. Ne pas transformer cette remédiation en cours préalable qui absorberait les 40 minutes de programmation.
+
+## A. Situation-problème — 8 à 15 min
 
 Microduck doit atteindre la case verte. Il reçoit la position de départ `(0,2)` et la destination `(6,2)`. Une règle lui fait choisir « droite » lorsque la cible est à droite. Devant un mur, il se bloque.
 
@@ -10,7 +14,7 @@ Microduck doit atteindre la case verte. Il reçoit la position de départ `(0,2)
 
 Individuellement, écrivez une prédiction de la première action et une raison. En binôme, comparez deux raisons différentes. Une hypothèse doit pouvoir être confrontée à une observation : « il est intelligent » ne permet pas à elle seule de prédire où il ira.
 
-## B. Observer — 10 à 18 min
+## B. Observer — 15 à 21 min
 
 Dans le laboratoire, choisir la politique gloutonne, puis **Réinitialiser**. Cliquer deux fois sur **Exécuter une étape**, en lisant le journal après chaque clic. Si le deuxième pas est refusé, noter la position conservée ; ne pas confondre le bouton actionné avec un déplacement accompli.
 
@@ -21,13 +25,13 @@ Dans le laboratoire, choisir la politique gloutonne, puis **Réinitialiser**. Cl
 
 Relever aussi un élément que le programme reçoit mais que la règle locale ne consulte pas utilement. Un humain peut regarder toute l’illustration ; le programme de décision, lui, ne reçoit pas une image de classe ni les intentions de ses personnages.
 
-## C. Formuler et départager des hypothèses — 18 à 25 min
+## C. Formuler et départager des hypothèses — 21 à 25 min
 
 Examiner ces trois propositions : H1, le programme choisit toujours une direction fixe ; H2, il compare des coordonnées ; H3, un modèle de langage interprète une phrase à chaque pas. Pour chacune, proposer une vérification : changer les coordonnées dans un appel direct, lire la fonction ou examiner les données transmises.
 
 Deux pas identiques ne suffisent pas à distinguer H1 de H2. Il faut un autre cas, par exemple une cible à gauche. H3 ne se déduit ni de l’apparence du robot ni de la présence du mot « IA ». On cherchera une preuve dans le code réellement exécuté.
 
-## D. Formaliser et classifier — 25 à 50 min
+## D. Formaliser et classifier — 25 à 45 min
 
 ### Le système que nous allons étudier
 
@@ -41,7 +45,7 @@ Dans notre exemple original, le même programme peut servir à deux tâches. Tâ
 
 ### Les catégories ne sont pas des boîtes étanches
 
-En groupes, traiter les quatre dossiers ci-dessous. Pour chacun : délimiter le système, nommer ce qu’il observe, ce qu’il produit et ce qui peut être modifié ; justifier ensuite les termes applicables. Une justification vaut plus qu’une étiquette.
+En groupes, traiter obligatoirement la porte et le programme de grille ; répartir FAQ et assistant à outils entre les groupes, avec restitution d’une phrase par cas. Ne pas demander quatre dissertations individuelles dans les vingt minutes. Pour chacun : délimiter le système, nommer ce qu’il observe, ce qu’il produit et ce qui peut être modifié ; justifier ensuite les termes applicables. Une justification vaut plus qu’une étiquette. Les développements ci-dessous restent une référence de lecture, pas un texte à dicter intégralement.
 
 1. **Porte automatique** : un capteur détecte une présence, un contrôleur commande l’ouverture, un dispositif mécanique peut rencontrer un obstacle. Peut-elle être décrite par un automate ? Par un agent ? Que n’avons-nous pas évalué ?
 2. **Programme de grille** : une fonction compare des coordonnées, renvoie un mot d’action et le moteur vérifie le déplacement. Le fait qu’elle soit déterministe l’empêche-t-il d’agir comme contrôleur d’agent ?
@@ -54,17 +58,17 @@ Un automate est un modèle de contrôle ; un chatbot caractérise une interactio
 
 Le contrôle robotique par couches de Brooks, publié comme rapport en 1985 puis article en 1986, montre que l’action située précède largement les agents LLM [R8]. Wooldridge organise un cadre pour agents autonomes et interactions dans son manuel de 2009 [R2]. ReAct, prépublié en 2022 puis publié en 2023, étudie une manière d’articuler générations de langage et actions [R4]. Ce sont des repères de lecture, pas les dates d’invention d’une notion unique ni une histoire exhaustive.
 
-## E. Expérimenter et programmer — 50 à 90 min
+## E. Expérimenter et programmer — 45 à 85 min
 
 **TP01 — Mon premier agent réactif**, sujet complet dans `TP_ET_EXPERIENCES.md`. Copier le fichier de départ fourni dans l’éditeur. Le premier lancement renvoie volontairement toujours `arrêt` : il permet de comprendre la différence entre code qui s’exécute et politique qui accomplit la tâche.
 
 Travail : prédire, exécuter, puis remplacer ce retour constant par une décision horizontale : droite si la cible est à droite, gauche si elle est à gauche, arrêt si la position est la cible. Ajouter ensuite le mouvement vertical pour le second axe. Pour chaque modification, écrire au moins un appel dont le résultat était prédit avant l’exécution.
 
-Les exemples sont des coordonnées et des chaînes Python ; ils n’appellent aucun modèle de langage. Dans le panneau, **Exécuter Python** vérifie les appels et affiche la console. Pour animer la grille, choisir ensuite **Mon agent Python** et utiliser les pas. Les deux usages ne sont pas identiques.
+Les exemples sont des coordonnées et des chaînes Python ; ils n’appellent aucun modèle de langage. **Mode console** : Exécuter Python lance tout le script et ses appels de test, sans déplacer la grille. **Mode politique de grille** : conserver la fonction `decider(position, objectif, obstacles)`, choisir Mon agent Python, Réinitialiser puis Exécuter une étape ; seul le retour de `decider` pilote le déplacement. Les coordonnées des appels console ne changent ni départ ni cible de la grille. Détailler ces manipulations à l’aide de la fiche élève ; ne pas présenter un simple affichage comme la preuve d’un déplacement.
 
 On attend une trace pour cible à droite, une pour cible à gauche et une à la cible. Si un nom d’action est mal orthographié, expliquer le message réel au lieu de conclure que la politique « a changé d’avis ». Si une boucle accidentelle bloque l’exécution, utiliser Stop puis relancer un code borné. Demander un indice seulement après avoir formulé ce qui ne fonctionne pas.
 
-## F. Analyser les résultats — 90 à 100 min
+## F. Analyser les résultats — 85 à 100 min
 
 Reprendre le mur initial : votre fonction connaît-elle la liste d’obstacles ? L’utilise-t-elle ? Pourquoi une action qu’elle renvoie peut-elle être refusée ? Une fonction qui respecte son contrat de retour peut-elle être inadéquate pour la tâche ?
 
@@ -85,3 +89,5 @@ Billet individuel : définir un agent avec les quatre éléments du premier dess
 ## Adaptation et regard de l’enseignant
 
 Les développements scientifiques et l’audit de cette séance sont séparés de cette fiche. Première : fournir lecture de tuple et conducteur ; Terminale : demander de spécifier les retours et comparer deux politiques, sans anticiper obligatoirement BFS. Pour un groupe enseignant, remplacer une partie des essais guidés par l’analyse de frontière et la contre-épreuve du contrat décrites dans le parcours approfondi. Aucune variation ne rend les corrections visibles par défaut dans le sujet distribué.
+
+**Contrôle de charge S01.1 :** 8 + 7 + 6 + 4 + 20 + 40 + 15 + 10 + 10 = 120 min. Estimation de conception, non durée mesurée. L’historique et les deux cas de classification supplémentaires peuvent être lus après la séance si nécessaire ; ni le TP ni le billet individuel ne doivent être supprimés.

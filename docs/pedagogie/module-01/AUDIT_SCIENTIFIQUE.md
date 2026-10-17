@@ -2,6 +2,8 @@
 
 **Jalon A–D, 17 octobre 2026. Point d’arrêt E : validation humaine.**
 
+> Audit historique du pilote `729f38b`. Pour l’état courant et le nouveau point d’arrêt avant S03, consulter [l’audit S01.1/S02](AUDIT_S01_1_S02.md). Les mentions de S02 non rédigée ci-dessous décrivent le jalon précédent.
+
 ## Périmètre effectivement produit
 
 Sources et programmes examinés ; cartographie de dix objectifs ; progression des cinq séances ; séance 01 complète pour distribution élève et travail enseignant distinct ; cinq protocoles TP avec fichiers de départ ; quinze exercices ; corrigés et deux propositions d’évaluation sur 20. Les cours détaillés S2–S5 ne sont pas écrits. Leur absence est volontaire, conformément à la méthode de production demandée.

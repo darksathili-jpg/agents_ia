@@ -1,6 +1,6 @@
 # Parcours enseignant — modèle scientifique et transposition du pilote
 
-Ce parcours possède ses propres problèmes, preuves et productions. Le noyau S1 remplace environ 25 min de guidage élève et 15 min de TP répétitif par la confrontation de cadres et l’analyse d’un contrat. Les sections ultérieures sont des repères de conception et lectures, pas les cours S2–S5 anticipés. Les démonstrations longues sont facultatives hors des 10 h.
+Ce parcours possède ses propres problèmes, preuves et productions. Pour S01.1, conserver 40 min d’activité Python, avec des tests et analyses plus approfondis pour les enseignants ; adapter les apports et les cas discutés dans les autres créneaux. Un [exemple complet de production S01](PRODUCTION_ENSEIGNANT_S01.md) explicite modélisation, trace, argument et critique. Le [parcours scientifique S02](ENSEIGNANT_S02.md) est maintenant rédigé séparément. Les repères S3–S5 ci-dessous restent des orientations historiques du plan, pas des cours rédigés. Les démonstrations longues sont facultatives hors des 10 h.
 
 ## 1. Une définition est un instrument d’analyse
 

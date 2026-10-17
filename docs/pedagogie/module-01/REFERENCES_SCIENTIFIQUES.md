@@ -30,3 +30,7 @@ Consultation le **17 octobre 2026**. Aucun extrait long ni illustration des sour
 S1 : pourquoi R1 et R2 ne découpent-ils pas exactement le même objet ? S2 : que perd-on en remplaçant l’histoire par l’observation courante [R3] ? S3 : mémoire et modèle du monde sont-ils équivalents [R1, R3] ? S4 : quelles hypothèses sont nécessaires à l’optimalité de BFS [R3] ? S5 : quelle comparaison de R4 étaye réellement l’apport des observations externes, et quelle conclusion serait excessive ? Confronter ensuite taxonomie de revue [R5] et convention industrielle [R7].
 
 Les réponses attendues sont dans le parcours enseignant. La bibliographie est vérifiée pour ce jalon, pas une promesse de permanence des URL ni un inventaire complet du domaine.
+
+## Relecture ciblée pour S01.1/S02 — 17 octobre 2026
+
+R1 (extrait, propriétés des environnements), R3 (§2.1, observation/contrôleur/historique), [Poole–Mackworth §9.1, Probability](https://artint.info/3e/html/ArtInt3e.Ch9.S1.html), P0 et les deux annexes P1/P2 ont été reconsultés. Le modèle de glissement et le contre-exemple de sortie sont nos constructions, pas des résultats attribués aux auteurs. La notation stochastique du parcours enseignant n’est pas un prérequis élève. La réserve sur l’édition du PDF R1 demeure ; aucune page non contrôlée n’est citée.

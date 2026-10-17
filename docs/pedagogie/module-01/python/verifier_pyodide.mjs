@@ -37,4 +37,16 @@ try{
  // Les démonstrations imprimées sont exécutées aussi, pas seulement importées.
  await executer(source+'\nprint("DEMONSTRATIONS_PYODIDE_OK")','DEMONSTRATIONS_PYODIDE_OK');
  console.log('Pyodide réel : 5 départs, 9 tests et démonstrations TP01–05 réussis.');
+ const modules=['s01_diagnostic','s02_corrige','s02_observation_masquee'];
+ let montage='import sys, types\n';
+ for(const nom of modules){
+  const contenu=await readFile(resolve(dir,nom+'.py'),'utf8');
+  montage+=`module = types.ModuleType(${JSON.stringify(nom)})\nexec(${JSON.stringify(contenu)}, module.__dict__)\nsys.modules[${JSON.stringify(nom)}] = module\n`;
+ }
+ const testsJalon=await readFile(resolve(dir,'tests_s01_s02.py'),'utf8');
+ await executer(montage+`exec(${JSON.stringify(testsJalon)})`,'TESTS_S01_S02_OK 7');
+ for(const [nom,marqueur] of [['s01_diagnostic','DIAGNOSTIC_S01_OK'],['s02_obstacle_depart','A_COMPLETER_S02'],['s02_observation_masquee','OBSERVATION_MASQUEE_S02_OK'],['s02_corrige','CORRIGE_S02_OK']]){
+  await executer(await readFile(resolve(dir,nom+'.py'),'utf8'),marqueur);
+ }
+ console.log('Jalon S01.1/S02 : 7 tests et 4 scripts exécutés dans Pyodide réel.');
 }finally{await browser?.close();serveur.close();}

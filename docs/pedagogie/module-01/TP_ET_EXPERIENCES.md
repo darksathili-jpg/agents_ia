@@ -1,6 +1,6 @@
 # Sujets de TP et banque d’exercices
 
-Les cinq TP constituent les supports expérimentaux de la progression, pas cinq nouvelles interfaces. TP01 accompagne le pilote rédigé. TP02–05 sont des **fiches de conception et supports exécutables à relire lors de la rédaction future**, sans cours S2–S5 anticipé. Les corrections sont distribuées séparément par l’enseignant.
+Les cinq TP constituent les supports expérimentaux de la progression, pas cinq nouvelles interfaces. TP01 accompagne S01.1. Pour le TP02 et la préparation au TP03, utiliser maintenant les [activités détaillées S02](ACTIVITES_S02.md), leurs scripts `s02_*` et les fiches élève ; les paragraphes ci-dessous conservent les repères du plan général. TP03 complet et TP04–05 restent des supports de conception, sans cours S3–S5 rédigés. Les corrections sont distribuées séparément par l’enseignant.
 
 ## Mode opératoire commun
 

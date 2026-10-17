@@ -2,6 +2,8 @@
 
 À distribuer après recherche. Les sujets élève n’intègrent pas ce texte dans leur déroulé ; la séparation des fichiers n’est pas une protection d’accès d’un dépôt public. Les variantes de code correctes sont acceptées lorsqu’elles respectent les contrats et sont justifiées.
 
+> **Jalon S01.1/S02 :** les corrections du diagnostic, des activités S02 et du bilan figurent à la fin de ce document. Pour ces activités, employer les fichiers `s01_*` et `s02_*` ; les corrigés TP03–05 du premier dossier restent des supports de référence, sans autorisation de rédiger les cours S03–S05.
+
 ## Séance pilote : observations et classification
 
 Première tentative : `(0,2)`, cible à droite, commande droite, arrivée `(1,2)`, déplacement accepté. Deuxième : candidate `(2,2)` occupée, commande droite mais position conservée `(1,2)`, épisode bloqué. Il y a deux commandes et un seul déplacement. La carte est transmise, mais la règle horizontale n’en tire pas un chemin. Un retour constant et une comparaison ne sont pas distinguables par un seul appel favorable : tester une cible à gauche.
@@ -84,3 +86,60 @@ Taux sur les six cas : 3/6 et 5/6. Sur les cinq cas accessibles : 3/5 et 5/5. Le
 4. Même carte et mêmes observations, seule mémoire modifiée : 1. Deux cas ne donnent pas une robustesse générale : 1. Coûts uniformes et carte statique pour la garantie annoncée : 1. Question NSI reliant règle réellement exécutée et retour observé : 1.
 
 Remédiation ciblée : confusion observation/état → deux mondes côte à côte ; retour/effet → transition isolée ; mémoire → tableau entrée/sortie ; métrique → recompter les dénominateurs ; preuve → construire un contre-exemple. Un code non exécuté ne satisfait pas les points d’exécution, mais la correction argumentée et la reprise peuvent valider la compétence après travail.
+
+## S01.1 — Diagnostic initial et guidage
+
+D1 : droite. D2 : gauche. D3 : les deux conditions sont fausses, le dernier retour donne arrêt. D4 : `annoncer` affiche haut mais renvoie implicitement `None` ; le script imprime ensuite ce retour. D5 : 3 puis 1, abscisse puis ordonnée dans notre convention.
+
+Interprétation formative : si les branches sont comprises mais les coordonnées inversées, distribuer le repère et demander un appel vertical ; si D4 manque, faire lire `resultat = annoncer()` puis `resultat = choisir_x(1,4)` côte à côte. Ne pas confondre erreur d’index et conception erronée d’un agent. Les huit minutes ne comprennent pas une remise à niveau générale : un besoin collectif demande un aménagement ultérieur plutôt que la suppression du TP.
+
+La [production enseignant S01 complète](PRODUCTION_ENSEIGNANT_S01.md) donne un modèle de réponse avec choix de frontière, trace, argumentation et limites. Les fiches élève remplies peuvent varier, mais doivent identifier le retour et son effet, une preuve de code et un contre-test.
+
+## S02 — Correction TP02 et résultats de référence
+
+Le fichier [s02_corrige.py](python/s02_corrige.py) est autonome et contient `appliquer`, plus la démonstration de glissement. Pour restituer seulement TP02, expliquer d’abord la partie déterministe, puis lancer la démonstration suivante dans son créneau prévu. Ce script reste en console ; il ne remplace pas le moteur graphique et ne contient pas de politique `decider`.
+
+| Essai | Candidate | Position après | Résultat |
+|---|---|---|---|
+| `(0,2)`, droite, libre | `(1,2)` | `(1,2)` | accepte |
+| `(1,2)`, droite, murs du labo | `(2,2)` | `(1,2)` | refuse |
+| `(0,0)`, haut, libre | `(0,-1)` | `(0,0)` | refuse |
+| `(0,2)`, arrêt | Pas de déplacement | `(0,2)` | arret |
+
+La fonction traite arrêt, vérifie le mot, calcule la candidate et teste `libre`. Elle refuse les entrées initiales invalides dans le corrigé. Les tests vérifient aussi les quatre bords, l’arrivée et une commande inconnue. Un élève qui retourne la candidate avant le test peut traverser un mur ; un élève qui retourne toujours la position initiale échoue sur le test libre. Ces tests sont discriminants sans exiger une recherche de chemin.
+
+S02-A : la position, la cible et la carte sont effectivement transmises à la politique du labo. S02-B : le couloir peut être libre ou occupé derrière un capteur coupé ; aucun de ces états ne peut être affirmé à partir de l’absence de signal seule. S02-C : candidate `(2,2)`, refus, position `(1,2)` conservée. S02-D : voir fonction et cas du tableau. S02-E : cette fonction applique une commande déjà choisie ; elle n’évalue pas des suites d’actions et ne choisit pas un détour.
+
+## S02 — Correction du contraste déterministe/stochastique
+
+Sans glissement, la transition de `(0,2)` avec droite donne toujours `(1,2)` sur carte libre. Dans le second modèle : tirage forcé 0 → `(0,2)`, patine ; tirage forcé 1 → `(1,2)`, accepte. Devant le mur, les deux donnent refus et position conservée. Le mot droite n’a pas varié : la différence ne vient pas d’une politique stochastique.
+
+S02-F : variable expérimentale = modèle de transition puis tirage ; contrôlés = position de départ, commande et carte. Les huit essais sont réinitialisés séparément. La même graine permet un rejeu dans les mêmes conditions ; elle ne prouve ni une fréquence exacte à long terme ni un hasard physique. Le test exhaustif des deux valeurs du tirage vérifie le code du petit modèle, pas sa validité pour un vrai robot.
+
+## S02 — Observation masquée et contre-exemple
+
+| Position / étape | État bleu : couleur réelle | Observation bleue : indice | État orange : couleur réelle | Observation orange : indice |
+|---|---|---|---|---|
+| `(0,0)` départ | bleu | bleu | orange | orange |
+| `(1,0)` après droite | bleu | `None` | orange | `None` |
+| `(1,1)` après bas | bleu | `None` | orange | `None` |
+
+La position demeure observable dans les deux mondes. À la bifurcation, le dictionnaire transmis est `{"position": (1,1), "indice": None}` dans les deux cas. La sortie autorisée est gauche pour bleu, droite pour orange. Sur une commande restante, ces réussites demandent des actions distinctes. Si la règle ne lit que ce dictionnaire, sa sortie déterministe est la même ; elle ne garantit donc pas les deux réussites. Une décision différente dans deux copies de cette même entrée impliquerait une autre information, une mémoire ou du hasard, et non une discrimination produite par cette entrée seule.
+
+S02-G : donner ces deux états et ce dictionnaire, rappeler le budget et les deux sorties. La couleur reçue au départ rend les historiques différents ; la supprimer de la dernière observation n’efface pas rétroactivement ce qui avait été reçu. La mémoriser aiderait pour ce cas, sans fournir un modèle complet du monde. L’implémentation de cette mémoire reste à S03.
+
+Variante de capteur pour groupe rapide : transmettre `indice` à toutes les positions. Les deux observations finales deviennent différentes ; le contre-exemple précédent ne s’applique plus à ce nouveau capteur. Retourner au départ demanderait plus de commandes que le budget fixé et changerait donc la tâche. Avec un autre budget ou une requête supplémentaire, il faut réexaminer la conclusion.
+
+Transfert navigation : la fermeture existe dans le monde, l’observation du logiciel peut encore décrire une route ouverte, la proposition doit être confrontée à l’information et à l’effet. On ne peut pas inférer de ce décalage que les transitions physiques ont été modélisées comme aléatoires.
+
+## S02 — Bilan formatif et critères observables
+
+| Item | Réponse satisfaisante | Remédiation si confusion |
+|---|---|---|
+| B1 | Distingue donnée réelle et donnée reçue, avec exemple de couleur persistante mais masquée | Deux colonnes monde/capteur, refaire un appel d’observation. |
+| B2 | Donne avant `(1,2)`, droite, après `(1,2)` et refus | Rejouer candidate et test d’obstacle, sans toute la politique. |
+| B3 | Refus déterministe ; glissement = effet variable à commande fixe | Fixer la commande et forcer les deux tirages. |
+| B4 | Même observation finale, sorties distinctes, limite d’une commande restante | Relire les deux historiques et leur dernière ligne ; ne pas programmer la mémoire trop tôt. |
+| B5 | `decider` pilote la grille ; les nouveaux scripts de transition/masque/glissement restent en console | Comparer Exécuter Python et un pas de Mon agent Python ; rappeler que les appels ne changent pas la carte graphique. |
+
+Proposition : quatre items satisfaisants sur cinq, B1 et B2 requis. Une réussite de code sans interprétation ne valide pas B1/B4 ; une définition récitée sans trace ne valide pas B2. Ce seuil et les temps doivent être confirmés avec des apprenants, sans transformer le bilan en certification du module.
