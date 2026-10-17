@@ -1,0 +1,37 @@
+[
+  {
+    "document": "01-support-eleve.docx",
+    "pages": 6,
+    "texte_hors_page": false,
+    "pages_vides": false,
+    "sha256": "cf79dd0c93e66f68024439a3e457232e84034419519e407ad9b94677ef2530e3"
+  },
+  {
+    "document": "02-guide-enseignant.docx",
+    "pages": 9,
+    "texte_hors_page": false,
+    "pages_vides": false,
+    "sha256": "78c876c3614a66c94fb94ceff4c7e18106b8bbca62f2383a69b051c08c7d885c"
+  },
+  {
+    "document": "03-grille-observation.docx",
+    "pages": 3,
+    "texte_hors_page": false,
+    "pages_vides": false,
+    "sha256": "d380f21fc5b536e874fdde61b96ebaf3ae1d79ff7e7a525a5c229761b48b6e3f"
+  },
+  {
+    "document": "04-retour-enseignant.docx",
+    "pages": 3,
+    "texte_hors_page": false,
+    "pages_vides": false,
+    "sha256": "bf426a1dbf9577ad0d7de42fa11de0c5a9e341c2a9c6c57b29c0e87167762cb7"
+  },
+  {
+    "document": "05-procedure.docx",
+    "pages": 3,
+    "texte_hors_page": false,
+    "pages_vides": false,
+    "sha256": "46f14534a3cc44848c937a31936ab2265e926af451df4d4c7f3534254fec8924"
+  }
+]

@@ -1,0 +1,37 @@
+﻿[
+    {
+        "document":  "01-support-eleve.docx",
+        "pages":  6,
+        "word":  "16.0",
+        "lignes_tableaux":  15,
+        "lignes_coupees":  0
+    },
+    {
+        "document":  "02-guide-enseignant.docx",
+        "pages":  9,
+        "word":  "16.0",
+        "lignes_tableaux":  40,
+        "lignes_coupees":  0
+    },
+    {
+        "document":  "03-grille-observation.docx",
+        "pages":  3,
+        "word":  "16.0",
+        "lignes_tableaux":  23,
+        "lignes_coupees":  0
+    },
+    {
+        "document":  "04-retour-enseignant.docx",
+        "pages":  3,
+        "word":  "16.0",
+        "lignes_tableaux":  0,
+        "lignes_coupees":  0
+    },
+    {
+        "document":  "05-procedure.docx",
+        "pages":  3,
+        "word":  "16.0",
+        "lignes_tableaux":  0,
+        "lignes_coupees":  0
+    }
+]
