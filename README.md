@@ -41,3 +41,7 @@ Les tests couvrent l'affichage, BFS, les modes, le mobile, l'intégration du Wor
 ## Développement
 
 La PR #1 reste en brouillon. Ne pas fusionner avant validation du workflow et des essais utilisateur sur ordinateur et mobile.
+
+## Accueil illustré — branche artistique
+
+L’accueil est désormais `index.html` ; le laboratoire existant est accessible dans `laboratoire.html`. Les chemins sont relatifs. Voir `docs/art/bible-graphique.md`, `docs/art/architecture-et-verification.md` et `docs/art/captures/` pour la direction artistique, l’architecture et les preuves visuelles. Aucun mécanisme Python ou algorithme n’a été modifié.

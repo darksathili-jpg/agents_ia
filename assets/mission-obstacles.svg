@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 250">
+  <title>Un obstacle coupe la route directe</title>
+  <desc>Grille de sept colonnes et cinq lignes du laboratoire. Départ en zéro, deux ; objectif en six, deux. Un trajet bleu contourne le mur par le haut, un trajet orange direct s'arrête devant lui.</desc>
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#A2ADBE" stroke-width="1.5"/></pattern>
+    <pattern id="wall" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#DDE3EB"/><path d="M0 0V8" stroke="#7E8DA3" stroke-width="4"/></pattern>
+  </defs>
+  <rect x="1" y="1" width="348" height="248" rx="3" fill="#FFFDF9" stroke="#1F2A44" stroke-width="2"/>
+  <path d="M100 50h50v150h-50Zm100-50h50v100h-50Zm0 150h50v100h-50Z" fill="url(#wall)" stroke="#1F2A44" stroke-width="1.5"/>
+  <path d="M0 0h350v250H0Z" fill="url(#grid)"/>
+  <path d="M25 125H75V25H175V125H325" stroke="#2F5AA8" stroke-width="5" fill="none" stroke-linejoin="round" stroke-dasharray="7 5"/>
+  <path d="m315 116 10 9-10 9" stroke="#2F5AA8" stroke-width="4" fill="none"/>
+  <path d="M25 125h83m-7-8 15 15m0-15-15 15" stroke="#B25317" stroke-width="4" fill="none"/>
+  <circle cx="25" cy="125" r="14" fill="#F4C542" stroke="#1F2A44" stroke-width="2"/><circle cx="25" cy="125" r="5" fill="#1F2A44"/>
+  <circle cx="325" cy="125" r="14" fill="#DBEFDF" stroke="#28643B" stroke-width="3"/><circle cx="325" cy="125" r="6" fill="#28643B"/>
+</svg>
