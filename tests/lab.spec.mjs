@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
 
 test("cours en français et contrôles accessibles", async ({page})=>{
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   await expect(page.getByRole("heading",{name:/Comprendre l’agent/})).toBeVisible();
   await expect(page.getByRole("button",{name:/Exécuter une étape/})).toBeVisible();
   await expect(page.getByLabel("Politique :")).toBeVisible();
 });
 test("politique gloutonne bloquée, puis BFS aboutit",async({page})=>{
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   await page.getByRole("button",{name:/Exécuter une étape/}).click();
   await page.getByRole("button",{name:/Exécuter une étape/}).click();
   await expect(page.locator("#state")).toHaveText("Bloqué");
@@ -20,7 +20,7 @@ test("politique gloutonne bloquée, puis BFS aboutit",async({page})=>{
   await expect(page.locator("#position")).toHaveText("6,2");
 });
 test("évaluation et modes d'affichage",async({page})=>{
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   await page.locator('input[value="b"]').check();
   await page.getByRole("button",{name:"Vérifier la réponse"}).click();
   await expect(page.locator("#feedback")).toContainText("Exact");
@@ -48,7 +48,7 @@ test("exécution Python reliée à la grille (worker de test contrôlé)",async(
     }
     window.Worker=FakeWorker;
   });
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   await page.locator("#policy").selectOption("python");
   await page.locator("#step").click();
   await expect(page.locator("#position")).toHaveText("1,2");
@@ -62,7 +62,7 @@ test("bouton stop disponible même pendant une boucle",async({page})=>{
       terminate(){window.__terminated=true}
     };
   });
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   await page.locator("#py-run").click();
   await page.locator("#py-stop").click();
   await expect(page.locator("#py-output")).toHaveText("Exécution Python arrêtée.");
@@ -71,12 +71,12 @@ test("bouton stop disponible même pendant une boucle",async({page})=>{
 });
 test("mise en page mobile sans débordement horizontal important",async({page})=>{
   await page.setViewportSize({width:390,height:844});
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2)).toBe(true);
 });
 test("Pyodide réel : exécution Python, décision et gestion d'arrêt",async({page})=>{
   test.setTimeout(150000);
-  await page.goto("/");
+  await page.goto("/laboratoire.html");
   await page.locator("#code").fill('def decider(position, objectif, obstacles):\n    return "arrêt"\nprint("PYTHON_REEL_OK")');
   await page.locator("#py-run").click();
   await expect(page.locator("#py-output")).toContainText("PYTHON_REEL_OK",{timeout:90000});
