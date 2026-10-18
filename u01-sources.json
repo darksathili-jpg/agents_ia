@@ -14,5 +14,11 @@
     "enseignant-u01.html",
     "module01.html",
     "laboratoire.html"
-  ]
+  ],
+  "complement_pedagogique": {
+    "version": 1,
+    "source": "contenus/u01/regle-deplacement-v1.md",
+    "sha256": "a689444a9c141d0a81d5c48000d8b40825b2e85a47f1b020dd9d9069afa32010",
+    "objet": "Explication de la règle existante, sans modification des exercices ni du moteur"
+  }
 }

@@ -4,3 +4,4 @@
 @media print{.formation .unit-stage[hidden]{display:block!important}.formation .unit-toc{display:none}.formation .sheet{break-inside:auto}.formation .answer textarea{min-height:120px}}
 .formation .table-scroll{position:relative}.formation .sr-only{left:0;top:0;margin:-1px;padding:0;border:0}
 .formation .table-help{font-size:16px;color:var(--muted)}.formation.projector .table-help{font-size:20px}
+.formation .rule-explanation{border-left:5px solid var(--blue);background:var(--wash);padding:20px;margin:24px 0}.formation .rule-explanation h2{font-size:25px}

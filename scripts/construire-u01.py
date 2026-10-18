@@ -15,6 +15,8 @@ def source(name):
         raise ValueError(f'Source modifiée depuis la référence : {name}')
     return data.decode('utf-8-sig')
 TEXT={name:source(name) for name in FILES}
+POLICY_SOURCE=ROOT/'contenus/u01/regle-deplacement-v1.md'
+POLICY=POLICY_SOURCE.read_text(encoding='utf-8')
 LINKS={'COURS_ELEVE.md':'u01.html','ACTIVITES_ELEVE.md':'u01.html#entrainement','PARCOURS_ENSEIGNANT.md':'enseignant-u01.html','CORRIGES.md':'enseignant-u01.html#corriges','GRILLE_EVALUATION.md':'enseignant-u01.html#evaluation'}
 def inline(text):
     tokens=[]
@@ -85,6 +87,7 @@ def section(key,title,body,following=None):
     return f'<section class="sheet unit-stage" id="{key}" tabindex="-1"><h2>{escape(title)}</h2>{body}{nav}</section>'
 
 course=TEXT['COURS_ELEVE.md'];activities=TEXT['ACTIVITES_ELEVE.md']
+rule_explanation='<section id="regle-explication" class="rule-explanation" aria-labelledby="regle-titre"><h2 id="regle-titre">Comprendre la règle avant de manipuler</h2>'+markdown(POLICY.split('\n',1)[1])+'</section>'
 parts=re.split(r'^## (.+)$',course,flags=re.M)
 context=parts[0].split('\n',1)[1]+ '\n\n'+parts[2]
 experiment=parts[4];explanation=parts[6];routing=parts[8]
@@ -96,7 +99,7 @@ optionalB=activities.split('## B.',1)[1]
 # Les titres de section sont déjà présentés par le fil ; aucun énoncé n’est réécrit.
 training=training.split('\n',1)[1];nora=nora.split('\n',1)[1];cursor=cursor.split('\n',1)[1]
 steps=[('contexte','1. Microduck et sa piste',markdown(context,'contexte')),
-       ('essai','2. Prévoir, essayer et relever',markdown(experiment,'essai')),
+       ('essai','2. Prévoir, essayer et relever',rule_explanation+markdown(experiment,'essai')),
        ('comprendre','3. Comprendre ce qui s’est passé',markdown(explanation)),
        ('entrainement','4. Entraînement A1',markdown(training,'entrainement')),
        ('nora','5. Nora — transfert individuel',markdown(nora,'nora')),
@@ -126,7 +129,11 @@ for filename,target in [('seance01.html','u01.html'),('enseignant-s01.html','ens
 
 code=re.search(r'```python\n(.*?)```',TEXT['PARCOURS_ENSEIGNANT.md'],re.S).group(1)
 lab=f'''<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratoire U01.1 — Microduck</title><link rel="stylesheet" href="u01-laboratoire.css"><script src="laboratoire-moteur.js" defer></script><script src="u01-laboratoire.js" defer></script></head><body class="light"><a class="skip" href="#contenu-laboratoire">Aller au laboratoire</a><main id="contenu-laboratoire" tabindex="-1"><header class="lab-nav"><a href="u01.html#essai">Retour à U01.1</a><label>Affichage <select id="display"><option value="light">Clair</option><option value="dark">Sombre</option><option value="projector">Vidéoprojecteur</option></select></label></header><div id="navigation-lab"><h1>Microduck — deux tentatives</h1><label for="policy">Politique :</label><select id="policy"><option value="naive">Gloutonne (axe horizontal prioritaire)</option></select><div class="arena"><div id="grid" class="grid" role="img" aria-label="Grille de sept colonnes et cinq lignes ; sur la rangée étudiée, A (0,2), B (1,2), C mur (2,2), D (3,2), E (4,2), F (5,2), G arrivée (6,2)"></div><div class="stats"><div><span>Position actuelle</span><b id="position">0,2</b></div><div><span>Décisions prises</span><b id="steps">0</b></div><div><span>État</span><b id="state" role="status">Prêt</b></div><div><span>Dernière observation</span><span id="observation"></span></div></div></div><div class="controls"><button id="step">Exécuter une étape →</button><button id="reset">Réinitialiser</button></div><h2>Trace pédagogique</h2><div id="log" class="trace" role="log" tabindex="0" aria-live="polite"></div></div><section id="python-panel" hidden><h1>Python — la porte de Nora</h1><label for="code">Éditeur Python — exemple du parcours enseignant</label><textarea id="code" spellcheck="false" rows="25">{escape(code)}</textarea><div class="controls"><button id="py-run">Exécuter Python</button><button id="py-reset">Restaurer l’exemple de la porte</button><button id="py-stop">Stop Python</button></div><p id="py-status" role="status">Non chargé</p><h2>Console Python</h2><pre id="py-output" class="trace" tabindex="0" aria-live="polite">Le code sera exécuté uniquement à votre demande.</pre></section><div hidden><button id="run">Exécution auto</button><button id="check">Vérifier</button><p id="feedback"></p><p id="explain"></p><span id="statuspill"></span></div></main></body></html>'''
+lab=lab.replace('<div class="arena">',rule_explanation+'<div class="arena">',1)
+breakdown='''<section id="decision-detail" aria-labelledby="detail-title" aria-live="polite" aria-atomic="true"><h2 id="detail-title">Lire la tentative</h2><p id="detail-empty">Après une étape, les quatre informations ci-dessous décriront la tentative réellement exécutée.</p><dl id="detail-values" hidden><div><dt>1. Commande choisie</dt><dd id="detail-command"></dd></div><div><dt>2. Raison du choix par la règle</dt><dd id="detail-reason"></dd></div><div><dt>3. Vérification par le moteur</dt><dd id="detail-check"></dd></div><div><dt>4. Déplacement effectivement réalisé</dt><dd id="detail-effect"></dd></div></dl></section>'''
+lab=lab.replace('<h2>Trace pédagogique</h2>',breakdown+'<h2>Trace pédagogique</h2>')
 (ROOT/'laboratoire.html').write_text(lab,encoding='utf-8')
 manifest={'version':'U01.1','reference':REFERENCE,'empreintes':'SHA-256 du texte UTF-8, fins de ligne LF','sources':{name:hashlib.sha256((SOURCE/name).read_bytes().replace(b'\r\n',b'\n')).hexdigest() for name in FILES},'pages':['u01.html','enseignant-u01.html','module01.html','laboratoire.html']}
+manifest['complement_pedagogique']={'version':1,'source':POLICY_SOURCE.relative_to(ROOT).as_posix(),'sha256':hashlib.sha256(POLICY_SOURCE.read_bytes().replace(b'\r\n',b'\n')).hexdigest(),'objet':'Explication de la règle existante, sans modification des exercices ni du moteur'}
 (ROOT/'u01-sources.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print('U01.1 construite depuis les cinq sources approuvées ; anciens accès remplacés.')

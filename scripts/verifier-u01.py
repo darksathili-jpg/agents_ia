@@ -31,6 +31,13 @@ for name,page in pages.items():
             assert unquote(url.fragment) in other.ids,(name,link)
         assert 'historique/' not in link and 'module-01/' not in link,(name,link)
 manifest=json.loads((ROOT/'u01-sources.json').read_text(encoding='utf-8'))
+complement=manifest['complement_pedagogique']
+supplement=(ROOT/complement['source']).read_bytes().replace(b'\r\n',b'\n')
+assert hashlib.sha256(supplement).hexdigest()==complement['sha256']
+for paragraph in supplement.decode('utf-8').split('\n\n'):
+    if paragraph.startswith('#') or not paragraph.strip():continue
+    for page in ('u01.html','laboratoire.html'):
+        assert plain(paragraph) in plain(' '.join(pages[page].text)),('Complément manquant',page)
 for name,digest in manifest['sources'].items():
     path=ROOT/'docs/pedagogie/refondation/u01'/name
     data=path.read_bytes();assert hashlib.sha256(data.replace(b'\r\n',b'\n')).hexdigest()==digest
