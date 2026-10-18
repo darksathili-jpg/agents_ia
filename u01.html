@@ -1,0 +1,146 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>U01.1 — Commander n’est pas déplacer — Agent Academy</title><link rel="stylesheet" href="academy.css"><link rel="stylesheet" href="formation.css"><link rel="stylesheet" href="u01.css"><script src="u01.js" defer></script></head>
+<body class="home formation light" data-course="U01.1" data-audience="eleve"><a class="skip" href="#formation">Aller au contenu</a><header class="masthead"><a class="brand" href="./"><span class="brand-title">Agent Academy</span></a><nav aria-label="Navigation principale"><a href="u01.html">U01.1 · Élève</a><a href="enseignant-u01.html">Parcours enseignant</a><label>Affichage <select id="formation-display"><option value="light">Clair</option><option value="dark">Sombre</option><option value="projector">Vidéoprojecteur</option></select></label></nav></header><main id="formation" tabindex="-1"><div class="cover"><p class="eyebrow">U01.1 · PREMIÈRE UNITÉ</p><h1>Commander n’est pas déplacer</h1><p>Un parcours accompagné. Prévoir, observer deux tentatives, expliquer, puis réinvestir avec Nora et un curseur.</p></div><p class="callout">Vos réponses restent dans ce navigateur si son stockage est disponible. Elles ne sont pas envoyées à un enseignant et ne sont pas notées automatiquement. Exportez-les avant de changer de poste.</p><p id="save-status" role="status"></p><button id="export-notes" type="button">Exporter mes réponses U01.1</button><nav class="unit-toc" aria-label="Étapes U01.1"><a href="#contexte">1. Microduck et sa piste</a><a href="#essai">2. Prévoir, essayer et relever</a><a href="#comprendre">3. Comprendre ce qui s’est passé</a><a href="#entrainement">4. Entraînement A1</a><a href="#nora">5. Nora — transfert individuel</a><a href="#curseur">6. Curseur — bilan individuel</a></nav><section class="sheet unit-stage" id="contexte" tabindex="-1"><h2>1. Microduck et sa piste</h2><p><strong>Cours élève — version expérimentale U01.1.</strong> Le parcours essentiel est prévu pour vingt minutes : c’est une hypothèse à mesurer, pas une durée déjà observée. Pour travailler, vous devez disposer de ce cours et des <a href="u01.html#entrainement">activités élève</a>, sur papier ou à l’écran. Aucun ancien cours n’est nécessaire. Les corrigés sont remis après votre recherche.</p>
+<p>Vous avez seulement besoin de savoir repérer une case à droite d’une autre et comparer deux positions. Vous n’avez pas de programme à écrire.</p>
+<p>À la fin, vous devrez pouvoir distinguer <strong>la commande choisie</strong> et <strong>le déplacement obtenu</strong>, expliquer un refus, puis utiliser cette distinction dans une autre situation.</p>
+<p>Dans cette expérience, Microduck est le robot représenté sur une grille à l’écran. Il doit rejoindre une case d’arrivée. Nous étudions seulement ses deux premières tentatives de déplacement sur la rangée suivante, lue de gauche à droite.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Case</th><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th><th scope="col">E</th><th scope="col">F</th><th scope="col">G</th></tr></thead><tbody>
+<tr>
+<td>Contenu au départ</td>
+<td>Robot, case libre</td>
+<td>Libre</td>
+<td>Mur</td>
+<td>Libre</td>
+<td>Libre</td>
+<td>Libre</td>
+<td>Arrivée, case libre</td>
+</tr>
+<tr>
+<td>Repère affiché dans le laboratoire</td>
+<td>0,2</td>
+<td>1,2</td>
+<td>2,2</td>
+<td>3,2</td>
+<td>4,2</td>
+<td>5,2</td>
+<td>6,2</td>
+</tr>
+</tbody></table></div>
+<p>Les lettres A à G sont les noms utilisés dans cette fiche. Les écritures « 0,2 », « 1,2 », etc. sont les repères des mêmes cases dans le laboratoire : utilisez la dernière ligne du tableau pour les lire, sans calcul. Les autres rangées de la grille ne sont pas utilisées dans ces deux tentatives.</p>
+<p>Microduck commence en A ; l’arrivée est G. Sa règle choisit la commande <strong>droite</strong> lorsque l’arrivée est à sa droite. Pour les deux tentatives étudiées, l’arrivée reste à sa droite. La commande droite demande d’aller sur la case immédiatement à droite, pas directement à l’arrivée. Un mur ne peut pas être traversé ; la carte et l’arrivée ne changent pas pendant l’expérience.</p>
+<p><strong>C0 — Repérage.</strong> Quelle case est immédiatement à droite de A ? La case C est-elle libre ou occupée par un mur ? Répondez avant de continuer : ____________________.</p>
+<div class="answer"><label for="C0">Réponse C0</label><textarea id="C0" data-answer="C0" rows="3"></textarea></div><a class="action-link" href="#essai">Continuer →</a></section><section class="sheet unit-stage" id="essai" tabindex="-1"><h2>2. Prévoir, essayer et relever</h2><p>Le laboratoire doit être ouvert par l’enseignant. Dans la liste <strong>Politique</strong>, sélectionnez <strong>Gloutonne (axe horizontal prioritaire)</strong> : c’est le nom de la règle utilisée ici. Cliquez sur <strong>Réinitialiser</strong>. Vérifiez que <strong>Position actuelle</strong> indique <code>0,2</code>, donc A, et que <strong>Décisions prises</strong> indique 0. Ne lancez pas l’exécution automatique et ne changez plus de règle.</p>
+<p><strong>P1 — Prédiction individuelle.</strong> Avant de cliquer sur une étape, écrivez la commande que vous prévoyez et la case où Microduck se trouvera après cette première tentative. Justifiez avec les données de la piste.</p>
+<p>Commande : __________ Case après : __________ Raison : ____________________.</p>
+<div class="answer"><label for="P1-justification">P1 — Commande, case après et raison</label><textarea id="P1-justification" data-answer="P1-justification" rows="3"></textarea></div>
+<p><strong>E1 — Première tentative guidée.</strong> Cliquez une fois sur <strong>Exécuter une étape</strong>. Dans le journal intitulé <strong>Trace pédagogique</strong>, le mot après la première flèche est la commande choisie. Relevez ensuite <strong>Position actuelle</strong>. Complétez la première ligne du tableau. L’enseignant vous aide à lire cette ligne, pas à changer la règle.</p>
+<div id="experience"><p class="callout">Laboratoire réel : les boutons ci-dessous agissent sur la grille. Conservez votre prédiction avant chaque tentative.</p><iframe id="u01-lab" src="laboratoire.html?u01=observation" title="Laboratoire Microduck — deux tentatives U01.1"></iframe><p><a href="laboratoire.html" target="_blank" rel="noopener">Ouvrir le laboratoire en pleine page (nouvel onglet)</a></p></div>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Tentative</th><th scope="col">Case avant</th><th scope="col">Commande relevée dans le journal</th><th scope="col">Case après, d’après la position affichée</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td><label class="sr-only" for="essai-ligne1-col3">Commande relevée dans le journal, ligne 1</label><textarea rows="2" id="essai-ligne1-col3" data-answer="essai-ligne1-col3"></textarea></td>
+<td><label class="sr-only" for="essai-ligne1-col4">Case après, d’après la position affichée, ligne 1</label><textarea rows="2" id="essai-ligne1-col4" data-answer="essai-ligne1-col4"></textarea></td>
+</tr>
+<tr>
+<td>2</td>
+<td>À compléter après la première tentative<label class="sr-only" for="essai-ligne2-col2">Case avant, ligne 2</label><textarea rows="2" id="essai-ligne2-col2" data-answer="essai-ligne2-col2"></textarea></td>
+<td><label class="sr-only" for="essai-ligne2-col3">Commande relevée dans le journal, ligne 2</label><textarea rows="2" id="essai-ligne2-col3" data-answer="essai-ligne2-col3"></textarea></td>
+<td><label class="sr-only" for="essai-ligne2-col4">Case après, d’après la position affichée, ligne 2</label><textarea rows="2" id="essai-ligne2-col4" data-answer="essai-ligne2-col4"></textarea></td>
+</tr>
+</tbody></table></div>
+<p><strong>P2 — Nouvelle prédiction individuelle.</strong> Sans réinitialiser, utilisez la position obtenue à la première tentative. Prévoyez la commande et la position après la deuxième tentative, puis justifiez : ____________________.</p>
+<div class="answer"><label for="P2">Réponse P2</label><textarea id="P2" data-answer="P2" rows="3"></textarea></div>
+<p><strong>E2 — Deuxième tentative.</strong> Cliquez une seconde fois sur <strong>Exécuter une étape</strong>, puis complétez la deuxième ligne. Lisez aussi le résultat écrit dans le journal : ____________________. Si le robot est bloqué, ne lancez pas d’autre étape : l’expérience est terminée.</p>
+<div class="answer"><label for="E2">Réponse E2</label><textarea id="E2" data-answer="E2" rows="3"></textarea></div>
+<p><strong>E3 — Comparaison.</strong> Combien de commandes ont été choisies pendant les deux tentatives ? Combien de déplacements d’une case ont réellement eu lieu ? Votre seconde prédiction correspond-elle à la position relevée ? Expliquez un éventuel écart : ____________________.</p>
+<div class="answer"><label for="E3">Réponse E3</label><textarea id="E3" data-answer="E3" rows="3"></textarea></div>
+<p>Si le laboratoire n’est pas accessible, l’enseignant vous remet les deux relevés de remplacement prévus dans son dossier, <strong>après</strong> chacune de vos prédictions. Vous les analysez de la même façon ; il s’agit alors d’une étude de relevés, pas d’une manipulation du robot par vous-même.</p><a class="action-link" href="#comprendre">Continuer →</a></section><section class="sheet unit-stage" id="comprendre" tabindex="-1"><h2>3. Comprendre ce qui s’est passé</h2><p>À lire après les deux tentatives.</p>
+<p>La commande est ce que la règle demande : ici, aller à droite. Un autre composant du programme, appelé <strong>moteur de déplacement</strong>, vérifie la case demandée. Si cette case est libre, il y place le robot. Si elle contient un mur, il refuse le mouvement et conserve la position précédente.</p>
+<p>Lors de la première tentative, la commande droite demande B, qui est libre : Microduck passe de A à B. Lors de la deuxième, la même commande demande C, qui contient un mur : Microduck reste en B. Le mur n’a pas changé ; le robot n’est plus au même endroit avant la deuxième tentative.</p>
+<p>Il y a donc deux commandes, mais un seul déplacement. Lors du refus, la commande n’est pas remplacée par « rester sur place » : elle reste droite. <strong>Choisir une commande et appliquer cette commande sont deux opérations distinctes.</strong> Pour connaître le résultat, on compare la position avant et la position après ; le mot commandé ne suffit pas.</p><a class="action-link" href="#entrainement">Continuer →</a></section><section class="sheet unit-stage" id="entrainement" tabindex="-1"><h2>4. Entraînement A1</h2><p>On reprend la piste du cours : les cases se suivent dans l’ordre A, B, C, D, E, F, G ; C contient un mur, toutes les autres cases sont libres. La commande <strong>droite</strong> demande la case immédiatement à droite. Le moteur déplace le robot seulement si cette case est libre ; sinon il le laisse où il est.</p>
+<p>Les deux essais suivants sont <strong>indépendants</strong> : on place le robot dans la case de départ indiquée pour chaque ligne, puis on applique une seule commande droite. Il n’y a pas de déplacement entre les deux essais. On raisonne sur papier, sans chercher à changer le départ du laboratoire.</p>
+<p><strong>A1.</strong> Complétez les cases du tableau. Dans la dernière colonne, citez la case demandée et indiquez si elle est libre ou contient un mur.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Essai</th><th scope="col">Case avant</th><th scope="col">Commande déjà choisie</th><th scope="col">Case demandée</th><th scope="col">Case après</th><th scope="col">Justification</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>D</td>
+<td>droite</td>
+<td><label class="sr-only" for="entrainement-ligne1-col4">Case demandée, ligne 1</label><textarea rows="2" id="entrainement-ligne1-col4" data-answer="entrainement-ligne1-col4"></textarea></td>
+<td><label class="sr-only" for="entrainement-ligne1-col5">Case après, ligne 1</label><textarea rows="2" id="entrainement-ligne1-col5" data-answer="entrainement-ligne1-col5"></textarea></td>
+<td><label class="sr-only" for="entrainement-ligne1-col6">Justification, ligne 1</label><textarea rows="2" id="entrainement-ligne1-col6" data-answer="entrainement-ligne1-col6"></textarea></td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td>droite</td>
+<td><label class="sr-only" for="entrainement-ligne2-col4">Case demandée, ligne 2</label><textarea rows="2" id="entrainement-ligne2-col4" data-answer="entrainement-ligne2-col4"></textarea></td>
+<td><label class="sr-only" for="entrainement-ligne2-col5">Case après, ligne 2</label><textarea rows="2" id="entrainement-ligne2-col5" data-answer="entrainement-ligne2-col5"></textarea></td>
+<td><label class="sr-only" for="entrainement-ligne2-col6">Justification, ligne 2</label><textarea rows="2" id="entrainement-ligne2-col6" data-answer="entrainement-ligne2-col6"></textarea></td>
+</tr>
+</tbody></table></div><a class="action-link" href="#nora">Continuer →</a></section><section class="sheet unit-stage" id="nora" tabindex="-1"><h2>5. Nora — transfert individuel</h2><p>Dans un jeu, le personnage <strong>Nora</strong> peut se trouver dans deux pièces : le <strong>hall</strong> ou le <strong>bureau</strong>. Une porte sépare les deux pièces.</p>
+<pre><code>HALL  —  PORTE  —  BUREAU</code></pre>
+<p>La porte a exactement deux états possibles : <strong>ouverte</strong> ou <strong>fermée</strong>. Son état est fixé avant chaque essai et ne change pas pendant cet essai. Elle ne s’ouvre pas automatiquement lorsqu’une commande est reçue.</p>
+<p>La seule commande étudiée est <strong>AVANCER</strong>. Depuis le hall, elle demande de rejoindre le bureau en franchissant la porte. Le moteur du jeu applique les règles suivantes :</p>
+<ul>
+<li>Si Nora est dans le hall et si la porte est ouverte, elle rejoint le bureau.</li>
+<li>Si Nora est dans le hall et si la porte est fermée, elle reste dans le hall.</li>
+<li>Si Nora est déjà dans le bureau, elle y reste : ce modèle ne prévoit pas de déplacement plus loin.</li>
+</ul>
+<p>Dans ce jeu simplifié, il n’y a ni clé, ni autre obstacle, ni délai de déplacement. Un mouvement autorisé est entièrement réalisé lorsqu’on lit la position après la commande.</p>
+<p>Les essais du tableau sont <strong>indépendants</strong> : Nora est replacée dans le hall avant chacun d’eux. Dans les deux essais, la commande AVANCER a déjà été choisie. Vous n’avez pas à déterminer comment elle a été choisie.</p>
+<p><strong>T1.</strong> Complétez le tableau sans faire fonctionner le laboratoire : il s’agit d’une autre situation, décrite entièrement ici.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Essai</th><th scope="col">Position avant</th><th scope="col">État de la porte pendant l’essai</th><th scope="col">Commande choisie</th><th scope="col">Position après</th><th scope="col">Déplacement réalisé ?</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>hall</td>
+<td>fermée</td>
+<td>AVANCER</td>
+<td><label class="sr-only" for="nora-ligne1-col5">Position après, ligne 1</label><textarea rows="2" id="nora-ligne1-col5" data-answer="nora-ligne1-col5"></textarea></td>
+<td>oui / non<label class="sr-only" for="nora-ligne1-col6">Déplacement réalisé ?, ligne 1</label><textarea rows="2" id="nora-ligne1-col6" data-answer="nora-ligne1-col6"></textarea></td>
+</tr>
+<tr>
+<td>2</td>
+<td>hall</td>
+<td>ouverte</td>
+<td>AVANCER</td>
+<td><label class="sr-only" for="nora-ligne2-col5">Position après, ligne 2</label><textarea rows="2" id="nora-ligne2-col5" data-answer="nora-ligne2-col5"></textarea></td>
+<td>oui / non<label class="sr-only" for="nora-ligne2-col6">Déplacement réalisé ?, ligne 2</label><textarea rows="2" id="nora-ligne2-col6" data-answer="nora-ligne2-col6"></textarea></td>
+</tr>
+</tbody></table></div>
+<p><strong>T2.</strong> La commande choisie est-elle différente dans les deux essais ? Expliquez pourquoi les positions obtenues peuvent être différentes. Appuyez-vous sur une règle de fonctionnement de la porte, sans supposer que Nora change de décision : ____________________.</p>
+<div class="answer"><label for="T2">Réponse T2</label><textarea id="T2" data-answer="T2" rows="3"></textarea></div><a class="action-link" href="#curseur">Continuer →</a></section><section class="sheet unit-stage" id="curseur" tabindex="-1"><h2>6. Curseur — bilan individuel</h2><p>Travaillez seul, sans corrigé ni indice sur la réponse. Toutes les règles nécessaires sont données ici : ce n’est ni le robot de la piste ni le personnage de la porte.</p>
+<p>Un éditeur de texte simplifié contient un seul caractère, la lettre <strong>X</strong>. Un <strong>curseur</strong> est le trait vertical qui repère une position dans ce texte. Il peut occuper exactement deux positions, nommées <strong>début</strong> et <strong>fin</strong> :</p>
+<pre><code>début : |X       fin : X|</code></pre>
+<p>La seule commande étudiée est <strong>DROITE</strong>. Elle demande de déplacer le curseur vers la position suivante à droite. Le programme applique ces règles :</p>
+<ul>
+<li>Depuis début, DROITE place le curseur à fin.</li>
+<li>Depuis fin, DROITE laisse le curseur à fin : aucune position plus à droite n’est autorisée.</li>
+</ul>
+<p>Le texte ne change pas, le curseur ne revient pas automatiquement au début et aucune autre commande n’intervient. Le résultat indiqué est celui obtenu après application complète de l’unique commande. Les deux essais suivants sont <strong>indépendants</strong> : le curseur est placé dans la position avant indiquée pour chaque ligne. La commande DROITE a déjà été choisie dans les deux essais.</p>
+<p><strong>I1.</strong> Complétez le tableau. Dans la dernière colonne, citez la règle qui explique le résultat.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Essai</th><th scope="col">Position avant</th><th scope="col">Commande choisie</th><th scope="col">Position après</th><th scope="col">Le curseur s’est-il déplacé ?</th><th scope="col">Justification</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>fin</td>
+<td>DROITE</td>
+<td><label class="sr-only" for="curseur-ligne1-col4">Position après, ligne 1</label><textarea rows="2" id="curseur-ligne1-col4" data-answer="curseur-ligne1-col4"></textarea></td>
+<td>oui / non<label class="sr-only" for="curseur-ligne1-col5">Le curseur s’est-il déplacé ?, ligne 1</label><textarea rows="2" id="curseur-ligne1-col5" data-answer="curseur-ligne1-col5"></textarea></td>
+<td><label class="sr-only" for="curseur-ligne1-col6">Justification, ligne 1</label><textarea rows="2" id="curseur-ligne1-col6" data-answer="curseur-ligne1-col6"></textarea></td>
+</tr>
+<tr>
+<td>2</td>
+<td>début</td>
+<td>DROITE</td>
+<td><label class="sr-only" for="curseur-ligne2-col4">Position après, ligne 2</label><textarea rows="2" id="curseur-ligne2-col4" data-answer="curseur-ligne2-col4"></textarea></td>
+<td>oui / non<label class="sr-only" for="curseur-ligne2-col5">Le curseur s’est-il déplacé ?, ligne 2</label><textarea rows="2" id="curseur-ligne2-col5" data-answer="curseur-ligne2-col5"></textarea></td>
+<td><label class="sr-only" for="curseur-ligne2-col6">Justification, ligne 2</label><textarea rows="2" id="curseur-ligne2-col6" data-answer="curseur-ligne2-col6"></textarea></td>
+</tr>
+</tbody></table></div>
+<p><strong>I2.</strong> Un camarade affirme : « Dans l’essai 1, puisque le curseur n’a pas changé de position, la commande DROITE n’a pas été choisie. » Cette affirmation est-elle compatible avec les données ? Justifiez en indiquant la commande choisie, les positions avant et après, et la règle appliquée : ____________________.</p>
+<div class="answer"><label for="I2">Réponse I2</label><textarea id="I2" data-answer="I2" rows="3"></textarea></div><a class="action-link" href="#suite">Continuer →</a></section><section class="sheet unit-stage" id="suite" tabindex="-1"><h2>Après le parcours essentiel</h2><p>Passez aux <a href="u01.html#entrainement">activités élève</a> : entraînement A1, situation de la porte T1–T2, puis vérification I1–I2 dans une troisième situation. Le transfert et la vérification finale sont individuels. Vous pouvez justifier en phrases courtes ; aucune formule ni définition générale n’est demandée.</p>
+<p>A2 et B1 sont des prolongements facultatifs, hors des vingt minutes. Ils ne remplacent ni les prédictions, ni l’explication, ni le transfert, ni la vérification finale. Si le parcours essentiel prend plus de temps, l’enseignant en relève la durée et adapte la suite sans supprimer ces phases.</p><details><summary>Prolongements facultatifs A2 et B1 — hors du budget essentiel</summary><p><strong>A2 — Prolongement facultatif, hors du budget essentiel.</strong> À propos de l’essai 2, Maya affirme : « Puisque le robot est resté en B, sa règle n’a pas choisi droite. » Cette affirmation est-elle compatible avec les données ? Justifiez en distinguant la commande choisie et le résultat du moteur : ____________________.</p>
+<div class="answer"><label for="A2">Réponse A2</label><textarea id="A2" data-answer="A2" rows="3"></textarea></div>
+<p>Prolongement individuel facultatif — hors du budget essentiel</p>
+<p><strong>B1.</strong> Un camarade lit uniquement le mot AVANCER dans le journal de l’essai 1 du transfert. Il conclut que Nora a nécessairement changé de pièce. Expliquez pourquoi cette conclusion n’est pas justifiée. Indiquez la position avant, la position après et ce qui a empêché le déplacement : ____________________.</p>
+<div class="answer"><label for="B1">Réponse B1</label><textarea id="B1" data-answer="B1" rows="3"></textarea></div>
+<p>Avant de rendre votre travail, vérifiez que vous avez écrit au moins une explication du mécanisme, pas seulement « oui » ou « non ». Les réponses du transfert et de la vérification finale sont relues par l’enseignant ; cocher une case ne suffit pas à établir la compréhension. B1 reste disponible pour une reprise facultative, sans remplacer I1–I2.</p></details><p><a href="enseignant-u01.html#corriges">Corrigés expliqués — à consulter après votre recherche</a></p></section></main><footer><a href="./">Accueil</a> · <a href="u01.html">U01.1</a><p>Version expérimentale accompagnée · Durée et efficacité à examiner avec des apprenants.</p></footer></body></html>

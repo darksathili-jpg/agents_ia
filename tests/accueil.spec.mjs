@@ -6,12 +6,12 @@ for(const theme of ['light','dark','projector']){
   await expect.poll(()=>page.locator('.classroom img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
   await page.screenshot({path:testInfo.outputPath(`accueil-${theme}.png`),fullPage:true});
   await page.getByRole('link',{name:/Commencer/}).click();
-  await expect(page).toHaveURL(/laboratoire.html/);await expect(page.locator('#display')).toHaveValue(theme);
-  if(theme==='projector')for(const selector of ['body','.panel','#code','#py-output','#grid']){
+  await expect(page).toHaveURL(/u01.html/);await page.goto('/laboratoire.html');await expect(page.locator('#display')).toHaveValue(theme);
+  if(theme==='projector')for(const selector of ['body','#log','#grid']){
    expect(await page.locator(selector).first().evaluate(el=>getComputedStyle(el).backgroundColor.match(/\d+/g).slice(0,3).map(Number).every(v=>v>230))).toBe(true);
   }
   await page.screenshot({path:testInfo.outputPath(`laboratoire-${theme}.png`),fullPage:true});
-  await page.getByRole('link',{name:/Retour au carnet/}).click();await expect(page).toHaveURL(/\/$/);
+  await page.getByRole('link',{name:/Retour à U01.1/}).click();await expect(page).toHaveURL(/u01.html#essai$/);
  });
 }
 for(const width of [390,768,1440])test(`responsive ${width}`,async({page},testInfo)=>{

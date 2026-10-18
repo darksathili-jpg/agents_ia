@@ -10,8 +10,8 @@ const mission = {
     note: 'L’agent connaît sa position, la cible et les obstacles. Le chemin direct est coupé par un mur.'
   },
   decider: {
-    bubble: 'Tout droit… ou un détour ? Comparons !',
-    note: 'La politique gloutonne bute sur le mur. BFS recherche un chemin libre. Le détour bleu illustre un trajet possible, parmi d’autres.'
+    bubble: 'Une commande, puis son résultat.',
+    note: 'Dans U01.1, la règle choisit droite lorsque l’arrivée est à droite. La commande demande la case immédiatement à droite.'
   },
   agir: {
     bubble: 'À toi ! Un pas, puis on vérifie.',
@@ -35,7 +35,7 @@ document.querySelectorAll('.lab-link').forEach(link => {
   const isWelcome = Boolean(link.closest('.intro'));
   const invite = () => {
     if(isWelcome) welcomeMessage.firstChild.nodeValue = 'On y va ? Je te guide !';
-    else robotMessage.textContent = 'Prêt à programmer ton premier agent ?';
+    else robotMessage.textContent = 'Prêt à observer les deux tentatives ?';
   };
   const restore = () => {
     if(isWelcome) welcomeMessage.firstChild.nodeValue = 'Bienvenue dans le labo !';

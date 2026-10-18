@@ -15,7 +15,7 @@ try:
     server = ThreadingHTTPServer(("127.0.0.1", args.port), partial(SimpleHTTPRequestHandler, directory=str(root)))
 except OSError as error:
     parser.exit(1, f"Impossible de démarrer : {error}\nFermez le serveur précédent ou choisissez --port 8766.\n")
-url = f"http://127.0.0.1:{server.server_port}/module01.html"
+url = f"http://127.0.0.1:{server.server_port}/u01.html"
 print(url, flush=True)
 print("Laissez cette fenêtre ouverte. Ctrl+C arrête le serveur local.", flush=True)
 if not args.sans_navigateur:

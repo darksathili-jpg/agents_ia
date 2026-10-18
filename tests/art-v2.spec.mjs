@@ -6,11 +6,11 @@ test('Microduck explique les trois étapes au clavier et conserve le choix',asyn
  const decide=page.getByRole('button',{name:'2. Décider',exact:true});
  await decide.scrollIntoViewIfNeeded();await decide.press('Space');
  await expect(decide).toBeFocused();await expect(decide).toHaveAttribute('aria-pressed','true');
- await expect(page.locator('#mission-note')).toContainText('BFS');
- await expect(page.locator('#robot-message')).toContainText('Comparons');
+ await expect(page.locator('#mission-note')).toContainText('case immédiatement à droite');
+ await expect(page.locator('#robot-message')).toContainText('Une commande');
  await expect(page.locator('[aria-pressed="true"]')).toHaveCount(1);
  await page.locator('.mascot').hover();await expect(page.locator('#robot-message')).toContainText('Prêt');
- await page.locator('.mission-heading').hover();await expect(page.locator('#robot-message')).toContainText('Comparons');
+ await page.locator('.mission-heading').hover();await expect(page.locator('#robot-message')).toContainText('Une commande');
  await page.getByRole('button',{name:'3. Agir',exact:true}).click();
  await expect(page.locator('#mission-note')).toContainText('refuse un mur');
  await page.locator('#home-display').selectOption('dark');
@@ -49,12 +49,12 @@ test('projection : contraste réel et taille des textes de l’accueil et du lab
   expect((await textMetrics(page.locator(selector).first())).background.every(v=>v>=230),selector).toBe(true);
  }
  await page.goto('/laboratoire.html');
- for(const selector of ['.note','.tag','.stat small','.subhead span','.footer','#code','#py-output','#log','#policy','#step']){
+ for(const selector of ['.stats span','#log','#policy','#step']){
   const metrics=await textMetrics(page.locator(selector).first());
   expect(metrics.ratio,selector).toBeGreaterThanOrEqual(4.5);
   expect(metrics.size,selector).toBeGreaterThanOrEqual(18);
  }
- for(const selector of ['body','.panel','#code','#py-output','#log','#grid']){
+ for(const selector of ['body','#log','#grid']){
   expect((await textMetrics(page.locator(selector).first())).background.every(v=>v>=230),selector).toBe(true);
  }
 });

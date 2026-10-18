@@ -1,0 +1,371 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>U01.1 — Parcours enseignant — Agent Academy</title><link rel="stylesheet" href="academy.css"><link rel="stylesheet" href="formation.css"><link rel="stylesheet" href="u01.css"><script src="u01.js" defer></script></head>
+<body class="home formation light" data-course="U01.1" data-audience="enseignant"><a class="skip" href="#formation">Aller au contenu</a><header class="masthead"><a class="brand" href="./"><span class="brand-title">Agent Academy</span></a><nav aria-label="Navigation principale"><a href="u01.html">U01.1 · Élève</a><a href="enseignant-u01.html">Parcours enseignant</a><label>Affichage <select id="formation-display"><option value="light">Clair</option><option value="dark">Sombre</option><option value="projector">Vidéoprojecteur</option></select></label></nav></header><main id="formation" tabindex="-1"><div class="cover"><p class="eyebrow">U01.1 · ENSEIGNANTS NSI</p><h1>Comprendre pour accompagner</h1><p>La préparation scientifique est distincte du temps élève. Aucune connaissance préalable de la théorie des agents n’est supposée.</p></div><nav class="unit-toc" aria-label="Préparation enseignante"><a href="#preparation">Préparation complète</a><a href="#python">Python expliqué</a><a href="#references">Références</a><a href="#corriges">Corrigés</a><a href="#evaluation">Évaluation et remédiation</a></nav><p class="callout">Pour cette présentation web, le cours et les activités cités ci-dessous sont réunis dans U01.1. Les noms de fichiers mentionnés dans les consignes de distribution désignent ces documents sources. Conserver les prédictions et recueillir Nora et le curseur avant correction.</p><section class="sheet unit-stage" id="preparation" tabindex="-1"><h2>Préparation scientifique complète</h2><p>Vous connaissez l’informatique, mais aucune connaissance préalable de la théorie des agents n’est supposée. Cette préparation est distincte des vingt minutes élève. Elle ne reprend pas les anciennes séances comme des cours validés.</p>
+<h3>1. Partir du phénomène</h3>
+<p>Dans le <a href="u01.html">cours élève</a>, la première commande droite conduit de A à B ; la seconde demande C, occupée par un mur, et la position reste B. La commande est choisie deux fois. Le mouvement n’est accompli qu’une fois. Ce résultat est entièrement déterminé par la règle de déplacement et les positions successives.</p>
+<p>Le but de l’unité n’est pas de faire apprendre une définition d’agent, mais de séparer deux responsabilités informatiques. <strong>La décision sélectionne une commande ; l’application de cette commande calcule et produit l’état suivant selon les règles du modèle.</strong> Une commande n’atteste pas sa propre réalisation.</p>
+<p>Dans le laboratoire, la fonction de décision gloutonne compare la position à la destination. Le moteur examine ensuite la case demandée et refuse une case interdite. La vérification ne remplace pas la commande par une autre. Le message « Bloqué » décrit une issue de l’épisode, pas une nouvelle décision du contrôleur.</p>
+<h3>2. Analyser la trace sans lui faire dire davantage</h3>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Tentative</th><th scope="col">Données avant</th><th scope="col">Commande sélectionnée</th><th scope="col">Vérification</th><th scope="col">Résultat</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>Robot A ; arrivée G</td>
+<td>droite</td>
+<td>B est libre</td>
+<td>Robot B ; un déplacement.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Robot B ; arrivée G</td>
+<td>droite</td>
+<td>C contient un mur</td>
+<td>Robot B ; aucun déplacement supplémentaire.</td>
+</tr>
+</tbody></table></div>
+<p>Le journal permet de constater les commandes et les positions. Pour affirmer comment les commandes ont été choisies, il faut disposer de la règle donnée dans le sujet ou examiner le code. La présence de droite deux fois ne suffit pas à prouver que le programme choisit droite dans toutes les situations.</p>
+<p>Contre-exemple à la conclusion « une commande de déplacement provoque toujours un déplacement » : la deuxième ligne. À l’inverse, rester sur place ne prouve pas l’absence de commande : une demande de déplacement peut avoir été refusée. Ce sont des implications sur le modèle observé, pas des explications par l’intention du robot.</p>
+<h3>3. Pourquoi ce transfert porte sur le même mécanisme</h3>
+<p>Le <a href="u01.html#entrainement">sujet de transfert</a> fournit la position initiale, la commande, les deux états possibles de la porte et la règle qui relie ces données au résultat. Une porte fermée empêche le passage ; AVANCER ne l’ouvre pas. Chaque essai repart du hall. La destination et le changement de vocabulaire ne demandent aucune connaissance sur les portes automatiques réelles.</p>
+<p>La commande reste AVANCER dans les deux essais ; c’est l’état de la porte qui change. On n’évalue ni le choix d’une commande optimale, ni une action d’ouverture, ni une attente temporelle. Si l’élève invente une clé ou une ouverture automatique, faire localiser l’hypothèse dans le sujet avant de conclure à une erreur de raisonnement. Les règles décrivent un jeu simplifié, pas une norme de contrôle de portes physiques.</p>
+<h3>4. Formalisation facultative, après les cas concrets</h3>
+<p>Cette section n’est pas remise aux élèves pour valider U01. Son intérêt est de rendre explicites les informations nécessaires au calcul du résultat et de vérifier toutes les situations du modèle de la porte.</p>
+<p>Un <strong>état</strong> est ici une description complète des deux informations pertinentes : la position de Nora et l’état de la porte. On note un état par un couple, par exemple <code>(hall, fermée)</code>. La première composante nomme la pièce où se trouve Nora ; la seconde indique si la porte est ouverte ou fermée. Il ne s’agit pas de coordonnées.</p>
+<p>Appelons <code>S</code> l’ensemble des quatre états possibles : <code>(hall, fermée)</code>, <code>(hall, ouverte)</code>, <code>(bureau, fermée)</code> et <code>(bureau, ouverte)</code>. Appelons <code>C</code> l’ensemble des commandes de ce modèle ; il ne contient ici que <code>AVANCER</code>. La lettre <code>c</code> désignera une commande de cet ensemble et <code>s</code> un état de <code>S</code>.</p>
+<p>Une fonction <code>T</code> associe à un état avant et à une commande un état après. L’écriture <code>T(s, c)</code> signifie « l’état obtenu en appliquant la commande c à l’état s ». On peut résumer le contrat par <code>T : S × C → S</code> : <code>×</code> signifie que l’entrée comporte un état et une commande ; la flèche indique que le résultat est un état. Cette notation ne remplace pas la définition de T, donnée par la table suivante.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">État avant <code>s</code></th><th scope="col">Commande <code>c</code></th><th scope="col">État après <code>T(s,c)</code></th><th scope="col">Changement de pièce ?</th></tr></thead><tbody>
+<tr>
+<td>(hall, fermée)</td>
+<td>AVANCER</td>
+<td>(hall, fermée)</td>
+<td>Non : passage refusé.</td>
+</tr>
+<tr>
+<td>(hall, ouverte)</td>
+<td>AVANCER</td>
+<td>(bureau, ouverte)</td>
+<td>Oui.</td>
+</tr>
+<tr>
+<td>(bureau, fermée)</td>
+<td>AVANCER</td>
+<td>(bureau, fermée)</td>
+<td>Non : aucune destination plus loin n’est prévue.</td>
+</tr>
+<tr>
+<td>(bureau, ouverte)</td>
+<td>AVANCER</td>
+<td>(bureau, ouverte)</td>
+<td>Non : même raison.</td>
+</tr>
+</tbody></table></div>
+<p>Hypothèses : ces deux informations suffisent pour ce jeu ; la porte ne change pas d’état pendant la commande ; aucun autre obstacle ni délai n’intervient. Chaque couple état/commande a alors un résultat unique : c’est le sens de <strong>déterministe</strong> dans ce modèle. Des effets différents avec la même commande restent compatibles avec le déterminisme si l’état avant est différent. Comparer les deux premières lignes ne met pas en évidence une part de hasard.</p>
+<p>Une même commande ne détermine donc pas à elle seule l’état après. En outre, l’absence de déplacement ne signifie pas toujours un refus devant un obstacle : Nora déjà dans le bureau ne se déplace pas davantage. La preuve élève reste volontairement centrée sur le refus depuis le hall ; ce troisième cas approfondit les limites d’une inférence à partir du seul effet.</p>
+<h4 id="python">Exemple Python facultatif — reproduire les quatre lignes de la table</h4>
+<p>Cet exemple appartient à la préparation enseignante, hors des vingt minutes élèves. Il ne demande aucune connaissance de la théorie des agents et ne modifie pas le laboratoire. On peut copier le bloc entier dans un interpréteur Python local. La commande est fournie à la fonction ; celle-ci applique la commande, elle ne la choisit pas.</p>
+<p>Les trois paramètres sont des chaînes de caractères : <code>position</code> vaut exactement <code>&quot;hall&quot;</code> ou <code>&quot;bureau&quot;</code> ; <code>porte</code> vaut exactement <code>&quot;fermée&quot;</code> ou <code>&quot;ouverte&quot;</code> ; <code>commande</code> vaut uniquement <code>&quot;AVANCER&quot;</code>. Le résultat est un couple <code>(position_apres, porte_apres)</code> qui décrit l’état après. L’état de la porte est toujours conservé. Une valeur hors de ces listes déclenche <code>ValueError</code>, pour signaler une entrée étrangère au modèle au lieu de lui inventer un résultat.</p>
+<pre><code>def appliquer_porte(position, porte, commande):
+    if position not in (&quot;hall&quot;, &quot;bureau&quot;):
+        raise ValueError(&quot;Position inconnue&quot;)
+    if porte not in (&quot;fermée&quot;, &quot;ouverte&quot;):
+        raise ValueError(&quot;État de porte inconnu&quot;)
+    if commande != &quot;AVANCER&quot;:
+        raise ValueError(&quot;Commande inconnue&quot;)
+    if position == &quot;hall&quot; and porte == &quot;ouverte&quot;:
+        return &quot;bureau&quot;, porte
+    return position, porte
+
+
+# Chaque ligne donne : position avant, porte avant, état après attendu.
+cas = [
+    (&quot;hall&quot;, &quot;fermée&quot;, (&quot;hall&quot;, &quot;fermée&quot;)),
+    (&quot;hall&quot;, &quot;ouverte&quot;, (&quot;bureau&quot;, &quot;ouverte&quot;)),
+    (&quot;bureau&quot;, &quot;fermée&quot;, (&quot;bureau&quot;, &quot;fermée&quot;)),
+    (&quot;bureau&quot;, &quot;ouverte&quot;, (&quot;bureau&quot;, &quot;ouverte&quot;)),
+]
+for position, porte, attendu in cas:
+    resultat = appliquer_porte(position, porte, &quot;AVANCER&quot;)
+    assert resultat == attendu
+    print((position, porte), &quot;AVANCER -&gt;&quot;, resultat)</code></pre>
+<p>Les trois premiers tests de la fonction vérifient le contrat d’entrée. Le test avec <code>and</code> exige à la fois le départ dans le hall et une porte ouverte : c’est la seule situation qui change la position. Dans ce cas, le premier <code>return</code> renvoie bureau et la porte inchangée. Dans les trois autres cas valides, le dernier <code>return</code> conserve les deux informations : refus depuis le hall fermé, ou absence de destination plus loin depuis le bureau.</p>
+<p>La liste <code>cas</code> reprend les quatre états avant, avec leur état après attendu selon la table. À chaque tour de la boucle, la fonction calcule le résultat ; <code>assert</code> vérifie son égalité avec l’attendu et signale un échec si la comparaison est fausse ; <code>print</code> affiche l’état avant et le résultat. Les quatre lignes sont des appels indépendants, pas un trajet de Nora : le résultat précédent ne devient pas le départ suivant. Aucune variable cachée ni mémoire entre appels n’est nécessaire.</p>
+<p>Les sorties correspondent, dans l’ordre, à <code>(hall, fermée)</code>, <code>(bureau, ouverte)</code>, <code>(bureau, fermée)</code> et <code>(bureau, ouverte)</code> comme états après. Le couple retourné est la valeur calculée ; son affichage ne déplace pas un personnage dans l’application. Cette fonction représente exactement T sur les quatre états du modèle ; les erreurs d’entrée sont un contrôle supplémentaire, hors de cette table.</p>
+<h3>5. Erreurs possibles et remédiations</h3>
+<p>Ces erreurs sont anticipées ; elles ne sont pas présentées comme observées auprès d’une classe.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Production possible</th><th scope="col">Analyse à vérifier</th><th scope="col">Intervention ciblée</th><th scope="col">Preuve à demander après aide</th></tr></thead><tbody>
+<tr>
+<td>« Deux commandes, donc deux déplacements. »</td>
+<td>Confusion entre demande et réalisation</td>
+<td>Faire suivre la position après chaque ligne, en gardant la colonne commande visible</td>
+<td>Un cas de passage refusé, sur une autre situation.</td>
+</tr>
+<tr>
+<td>« Il a décidé de rester en B. »</td>
+<td>L’effet est utilisé pour reconstruire la décision</td>
+<td>Faire citer le mot écrit dans la colonne commande, puis la règle sur la case C</td>
+<td>Une explication conservant droite comme commande et B comme résultat.</td>
+</tr>
+<tr>
+<td>« La porte s’ouvre quand on avance. »</td>
+<td>Import d’une règle familière mais absente du jeu</td>
+<td>Faire retrouver la phrase qui exclut l’ouverture automatique</td>
+<td>Un nouveau raisonnement sur l’essai à porte fermée, sans suggérer sa réponse.</td>
+</tr>
+<tr>
+<td>Repères numériques mal recopiés, explication correcte avec A/B</td>
+<td>Difficulté de lecture de grille, non nécessairement confusion conceptuelle</td>
+<td>Utiliser la correspondance fournie entre lettres et repères</td>
+<td>Réponse en noms de cases ou par désignation, puis reprise séparée du repérage.</td>
+</tr>
+<tr>
+<td>« Puisqu’elle reste au même endroit, aucune commande n’a été choisie. »</td>
+<td>Raisonnement inverse non valide</td>
+<td>Comparer entrée commandée et position avant/après ; voir l’exercice E4 ci-dessous</td>
+<td>Cas inédit après remédiation, avec une explication personnelle.</td>
+</tr>
+</tbody></table></div>
+<p>Une relance sur le repérage ne doit pas être comptée comme un indice sur le mécanisme. Noter séparément ce que l’apprenant établit seul et ce qui apparaît après intervention.</p>
+<h3>6. Exercice enseignant — sujet</h3>
+<p>À résoudre avant de consulter <a href="enseignant-u01.html#corriges">le corrigé enseignant</a>. Cet exercice emploie exactement les règles de la porte définies dans le sujet élève et rappelées par la table de la section 4. La seule commande est AVANCER ; l’état de la porte reste constant pendant son application.</p>
+<p>Voici quatre lignes de journal proposées. Une ligne n’est pas nécessairement compatible avec ces règles.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Ligne</th><th scope="col">Position avant</th><th scope="col">Porte pendant la commande</th><th scope="col">Commande choisie</th><th scope="col">Position après annoncée</th></tr></thead><tbody>
+<tr>
+<td>J1</td>
+<td>hall</td>
+<td>fermée</td>
+<td>AVANCER</td>
+<td>hall</td>
+</tr>
+<tr>
+<td>J2</td>
+<td>hall</td>
+<td>ouverte</td>
+<td>AVANCER</td>
+<td>bureau</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>bureau</td>
+<td>fermée</td>
+<td>AVANCER</td>
+<td>bureau</td>
+</tr>
+<tr>
+<td>J4</td>
+<td>hall</td>
+<td>fermée</td>
+<td>AVANCER</td>
+<td>bureau</td>
+</tr>
+</tbody></table></div>
+<p><strong>E1.</strong> Pour chacune des quatre lignes, dire si elle respecte le modèle et justifier. Pour toute ligne incompatible, donner la position après qui serait conforme aux données avant et à la commande annoncées.</p>
+<p><strong>E2.</strong> Réfuter les deux affirmations suivantes avec une ligne compatible et une explication : « AVANCER implique toujours un changement de pièce » ; « rester sur place signifie toujours que la porte a bloqué le passage ».</p>
+<p><strong>E3.</strong> J1 et J2 ont la même position avant et la même commande. Leurs résultats différents contredisent-ils le caractère déterministe de T ? Nommer précisément l’information pertinente qui diffère.</p>
+<p><strong>E4.</strong> Un élève explique J1 par : « Nora est restée dans le hall, donc aucune commande n’a été choisie. » Proposer une relance qui l’amène à comparer les bonnes données sans lui dicter la conclusion. Préciser ce que vous attendrez de son explication après relance. Proposer ensuite une autre situation de la porte pour vérifier qu’il distingue encore commande et résultat ; expliciter ses données et son résultat attendu.</p>
+<h3 id="references">7. Références reliées à cette unité</h3>
+<p>Références à consulter pour préparer, pas prérequis à lire avant l’activité. Les sources sont des manuels de synthèse, pas des expériences validant notre unité ; les exemples de piste et de porte sont originaux.</p>
+<ul>
+<li><strong>David L. Poole et Alan K. Mackworth, 2023</strong>, <em>Artificial Intelligence: Foundations of Computational Agents</em>, 3e édition, <a href="https://artint.info/3e/html/ArtInt3e.Ch2.S1.html">§2.1, Agents and Environments</a>. Appuis précis : le passage qui suit l’exemple 2.1 distingue commande d’achat et réalisation ; §2.1.1 décrit le contrôleur. Usage U01 : justifier la distinction commande/effet. Limite : leur exemple économique ne fournit pas les règles de notre jeu.</li>
+<li><strong>Stuart Russell et Peter Norvig</strong>, <em>Artificial Intelligence: A Modern Approach</em>, <a href="https://aima.cs.berkeley.edu/4th-ed/pdfs/newchap02.pdf">extrait public du chapitre 2</a>, §2.1, interaction avec l’environnement. Usage U01 : replacer ultérieurement la décision dans un système qui agit ; le découpage en décision et moteur de notre programme est une convention explicite du modèle pédagogique. Limite : le PDF public est non daté ; son emplacement dans un répertoire « 4th-ed » ne suffit pas à garantir sa correspondance exacte avec la pagination d’une édition. Aucune page de quatrième édition non contrôlée n’est invoquée.</li>
+</ul>
+<p>Pour la précision rédactionnelle, le <a href="https://eduscol.education.gouv.fr/sites/default/files/document/25-nsij2me1v1pdf-112650.pdf">sujet officiel NSI 25-NSIJ2ME1, 18 juin 2025</a> a été examiné, notamment la définition des données et des conventions avant les questions. C’est une référence de présentation, pas une preuve scientifique ou pédagogique pour U01. Aucun de ses exercices, figures ou textes n’est reproduit.</p>
+<h3>8. Préparer l’expérience existante, sans intégration applicative</h3>
+<p>Avant l’accueil des élèves, ouvrir le dépôt local par <code>Ouvrir-Agent-Academy.cmd</code>, puis le laboratoire indépendant à <code>http://127.0.0.1:8765/laboratoire.html</code>. Si votre serveur emploie un autre port, conserver celui-ci. Distribuer seulement COURS_ELEVE.md et ACTIVITES_ELEVE.md ; les liens vers les corrigés ne sont pas une barrière de confidentialité dans un dépôt public.</p>
+<p>Choisir la politique gloutonne indiquée dans le cours et réinitialiser. Le départ doit être <code>0,2</code>, le compteur à 0. Ne pas lancer BFS, le mode automatique, une politique Python ou l’ancienne leçon intégrée. Ces interfaces ne sont pas modifiées et ne constituent pas la nouvelle unité. L’enseignant accompagne le repérage des contrôles nécessaires.</p>
+<p>Préparer deux relevés de remplacement, issus des valeurs suivantes : première tentative, position avant <code>0,2</code>, commande droite, position après <code>1,2</code> ; deuxième tentative, position avant <code>1,2</code>, commande droite, mouvement refusé devant un obstacle, position après <code>1,2</code>. Les remettre successivement après chaque prédiction si l’outil n’est pas accessible. Dire explicitement qu’il s’agit de relevés fournis. Ne pas les présenter comme une manipulation effectuée par l’élève.</p>
+<p>Les vingt minutes incluent la lecture et les réponses du parcours élève, pas l’installation technique ni cette préparation. Prévoir d’en relever les temps réels lors d’un essai futur. Aucun essai humain n’a encore été réalisé pour cette version.</p><details><summary>Exécuter le bloc Python de la porte dans le navigateur</summary><p>Préparation enseignante facultative, hors des vingt minutes élèves. Le code ci-dessous reprend exactement l’exemple du guide. Son affichage ne déplace pas Nora dans l’application. Le premier chargement nécessite Internet.</p><iframe src="laboratoire.html?u01=python" title="Python réel — table de transition de la porte" loading="lazy"></iframe></details></section><section class="sheet unit-stage" id="corriges" tabindex="-1"><h2>Corrigés expliqués — après recherche</h2><details><summary>Afficher les corrigés U01.1 après recherche</summary><p>À remettre après la recherche. Les formulations proposées ne sont pas les seules réponses recevables : on évalue les données identifiées et le raisonnement. Le cours et les activités restent nécessaires pour connaître les règles des situations.</p>
+<h3>1. Cours élève : repérage, prédictions et expérience</h3>
+<p><strong>C0.</strong> B est immédiatement à droite de A. C contient un mur. L’ordre et le contenu figurent dans le tableau de la piste ; aucune connaissance de coordonnées n’est nécessaire.</p>
+<p><strong>P1.</strong> La commande prévue est droite, parce que l’arrivée G se trouve à droite du robot. Depuis A, cette commande demande B. B étant libre, le moteur y place Microduck : la case après est B.</p>
+<p><strong>E1.</strong> La première ligne à relever est : case avant A (<code>0,2</code>), commande droite, case après B (<code>1,2</code>). Le mot de la commande et la position sont deux données différentes du journal et de l’affichage. Une éventuelle différence avec ces données doit conduire à vérifier le départ, la règle sélectionnée et la réinitialisation ; elle ne doit pas être masquée pour obtenir le résultat attendu.</p>
+<p><strong>P2.</strong> Après la première tentative, Microduck est en B : on ne le replace pas en A. G est encore à sa droite ; la règle choisit donc encore droite. Cette commande demande C, qui contient un mur. Le résultat prévu est le maintien en B, et non un passage en C.</p>
+<p><strong>E2.</strong> La deuxième ligne est : case avant B (<code>1,2</code>), commande droite, case après B (<code>1,2</code>). Le journal signale un obstacle et un mouvement refusé. La commande est bien droite : le refus ne signifie pas que la règle a choisi une autre commande.</p>
+<p><strong>E3.</strong> Deux commandes ont été choisies ; un seul déplacement a été réalisé, de A à B. Lors de la deuxième tentative, les positions avant et après sont identiques. Si l’élève avait prévu un second déplacement, il doit rapprocher sa prévision de la présence du mur en C. Si sa prévision était correcte, il explique pourquoi les données la confirment ; on n’exige pas d’inventer une erreur.</p>
+<p>Une prédiction initiale incorrecte n’annule pas l’apprentissage. La preuve de compréhension est l’explication produite après confrontation et son réemploi dans une autre situation, pas le seul fait d’avoir deviné juste au départ.</p>
+<h3>2. Entraînement A1–A2</h3>
+<p><strong>A1.</strong> Les essais sont indépendants ; le départ est imposé par chaque ligne.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Essai</th><th scope="col">Case avant</th><th scope="col">Commande</th><th scope="col">Case demandée</th><th scope="col">Case après</th><th scope="col">Raisonnement</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>D</td>
+<td>droite</td>
+<td>E</td>
+<td>E</td>
+<td>E est immédiatement à droite de D et est libre : le mouvement est autorisé.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td>droite</td>
+<td>C</td>
+<td>B</td>
+<td>C est immédiatement à droite de B et contient un mur : le mouvement est refusé.</td>
+</tr>
+</tbody></table></div>
+<p>Le deuxième essai ne part pas de E : ce serait appliquer à tort une règle d’enchaînement alors que l’indépendance est explicitement annoncée. Les cas sont étudiés sur papier ; ils ne supposent pas un changement du départ de la grille réelle.</p>
+<p><strong>A2 — Prolongement facultatif.</strong> L’affirmation de Maya n’est pas compatible avec les données. Le sujet indique que la commande droite a déjà été choisie dans l’essai 2. Le maintien en B est le résultat de la vérification de C par le moteur. Conclure à l’absence de droite à partir du seul non-déplacement confond le choix et sa réalisation.</p>
+<h3>3. Transfert T1–T2</h3>
+<p><strong>T1.</strong> Dans chaque essai, Nora repart du hall. La commande reste AVANCER ; elle ne provoque pas une ouverture de porte.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Essai</th><th scope="col">Porte</th><th scope="col">Commande</th><th scope="col">Position après</th><th scope="col">Déplacement réalisé ?</th><th scope="col">Raison</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>fermée</td>
+<td>AVANCER</td>
+<td>hall</td>
+<td>Non</td>
+<td>La règle interdit de franchir une porte fermée ; le moteur conserve la position.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ouverte</td>
+<td>AVANCER</td>
+<td>bureau</td>
+<td>Oui</td>
+<td>La règle autorise le passage depuis le hall ; le mouvement est entièrement réalisé.</td>
+</tr>
+</tbody></table></div>
+<p>Dans l’essai 1, aucune clé ou ouverture automatique ne peut être invoquée : elles sont exclues par le sujet. Dans l’essai 2, il ne faut pas imaginer un délai qui laisserait temporairement Nora dans le hall : le modèle donne le résultat après application complète.</p>
+<p><strong>T2.</strong> La commande choisie est la même dans les deux essais. Les positions obtenues diffèrent parce que l’état de la porte avant la commande n’est pas le même. La commande demande le passage ; la règle du moteur l’autorise pour la porte ouverte et le refuse pour la porte fermée. Il n’est pas nécessaire d’inventer un changement de décision.</p>
+<p>Ce transfert vérifie la même distinction que la piste : un déplacement demandé n’est pas nécessairement accompli. La réponse ne demande pas de connaître le fonctionnement d’une porte réelle.</p>
+<h3>4. Vérification individuelle I1–I2 : troisième scénario</h3>
+<p><strong>I1.</strong> Les essais sont indépendants : leur ordre ne change pas les positions avant données par le tableau.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Essai</th><th scope="col">Position avant</th><th scope="col">Commande choisie</th><th scope="col">Position après</th><th scope="col">Déplacement ?</th><th scope="col">Justification</th></tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>fin</td>
+<td>DROITE</td>
+<td>fin</td>
+<td>Non</td>
+<td>Depuis fin, la règle conserve fin : aucune position plus à droite n’est autorisée.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>début</td>
+<td>DROITE</td>
+<td>fin</td>
+<td>Oui</td>
+<td>Depuis début, la règle place le curseur à fin ; il change donc de position.</td>
+</tr>
+</tbody></table></div>
+<p>Les deux positions après sont identiques, mais cela ne signifie pas que les deux effets sont des déplacements : il faut comparer chaque position après à sa propre position avant. Le texte reste X ; il n’est ni déplacé ni effacé.</p>
+<p><strong>I2.</strong> L’affirmation est incompatible avec les données. La commande DROITE a explicitement été choisie dans l’essai 1. Le curseur est à fin avant et après, car aucune position plus à droite n’est autorisée. Le non-déplacement est donc compatible avec une commande de déplacement effectivement choisie. Il ne prouve pas l’absence de commande.</p>
+<p>On n’a pas besoin d’inventer un mur, une porte, un retour au début ou un délai : la seule limite est celle des positions permises dans ce nouvel éditeur. Les réponses doivent expliquer cette règle, pas seulement reprendre « deux commandes, un déplacement » du cas Microduck.</p>
+<h3>4 bis. Bilan B1 — prolongement facultatif, hors budget essentiel</h3>
+<p>AVANCER indique une demande, pas la preuve d’un changement de pièce. Dans l’essai 1, Nora est dans le hall avant la commande et reste dans le hall après. La porte est fermée ; le moteur applique la règle qui empêche le passage. La commande a été choisie, mais le déplacement n’a pas été réalisé.</p>
+<p>Réponse recevable, par exemple : « Elle a reçu AVANCER, mais la porte fermée l’empêche de passer : elle reste dans le hall. » Si la phrase ne donne pas la position avant, demander cette précision conformément à la question, sans imposer une terminologie savante.</p>
+<p>« Nora reste parce qu’elle n’a pas choisi d’avancer » ne convient pas : le sujet donne explicitement AVANCER comme commande choisie. « Elle reste parce qu’elle a peur de la porte » n’explique pas le modèle : aucun comportement de ce type n’est défini.</p>
+<h3>5. Exercice enseignant E1–E4</h3>
+<p><strong>E1 — Compatibilité des lignes.</strong></p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Ligne</th><th scope="col">Verdict</th><th scope="col">Justification</th></tr></thead><tbody>
+<tr>
+<td>J1</td>
+<td>Compatible</td>
+<td>Depuis le hall, porte fermée, AVANCER laisse Nora dans le hall.</td>
+</tr>
+<tr>
+<td>J2</td>
+<td>Compatible</td>
+<td>Depuis le hall, porte ouverte, AVANCER conduit au bureau.</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>Compatible</td>
+<td>Nora est déjà dans le bureau ; la règle ne prévoit pas de déplacement plus loin, quelle que soit la porte.</td>
+</tr>
+<tr>
+<td>J4</td>
+<td>Incompatible</td>
+<td>Avec les données annoncées, Nora ne peut franchir la porte fermée. La position après conforme serait hall.</td>
+</tr>
+</tbody></table></div>
+<p>J4 n’autorise pas à ajouter une ouverture automatique ou une autre action pour sauver la ligne : les règles les excluent. Si J4 provenait d’un vrai dispositif, il faudrait vérifier le relevé et les hypothèses du modèle avant de décider de la cause. Dans cet exercice, il s’agit de juger sa conformité aux données, pas de diagnostiquer une machine réelle.</p>
+<p><strong>E2 — Deux conclusions abusives.</strong> J1 fournit un contre-exemple à « AVANCER implique toujours un changement de pièce » : la commande est présente, mais la porte fermée empêche le mouvement. J3 serait également un contre-exemple valide à cette première affirmation.</p>
+<p>J3 réfute « rester sur place signifie toujours que la porte a bloqué le passage ». Le personnage se trouve déjà dans le bureau : le modèle ne propose pas de nouvelle destination. La fermeture de la porte n’est donc pas ici la raison d’un passage refusé depuis le hall. Un même effet observable peut avoir des explications différentes selon la situation avant.</p>
+<p><strong>E3 — Déterminisme.</strong> J1 et J2 n’ont pas le même état avant. La position est la même, mais la porte est fermée dans J1 et ouverte dans J2. L’état a précisément été défini par les deux informations. Le modèle reste déterministe : pour un même état complet et la même commande, sa table donne un résultat unique. La commande ou la position seules ne suffisent pas pour effectuer cette comparaison.</p>
+<p><strong>E4 — Relance et nouvelle preuve : un exemple de réponse.</strong></p>
+<p>Relance possible : « Dans J1, quelle colonne t’indique ce qui a été commandé ? Quelles données permettent de vérifier s’il y a eu un changement de pièce ? » La question fait rechercher des indices distincts sans annoncer que le mouvement a été refusé. Une autre relance est recevable si elle vise cette séparation et ne fournit pas directement la conclusion à répéter.</p>
+<p>Attendu après relance : l’élève cite AVANCER comme commande, hall comme position avant et après, puis relie ce maintien à la règle sur la porte fermée. L’apparition de cette explication après aide est notée comme telle, non comme preuve d’une réponse initialement autonome.</p>
+<p>Situation de contrôle possible, entièrement spécifiée : Nora est déjà dans le bureau ; la porte est ouverte et ne change pas pendant l’essai ; une unique commande AVANCER est choisie ; on applique les mêmes règles du jeu. Résultat attendu : Nora reste dans le bureau, car aucune destination plus loin n’est prévue, bien qu’une commande ait été choisie. Cela vérifie la séparation commande/effet dans un autre état. Ce contrôle relève de l’approfondissement enseignant ; il ne remplace pas en cachette le transfert élève à partir du hall.</p>
+<p>On peut proposer une autre situation si elle définit toutes les données utiles et ne fait appel à aucune règle nouvelle implicite. Avant d’utiliser une telle variante pour évaluer, il faut en fixer le résultat attendu et vérifier ce qu’elle mesure.</p></details></section><section class="sheet unit-stage" id="evaluation" tabindex="-1"><h2>Grille de lecture des productions</h2><p>Cette grille est formative : elle ne donne pas une note globale et ne prétend pas être étalonnée. Les trois critères élèves portent sur la distinction commande/effet. La lecture de coordonnées, la maîtrise de Python et le vocabulaire de la théorie des agents ne sont pas évalués dans U01.</p>
+<h3>1. Conditions de recueil</h3>
+<p>Conserver la prédiction initiale, même incorrecte. E1 est une ligne guidée ; elle ne suffit pas à établir une capacité autonome. L’entraînement essentiel A1 peut être accompagné. Pour le transfert T1–T2 et la vérification finale I1–I2 sur le curseur, laisser le cours et toutes les règles du sujet accessibles, sans corrigé et sans indice conceptuel donné pendant la réponse individuelle. A2 et B1 restent des prolongements facultatifs, hors des vingt minutes ; B1 ne remplace pas la troisième situation.</p>
+<p>Noter pour chaque production : tâche concernée, réponse, donnée citée, type d’aide éventuelle et reprise. Une aide d’accès ou de lecture est distinguée d’un indice qui révèle la relation commande/effet. Le temps est relevé sans sanction automatique ; il servira à ajuster le budget de vingt minutes.</p>
+<h3>2. Critères élèves et indices observables</h3>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Critère</th><th scope="col">Production utile</th><th scope="col">Établi de façon autonome</th><th scope="col">À reprendre</th></tr></thead><tbody>
+<tr>
+<td>V1 — Séparer commande et résultat</td>
+<td>E3 pendant l’apprentissage, puis T1 et I1–I2</td>
+<td>Identifie la commande choisie et les positions avant/après ; n’affirme pas un déplacement à chaque commande</td>
+<td>Déduit le mouvement du seul mot droite, AVANCER ou DROITE ; remplace la commande par l’effet constaté.</td>
+</tr>
+<tr>
+<td>V2 — Expliquer un non-déplacement</td>
+<td>T2 puis I2 ; A2/B1 possibles en prolongement</td>
+<td>Conserve la commande dans l’explication et cite la règle qui empêche le mouvement dans le cas donné</td>
+<td>Explique le maintien par une absence ou un changement de commande, sans donnée du sujet.</td>
+</tr>
+<tr>
+<td>V3 — Réinvestir sur de nouvelles situations</td>
+<td>T1–T2 puis I1–I2</td>
+<td>Dans la porte, prévoit hall puis bureau ; dans le curseur, distingue fin vers fin de début vers fin et explique les effets avec les règles de chaque sujet</td>
+<td>Récite le cas Microduck, importe une clé, une ouverture automatique ou un retour du curseur au début.</td>
+</tr>
+</tbody></table></div>
+<p>Coder chaque critère : <strong>autonome</strong>, <strong>avec relance</strong>, <strong>non établi</strong>, ou <strong>non observable</strong> lorsque la production manque ou que l’expérience a été empêchée. Ne pas transformer « non observable » en preuve d’incompréhension. Après aide, une réponse juste à la même question renseigne la reprise ; elle ne prouve pas à elle seule une maîtrise autonome.</p>
+<p>Proposition pour la relecture humaine : retenir la maîtrise d’U01.1 lorsque V1, V2 et V3 sont établis de façon autonome sur les productions de transfert et de vérification finale, avec des explications compatibles. Une réussite sur Nora seule ne remplace pas I1–I2. Les trois critères sont nécessaires ; pas de compensation par un total de cases correctes. Ce choix de validation reste à discuter après essai, pas à présenter comme un seuil scientifiquement établi.</p>
+<h3>3. Productions contrastées : comment les lire</h3>
+<p>Ce sont des exemples construits pour préparer l’analyse, pas des réponses d’élèves recueillies.</p>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Réponse au transfert ou au bilan</th><th scope="col">Ce qu’elle permet de conclure</th><th scope="col">Suite proposée</th></tr></thead><tbody>
+<tr>
+<td>« Fermée : hall ; ouverte : bureau. » sans autre explication</td>
+<td>Les positions sont exactes ; le mécanisme explicatif de V2 n’est pas encore observable</td>
+<td>Demander la justification requise par T2, sans fournir la règle à citer.</td>
+</tr>
+<tr>
+<td>« Elle va au bureau parce qu’AVANCER a été choisi », pour l’essai fermé</td>
+<td>Confusion commande/effet visible dans cette réponse</td>
+<td>Faire comparer la commande et la condition de passage ; noter l’aide, puis préparer un autre cas de contrôle.</td>
+</tr>
+<tr>
+<td>« Elle a reçu AVANCER dans les deux essais ; seule la porte ouverte permet le passage. Fermée, elle reste dans le hall. »</td>
+<td>Distinction et causalité correctes sur Nora ; la vérification du troisième scénario reste nécessaire</td>
+<td>Vérifier l’autonomie et la cohérence du tableau, puis examiner I1–I2 avant de conclure sur V3.</td>
+</tr>
+<tr>
+<td>Explication correcte en A/B, mais repère numérique mal recopié</td>
+<td>Difficulté de repérage possible, sans preuve suffisante d’une confusion commande/effet</td>
+<td>Accepter une désignation de cases, puis reprendre la lecture de coordonnées séparément.</td>
+</tr>
+<tr>
+<td>« Après les deux essais, le curseur est à fin, donc il a bougé deux fois. »</td>
+<td>Positions après exactes, mais positions avant non comparées ; V1/V3 ne sont pas établis</td>
+<td>Reprendre chaque paire avant/après séparément, noter la relance puis demander une nouvelle preuve.</td>
+</tr>
+</tbody></table></div>
+<h3>4. Retour et remédiation</h3>
+<p>Si V1 manque, faire comparer deux colonnes distinctes : commande, puis position avant/après. Si V2 manque, revenir à la règle qui autorise ou empêche le mouvement, sans modifier la commande donnée. Si V3 manque, vérifier d’abord la lecture des règles de la porte ou du curseur selon la production concernée, puis la relation à la distinction construite sur la piste. Ne pas attribuer automatiquement l’erreur à un manque de capacité générale.</p>
+<p>Une nouvelle vérification après remédiation devra employer une variante entièrement définie, dont le résultat n’a pas été dicté. Sa conception relève d’une reprise de cette même unité ; elle ne sera pas assimilée à une preuve acquise parce que l’élève répète ensuite le corrigé. La présente version ne fournit pas une banque de variantes équivalentes déjà validées.</p>
+<h3>5. Parcours enseignant</h3>
+<p class="table-help">Si nécessaire, faites défiler le tableau horizontalement. Au clavier : sélectionnez le tableau, puis utilisez les flèches gauche et droite.</p><div class="table-scroll" role="region" aria-label="Tableau de la situation" tabindex="0"><table><thead><tr><th scope="col">Dimension</th><th scope="col">Preuve attendue dans E1–E4</th><th scope="col">Insuffisant</th></tr></thead><tbody>
+<tr>
+<td>Cohérence du modèle</td>
+<td>Identifie J4 comme incompatible et justifie les trois autres lignes</td>
+<td>Corrige les données de départ sans le signaler pour sauver J4.</td>
+</tr>
+<tr>
+<td>Portée d’une trace</td>
+<td>Utilise J1 et J3 pour distinguer deux conclusions abusives</td>
+<td>Déduit systématiquement l’absence de commande ou un obstacle du seul non-déplacement.</td>
+</tr>
+<tr>
+<td>État pertinent</td>
+<td>Distingue même position de même état complet dans J1/J2</td>
+<td>Attribue leurs résultats différents au hasard en omettant la porte.</td>
+</tr>
+<tr>
+<td>Transposition</td>
+<td>Propose une relance non suggestive, précise l’attendu et définit une autre situation avec résultat expliqué</td>
+<td>Donne la conclusion à répéter, ou propose un cas qui dépend d’une hypothèse non annoncée.</td>
+</tr>
+</tbody></table></div>
+<p>La formalisation facultative peut aider à justifier les réponses ; sa notation exacte n’est pas une condition pour reconnaître un raisonnement correct. L’enseignant doit pouvoir expliquer les distinctions sans employer de symboles. Un désaccord de codage entre relecteurs doit être consigné et discuté, pas résolu par une note arbitraire.</p>
+<h3>6. Ce qui restera à vérifier avec des personnes</h3>
+<p>Clarté des consignes, temps réel de lecture et d’écriture, compréhension des repères du laboratoire, caractère non suggestif des relances et capacité de transfert. Un petit essai qualitatif pourra mettre au jour des obstacles, pas établir une efficacité générale. Aucun essai humain ni taux de réussite n’est revendiqué pour cette première version.</p></section></main><footer><a href="./">Accueil</a> · <a href="u01.html">U01.1</a><p>Version expérimentale accompagnée · Durée et efficacité à examiner avec des apprenants.</p></footer></body></html>

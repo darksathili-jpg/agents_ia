@@ -1,0 +1,18 @@
+{
+  "version": "U01.1",
+  "reference": "fcbdb8b1c73c0760e60fb4d53506d6c5d85e4fc6",
+  "empreintes": "SHA-256 du texte UTF-8, fins de ligne LF",
+  "sources": {
+    "COURS_ELEVE.md": "20252ae4f02b56829fecccc5de8298de5f9837b3b6e6abb91b4e9b592a0c9705",
+    "ACTIVITES_ELEVE.md": "71ad4b31f443c6699678f56906b1abb748886c0c3ea8c955b1ed6db31ee81175",
+    "PARCOURS_ENSEIGNANT.md": "092f84fe902f06ef4285eafbcdd61c45e571a4a346dc8ce025417cdfecf36b64",
+    "CORRIGES.md": "9971883f0c5a9440582e04a19841ccd0f75424c40f4497559c927af2ff341dcd",
+    "GRILLE_EVALUATION.md": "82c135e4153d33a00de63953875c3f7e23aa75e84abd5cc987ecf4b4b4f8d21d"
+  },
+  "pages": [
+    "u01.html",
+    "enseignant-u01.html",
+    "module01.html",
+    "laboratoire.html"
+  ]
+}
