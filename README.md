@@ -1,45 +1,42 @@
-# ORCHESTRA NSI — Redressement v1.3 (candidat de recette)
+# ORCHESTRA NSI — Première / Terminale · v1.4 (visualiseur BFS)
 
-**Statut : NON VALIDÉ POUR DIFFUSION AUX ÉLÈVES.** Cette version ne modifie pas la Première v5.1 ; elle renforce la Terminale T01 à partir de la version intégrée v1.2.
+**Statut : candidate de recette, non approuvée pour diffusion définitive.**
 
-## Contenu réel
+## Ce que contient cette livraison
 
-- **Première NSI :** séance pilote `decider(observation)` et terrain dynamique ; 52 tests CPython livrés.
-- **Terminale NSI :** atelier `AgentPlanificateur`, graphe de grille, classe `File`, BFS, plan et replanification, neuf situations ; guide en quatre étapes. Ce n'est pas encore une formation Terminale multi-modules.
-- **Visualisation Terminale :** déplacements réels, requêtes à `monde.voisins`, opérations `enfiler/defiler` observées sur le calcul initial. Deux critères sont distingués : trajet correct et méthode réellement observée.
-- **Agents déterministes uniquement :** aucun LLM, aucune connexion à un robot physique.
+- **Première NSI** : atelier introductif sur un agent réflexe, conservé depuis v5.1.
+- **Terminale NSI** : atelier Python sur la classe `AgentPlanificateur`, la file FIFO, le parcours en largeur (BFS), le plan mémorisé et la replanification.
+- **Nouveau visualiseur Terminale** : remplace les deux dessins « Avant / Après ». Grille 7 × 5 entièrement cadrée, personnage Microduck, défilement des opérations `enfiler`, `defiler`, `monde.voisins`, indication de la file, cases explorées, obstacle et chemin.
+- Modes **clair**, **sombre** et **vidéoprojecteur**.
 
-## Lancer sous Windows
+## Exemple guidé vs résultats de l'élève
 
-1. Extraire **tous** les fichiers dans un nouveau dossier.
-2. Exécuter `LANCER_ORCHESTRA.cmd` à la racine, puis ouvrir l'adresse locale affichée dans Edge.
-3. Pour une installation réseau : `INSTALLER_PYODIDE.cmd` sur un poste connecté ; copier ensuite `pyodide/` avec les fichiers récupérés et vérifier avec `RECETTE_EDGE.md`.
+Avant une exécution, le visualiseur propose un **exemple guidé** de 197 instantanés produits à partir de la sortie de la solution de référence exécutée sous CPython. Cette démonstration ne prouve **rien** sur le code de l'élève. Aucune solution Python de référence n'est intégrée au site.
 
-**Important : le ZIP ne contient PAS les binaires Pyodide** et l'exécution véritable dans Edge / réseau du lycée n'a pas été validée. Le navigateur peut échouer si le CDN est filtré. Le site ne manipule pas de données sensibles ; l'exécution de code élève n'est pas un sandbox sécurisé contre des attaques intentionnelles.
+Après l'exécution des tests, le bouton **Mon exécution Python** permet de voir les opérations réellement enregistrées par `runner.py` lors du scénario « Obstacle imprévu ». Si aucune recherche n'a eu lieu, aucune exploration n'est fabriquée. La démonstration peut être réaffichée explicitement.
 
-## Tests reproductibles
+La représentation de la file est reconstruite à partir des opérations instrumentées sur la classe `File` de l'élève. Il ne s'agit pas d'une preuve formelle de correction d'un BFS : les tests et les traces ont des limites, et une justification écrite reste nécessaire.
 
-À la racine, dans `cmd` :
+## Démarrage Windows
 
-```cmd
-python -m unittest discover -s premiere/tests -p "test_*.py" -v
-python -m unittest discover -s tests -p "test_*.py" -v
-node premiere/tests/editor_indent.test.cjs
-node --check terminale/app.js
-```
+1. Décompresser l'archive **dans un nouveau dossier** (ne pas écraser la version précédente).
+2. Lancer `LANCER_ORCHESTRA.cmd`.
+3. Ouvrir dans Edge l'adresse affichée par le lanceur, normalement `http://127.0.0.1:8000/`.
+4. Cliquer sur **Terminale**, puis descendre à **Un obstacle apparaît. Que fait vraiment le BFS ?**.
+5. Cliquer sur les trois phases, puis sur **▶ Lire**, les flèches ou le curseur.
+6. Programmer les deux méthodes Python, lancer les tests, puis cliquer sur **Mon exécution Python**.
 
-Le dossier **enseignant** est fourni séparément afin de ne pas publier les sources d'évaluation/référence. Après extraction du dossier `qa_enseignant/` à la racine, utiliser :
+Pyodide est chargé localement s'il a été installé avec `INSTALLER_PYODIDE.cmd`, sinon depuis un CDN. L'exécution Pyodide **n'a pas été validée dans Edge sur le réseau du lycée**.
 
-```cmd
-python -m unittest discover -s qa_enseignant -p "test_*.py" -v
-```
+## Vérifications
 
-Les métadonnées des neuf situations sont générées depuis Python : `python outils/generer_cas.py`. Un test QA vérifie leur synchronisation avec l'interface.
+- 52 tests Première réussis ; 21 tests d'intégration réussis.
+- 15 tests contradictoires/structurels enseignants réussis ; un test Node vérifie les trois phases, l'obstacle réel et l'absence de fausse trace.
+- Rendu HTML/CSS/JS dans Chromium, Worker **simulé avec des résultats CPython authentiques**, sans erreurs JavaScript ni débordement horizontal sur trois formats (390, 900 et 1440 px).
+- Cette recette ne démontre **pas** que le téléchargement et l'exécution de Pyodide dans Edge fonctionneront.
 
-## Distinguer compétence et réussite
+Voir `RAPPORT_VALIDATION_V14.md` et `RECETTE_EDGE.md`.
 
-- **Trajet :** chemin minimal et déplacements réels sûrs.
-- **Méthode :** opérations FIFO observées pendant la recherche, et conservation / réutilisation du plan.
-- **Compréhension :** à évaluer en complément par une justification écrite ou orale de l'élève. Les tests ne sont pas une preuve formelle de BFS et ne garantissent pas qu'un code volontairement trompeur ne puisse jamais contourner l'évaluation.
+## Séparation élève / enseignant
 
-Voir `RAPPORT_VERIFICATION.md`, `GUIDE_ENSEIGNANT_V13.md` et `RECETTE_EDGE.md`.
+L'archive de l'application **ne contient pas** les corrigés ni les scripts de vérification enseignants. Une seconde archive destinée à l'enseignant fournit des audits reproductibles ; son contenu doit rester hors de la publication GitHub Pages destinée aux élèves.

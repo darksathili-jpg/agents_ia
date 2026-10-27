@@ -1,39 +1,18 @@
-# Procédure de recette avant diffusion — Edge / Pyodide
+# Recette manuelle dans Edge — v1.4
 
-**Statut initial : NON EFFECTUÉE sur un poste du lycée.** Ne pas cocher sans preuve datée.
+Ne publiez pas le projet au lycée avant les contrôles ci-dessous.
 
-## Préparation
+1. Démarrer `LANCER_ORCHESTRA.cmd` et ouvrir la page Terminale dans Edge.
+2. Trouver l'encart **Un obstacle apparaît. Que fait vraiment le BFS ?**. Vérifier que les **35 cases** du terrain apparaissent intégralement.
+3. Cliquer sur **Explorer et planifier** : la grille doit être sans obstacle, et le BFS doit ajouter/retirer de la file pendant la lecture.
+4. Cliquer sur **Obstacle imprévu** : un obstacle rouge apparaît en `(2,2)` sur le trajet précédemment envisagé, Microduck est à `(1,2)`.
+5. Cliquer sur **Replanifier et avancer** : le second calcul démarre ; la file contient de nouveaux sommets et les cases explorées se colorent au fil des appels à `voisins()`.
+6. Tester **▶ Lire / Ⅱ Pause**, flèches, curseur de lecture et **Recommencer**.
+7. Vérifier les modes **Clair**, **Sombre**, **Projection** ainsi que le zoom Edge à **200 %** et une largeur proche de **390 px**.
+8. Avant d'exécuter Python, le bouton **Mon exécution Python** doit être inactif.
+9. Exécuter une réponse correcte, puis une réponse erronée : après chaque test, **Mon exécution Python** doit montrer uniquement les événements de la réponse courante (ou l'absence de trace).
+10. Vérifier qu'une boucle infinie entraîne le redémarrage du Worker et conserve le code.
+11. Tester Edge et le réseau filtré du lycée, d'abord avec Pyodide local puis sans accès CDN. Noter les messages d'erreur.
+12. Faire expliquer à un élève la différence entre **sommet ajouté**, **sommet retiré**, **sommet exploré** et **déplacement du robot** ; recueillir sa justification du plus court chemin.
 
-- [ ] Décompresser dans un nouveau dossier et exécuter `LANCER_ORCHESTRA.cmd`.
-- [ ] Ouvrir dans Edge l'adresse `http://127.0.0.1:8000/` (ne pas ouvrir le HTML en `file://`).
-- [ ] Vérifier l'accueil, les deux parcours et le logo sans fond blanc.
-- [ ] Tester l'absence de CDN : débrancher le réseau après installation des fichiers Pyodide locaux via `INSTALLER_PYODIDE.cmd` ; exécuter **dans les deux parcours**.
-
-## Python / robustesse
-
-- [ ] Première : exécuter un code erroné, puis une solution valide ; vérifier l'obstacle dynamique et les sondes.
-- [ ] Terminale : compléter `planifier`, lancer les tests, distinguer échec de planification et échec de déplacement.
-- [ ] Terminale : vérifier un scénario « obstacle imprévu » sur la trace réelle, avant/après la case (2,2).
-- [ ] Terminale : contrôler les opérations FIFO (enfiler, defiler) réellement affichées.
-- [ ] Déclencher `while True:` : le Worker doit redémarrer sans effacer le code.
-- [ ] Tester `sys.exit()` ou une exception : aucun message technique brut incontrôlé.
-- [ ] Vérifier l'export JSON et l'enregistrement du brouillon sans fuite hors du poste.
-
-## UX / accessibilité
-
-- [ ] Clavier seul : navigation, boutons, champ code, indentations `Entrée`, `Tab`, `Maj+Tab`.
-- [ ] Vérifier que la colonne de numéros suit le défilement après 40 lignes.
-- [ ] Modes clair, sombre et projection au vidéoprojecteur réel : contrastes et lisibilité.
-- [ ] Zoom Edge 200 %, largeur 390 px et fenêtre basse (600 px) sans perte de commandes.
-- [ ] Lecteur d'écran : contenu alternatif du plateau, annonces de résultats et navigation.
-- [ ] Tester réseau filtré du lycée et poste sans connexion (Pyodide téléchargé localement).
-
-**Décision de mise en service**
-
-Date : ______   Poste / OS / Edge : ___________________   Réseau : ___________________
-
-Résultats : ___________________________________________
-
-Anomalies : ___________________________________________
-
-Responsable de recette : ___________________  Décision GO / NO-GO : ______
+**Non-validés par le présent paquet :** Pyodide réel, filtrage du réseau lycée, lecteur d'écran, projection physique.

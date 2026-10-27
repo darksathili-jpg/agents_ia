@@ -124,7 +124,7 @@ def _snapshot(agent, world, action, step, event=None, explored=()):
             'explored':[list(x) for x in explored][:120], 'event':event}
 
 
-def _run_case(cls, case):
+def _run_case(cls, case, cls_file=None):
     """Vérifie séparément la sécurité du trajet et la réutilisation du plan.
 
     Les actions restent comparées au monde privé ; les règles méthodologiques
@@ -138,20 +138,65 @@ def _run_case(cls, case):
     trace = [_snapshot(agent, world, 'DÉPART', 0)]
     original_planifier = cls.planifier
     planning = {'count': 0, 'events': []}
+    # Journal pédagogique des opérations vraiment exécutées par le code élève.
+    # Aucune exploration ni aucun déplacement n'est fabriqué côté interface.
+    searches = []
+    current_search = None
+    active_step = 0
+    active_reason = 'initial'
+
+    def _record_queue(operation, value):
+        if current_search is not None and len(current_search['operations']) < 450:
+            current_search['operations'].append({'operation': operation,
+                'value': list(value) if type(value) is tuple else str(value)})
+
+    def observed_enfiler(self, value):
+        result = original_enfiler(self, value)
+        _record_queue('enfiler', value)
+        return result
+
+    def observed_defiler(self):
+        result = original_defiler(self)
+        _record_queue('defiler', result)
+        return result
+
+    class NeighborLog(list):
+        def append(self, value):
+            super().append(value)
+            _record_queue('voisins', value)
 
     def counted_planifier(self, monde, objectif):
+        nonlocal current_search
         planning['count'] += 1
-        return original_planifier(self, monde, objectif)
+        search = {'step': active_step, 'reason': active_reason,
+                  'start': list(self.position), 'goal': list(objectif),
+                  'obstacles': [list(v) for v in sorted(world.obstacles)],
+                  'operations': [], 'path': []}
+        searches.append(search)
+        current_search = search
+        try:
+            path = original_planifier(self, monde, objectif)
+            if type(path) is list:
+                search['path'] = [list(q) for q in path
+                                  if type(q) is tuple and len(q)==2][:80]
+            return path
+        finally:
+            current_search = None
 
-    # Restauré après l'épreuve, même si la solution de l'élève lève une erreur.
+    # Restauré après l’épreuve, même si la solution de l’élève lève une erreur.
     cls.planifier = counted_planifier
+    if cls_file is not None:
+        original_enfiler = cls_file.enfiler
+        original_defiler = cls_file.defiler
+        cls_file.enfiler = observed_enfiler
+        cls_file.defiler = observed_defiler
     method_errors = []
     try:
         if not world.est_libre(start) or not world.est_libre(goal) or _shortest(world,start,goal) is None or start == goal:
             if agent.pas_suivant(VueMonde(world), goal) is not None:
                 raise AssertionError('Aucun déplacement autorisé lorsque la cible est inaccessible ou déjà atteinte.')
             return {'trace': trace, 'steps': 0, 'memory_ok': True,
-                    'memory_message': 'Aucun déplacement nécessaire.', 'planifications': planning['count']}
+                    'memory_message': 'Aucun déplacement nécessaire.', 'planifications': planning['count'], 'searches': searches}
         for step in range(1, 71):
             event = None
             if case.get('dynamic_at') and step == 2:
@@ -160,7 +205,9 @@ def _run_case(cls, case):
                 trace.append(_snapshot(agent, world, 'OBSTACLE APPARU', step-1, event))
             previous = agent.position
             count_before = planning['count']
-            audit = []
+            active_step = step
+            active_reason = 'obstacle' if event else 'initial' if step == 1 else 'recalcul'
+            audit = NeighborLog()
             moved = agent.pas_suivant(VueMonde(world, audit), goal)
             count_after = planning['count']
             if moved is None:
@@ -209,9 +256,12 @@ def _run_case(cls, case):
         return {'trace':trace, 'steps':sum(row['action']=='AVANCER' for row in trace),
                 'memory_ok':not method_errors,
                 'memory_message':'; '.join(dict.fromkeys(method_errors)) or 'Plan mémorisé et réutilisé.',
-                'planifications':planning['count']}
+                'planifications':planning['count'], 'searches':searches}
     finally:
         cls.planifier = original_planifier
+        if cls_file is not None:
+            cls_file.enfiler = original_enfiler
+            cls_file.defiler = original_defiler
 
 
 def _analyze_fifo(cls_file, agent_class, case):
@@ -354,7 +404,7 @@ def evaluate_source(source):
         else:
             phases['fifo']={'ok':False,'message':'Vérifie d’abord le chemin calculé.'}
         try:
-            data=_run_case(cls,case)
+            data=_run_case(cls,case,file_cls)
             phases['pas_suivant']={'ok':True,'message':'Déplacements sûrs et cible atteinte.'}
             phases['memoire']={'ok':data['memory_ok'],'message':data['memory_message']}
         except BaseException as exc:
@@ -362,7 +412,7 @@ def evaluate_source(source):
             phases['pas_suivant']={'ok':False,'message':msg}
             phases['memoire']={'ok':False,'message':'À vérifier après correction des déplacements.'}
             errors.append('Déplacements : '+msg)
-            data={'trace':[],'steps':0,'planifications':0}
+            data={'trace':[],'steps':0,'planifications':0,'searches':[]}
         if data['trace']:
             data['trace'][0]['explored']=[list(x) for x in exploration][:120]
             data['trace'][0]['plan']=[list(x) for x in plan if type(x) is tuple and len(x)==2][:35]
