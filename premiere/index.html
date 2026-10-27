@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f5">
+  <meta name="description" content="ORCHESTRA NSI — un laboratoire Python pour comprendre, programmer et vérifier son premier agent déterministe.">
+  <title>ORCHESTRA NSI · Pourquoi programmer un agent ? | Atelier Python</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="vendor/prism-core.min.js"></script>
+  <script defer src="vendor/prism-clike.min.js"></script>
+  <script defer src="vendor/prism-python.min.js"></script>
+  <script defer src="../shared/editor-indent.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="hero-motion.js"></script>
+</head>
+<body>
+<a class="skip" href="#atelier">Aller à l'atelier Python</a>
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="../index.html" aria-label="ORCHESTRA NSI — accueil des parcours">
+      <span class="brand-mark brand-mark-watteau" aria-hidden="true"><img src="assets/logo-watteau.webp" alt="" width="48" height="48"></span>
+      <span class="brand-copy"><strong>ORCHESTRA<span>NSI</span></strong><small>APPRENDRE LES AGENTS EN PYTHON</small></span>
+    </a>
+    <nav class="topnav" aria-label="Navigation principale"><a href="../index.html">Accueil</a><a class="nav-active" href="#accueil">Première NSI</a><a href="../terminale/">Terminale NSI</a><a href="#decouvrir">Comprendre</a><a href="#atelier">Programmer</a><a href="#trace">Vérifier</a></nav>
+    <div class="top-actions"><span class="pilot-pill"><i></i> SÉANCE 01 · PYTHON</span>
+      <div class="theme-switch" role="group" aria-label="Mode d'affichage">
+        <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="true" title="Mode clair">☀ <span>Clair</span></button>
+        <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="false" title="Mode sombre">☾ <span>Sombre</span></button>
+        <button class="theme-choice" type="button" data-theme-choice="projection" aria-pressed="false" title="Mode vidéoprojecteur">▣ <span>Projection</span></button>
+      </div></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Progression pédagogique" tabindex="0">
+      <div class="institution-card"><img src="assets/logo-watteau.webp" alt="Logo du Lycée Watteau avec le robot de la séance" width="148" height="148" loading="lazy"><span>Lycée Watteau<br><small>Valenciennes · NSI</small></span></div>
+      <div class="sidebar-top"><span class="overline">PARCOURS / 01</span><h2>De l'idée<br>à l'agent<span>.</span></h2><p>Comprendre comment un programme observe, décide et agit.</p></div>
+      <div class="track-title">VOTRE PARCOURS <span>1 / 4</span></div>
+      <ol class="course-list">
+        <li class="current"><a class="course-link" href="#decouvrir" aria-current="step"><span class="course-num">01</span><span class="course-label"><strong>Premier agent</strong><small>Observer · Décider · Agir</small></span><span class="course-state">●</span></a></li>
+        <li class="upcoming"><span class="course-num">02</span><div><strong>Outils & actions</strong><small>Prochaine séance</small></div><span class="course-state" aria-label="Séance à venir">●</span></li>
+        <li class="upcoming"><span class="course-num">03</span><div><strong>Contrats & sécurité</strong><small>Prochaine séance</small></div><span class="course-state" aria-label="Séance à venir">●</span></li>
+        <li class="upcoming"><span class="course-num">04</span><div><strong>Plusieurs agents</strong><small>Prochaine séance</small></div><span class="course-state" aria-label="Séance à venir">●</span></li>
+      </ol>
+      <div class="sidebar-spacer"></div>
+      <div class="coach-card"><div class="coach-icon" aria-hidden="true">✳</div><span class="overline">LE CONSEIL DU LAB</span><p>Un agent ne se résume pas à une IA générative. Ici, tu construis d'abord un <strong>agent déterministe</strong> en Python.</p></div>
+      <div class="sidebar-bottom"><span class="sidebar-avatar">NSI</span><span><strong>Mode élève</strong><small>Première · Python</small></span><span class="avatar-dot"></span></div>
+    </aside>
+    <main class="main" id="accueil">
+      <div class="breadcrumb"><span>FORMATION AGENTS IA</span><span class="crumb-sep">/</span><span>MODULE 01</span><span class="crumb-sep">/</span><strong>MON PREMIER AGENT</strong></div>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy"><div class="hero-eyebrow"><span class="hero-spark">✦</span> SÉANCE 01 · PREMIÈRE NSI <span class="hero-time">⏱ 35–45 MIN</span></div>
+          <h1 id="hero-title">Programme un robot.<br><em>Comprends ses décisions.</em><br>Construis ton premier agent.</h1>
+          <p><strong>But de la séance :</strong> écrire en Python les règles qui permettent à un robot virtuel d’atteindre un colis sans heurter d’obstacle. Tu verras chaque décision et tu devras expliquer les résultats.</p>
+          <div class="hero-actions"><a class="hero-cta" href="#decouvrir">Découvrir le défi <span aria-hidden="true">↗</span></a><button class="motion-toggle" id="hero-motion" type="button" aria-pressed="true" aria-label="Mettre l’animation du robot en pause">Ⅱ Pause animation</button></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-orbit orbit-outer"></div><div class="hero-orbit orbit-inner"></div>
+          <div class="hero-map-grid"></div>
+          <div class="hero-beacon"><span>OBJECTIF</span><b>COLIS À LIVRER</b><span class="beacon-star">◆</span></div>
+          <div class="hero-robot-movement"><div class="hero-robot-sprite"></div></div>
+          <span class="hero-chip chip-observe">01 · J’OBSERVE</span>
+          <span class="hero-chip chip-decide">02 · JE DÉCIDE</span>
+          <span class="hero-chip chip-act">03 · J’AGIS</span>
+          <span class="art-caption">LA SIMULATION EXÉCUTE LES DÉCISIONS DE TON CODE PYTHON</span>
+        </div>
+      </section>
+
+      <section class="onboard" id="decouvrir" aria-labelledby="onboard-title">
+        <div class="onboard-intro"><span class="overline">AVANT DE COMMENCER · 3 MINUTES</span><h2 id="onboard-title">Pourquoi ce laboratoire ?</h2><p>Un agent logiciel est un programme qui reçoit des informations sur une situation, choisit une action pour poursuivre un objectif, puis observe ce qui a changé. <strong>Dans cet atelier, tu vas construire toi-même cette boucle de décision en Python.</strong></p></div>
+        <div class="onboard-grid">
+          <article class="explain-card avatar-explain">
+            <div class="explain-avatar-wrap"><img src="assets/avatar-south.webp" width="256" height="256" alt="Illustration du personnage-robot blanc et orange utilisé dans la simulation" loading="lazy"></div>
+            <div><span class="explainer-kicker">TON PERSONNAGE</span><h3>Voici le robot de la mission.</h3><p>Tu vas lui apprendre à <strong>atteindre un colis sans heurter les obstacles</strong>. À chaque étape, le robot reçoit des informations sur son environnement. <strong>Ta fonction Python choisit sa prochaine action</strong> : avancer, tourner ou s’arrêter.</p><p class="fact-line"><strong>Microduck ?</strong> Microduck est un robot réel de Pollen Robotics. Dans ce laboratoire, tu pilotes seulement un personnage virtuel. Aucun robot physique n’est connecté.</p></div>
+          </article>
+          <article class="explain-card why-explain"><span class="explainer-kicker">UNE COMPÉTENCE PRÉCISE</span><h3>Ce que tu sauras faire à la fin</h3><ol><li><b>Lire</b> les données transmises au programme.</li><li><b>Écrire</b> une fonction qui prend une décision.</li><li><b>Tester</b> cette fonction sur trois terrains visibles et un terrain surprise.</li><li><b>Justifier</b> une action grâce au journal d'exécution.</li></ol><p class="fact-line">C'est la base d'un <strong>agent déterministe</strong>. Les agents utilisant un LLM et plusieurs outils seront abordés dans des modules ultérieurs : ils ne sont pas simulés ici comme s'ils existaient déjà.</p></article>
+        </div>
+        <div class="walkthrough" id="demonstration" aria-labelledby="walkthrough-title">
+          <div class="walkthrough-copy"><span class="overline">DÉMONSTRATION GUIDÉE · AVANT DE PROGRAMMER</span><h3 id="walkthrough-title">Que doit décider le robot ?</h3><p>Voici quatre observations d'exemple. <strong>Lis les informations</strong>, choisis l'action attendue, puis compare ton raisonnement à la règle.</p><p class="fact-line">Cette démonstration est expliquée à l'avance. <strong>Les véritables résultats apparaîtront après l'exécution de ton propre programme.</strong></p></div>
+          <div class="walkthrough-playground"><div class="walkthrough-topline"><span id="demo-index">CAS 1 / 4</span><span id="demo-context">Le robot regarde vers l'est</span></div><pre id="demo-observation" aria-label="Dictionnaire observation d'exemple"></pre><p class="walkthrough-question">Quelle chaîne de caractères ta fonction doit-elle renvoyer ?</p><div class="demo-actions" role="group" aria-label="Choisir une action pour l'exemple"><button type="button" data-demo-action="AVANCER">AVANCER</button><button type="button" data-demo-action="TOURNER_DROITE">TOURNER_DROITE</button><button type="button" data-demo-action="STOP">STOP</button></div><p id="demo-feedback" class="demo-feedback" role="status" aria-live="polite">Choisis une action : tu peux te tromper et recommencer.</p><button type="button" id="demo-next" class="demo-next" disabled>Cas suivant →</button></div>
+        </div>
+      </section>
+      <section class="cycle" id="comprendre" aria-labelledby="cycle-title"><div class="section-heading"><div><span class="overline">01 / COMPRENDRE</span><h2 id="cycle-title">La boucle d'un agent</h2></div><span class="heading-note">4 étapes · 1 objectif</span></div>
+        <div class="cycle-grid"><article class="cycle-item"><span class="cycle-symbol eye">◉</span><div><b>01</b><h3>Observer</h3><p>Lire les informations du monde.</p></div></article><article class="cycle-item"><span class="cycle-symbol brain">✳</span><div><b>02</b><h3>Décider</h3><p>Choisir une action en Python.</p></div></article><article class="cycle-item"><span class="cycle-symbol action">➜</span><div><b>03</b><h3>Agir</h3><p>Faire évoluer le robot.</p></div></article><article class="cycle-item"><span class="cycle-symbol verify">✓</span><div><b>04</b><h3>Vérifier</h3><p>Contrôler l'effet de l'action.</p></div></article></div>
+      </section>
+      <div class="workspace">
+        <div class="left-column">
+          <section class="card brief" aria-labelledby="brief-title"><div class="card-title"><span class="overline">02 / TA MISSION</span><span class="small-tag">OBJECTIF CONCRET</span></div><h2 id="brief-title">Ta fonction doit guider le robot jusqu’au colis.</h2><p>Ton agent reçoit un <strong>dictionnaire Python</strong> appelé <code>observation</code>. Il contient son orientation, la direction indiquée par une balise, et une information indiquant s'il est arrivé. La <strong>balise</strong> est une information calculée par le simulateur qui suggère la direction d’un prochain déplacement. Le moteur calcule une direction sur un chemin libre, mais un obstacle apparaît réellement sur le terrain 2 entre le calcul de la balise et la décision de ton agent. La balise peut alors être périmée : tu peux l'observer dans le journal d'exécution. Tu dois donc vérifier <code>devant_libre</code> avant d’avancer. Tu n’as pas encore à programmer la recherche de chemin.</p><div class="data-preview"><span class="data-label">EXEMPLE D'OBSERVATION</span><code>{"arrive": False, "orientation": "E", "balise": "S", "devant_libre": True}</code></div><details class="glossary"><summary>Comprendre les 4 informations de l'observation</summary><dl><div><dt><code>arrive</code></dt><dd>Booléen : le robot se trouve-t-il sur la cible ?</dd></div><div><dt><code>orientation</code></dt><dd>Chaîne : direction actuelle du robot (N, E, S ou O).</dd></div><div><dt><code>balise</code></dt><dd>Chaîne : direction du prochain pas sur un chemin calculé par le moteur. La balise est calculée par le moteur (recherche en largeur, BFS). Elle ne vient pas d’un LLM. Une information peut être périmée : vérifie toujours <code>devant_libre</code>.</dd></div><div><dt><code>devant_libre</code></dt><dd>Booléen : la case devant le robot est-elle libre ?</dd></div></dl></details><p>Écris une fonction <code>decider(observation)</code> qui renvoie une action : <strong>AVANCER</strong>, <strong>TOURNER_DROITE</strong>, <strong>TOURNER_GAUCHE</strong> ou <strong>STOP</strong>.</p><div class="rule-row"><span>✓</span><p><strong>Règle de réussite :</strong> le robot doit atteindre la cible puis renvoyer <code>STOP</code> sur quatre terrains, dont un inconnu avant le premier essai. Sur le terrain 2, un obstacle surgit devant le robot ; 16 observations de test contrôlent ses décisions lorsqu'un obstacle bloque l'avant du robot.</p></div><div class="prediction"><label for="prediction"><strong>À ton avis :</strong> quelle sera la première action de ton programme sur le terrain 1 ?</label><select id="prediction"><option value="">Je formule une hypothèse…</option><option>AVANCER</option><option>TOURNER_DROITE</option><option>TOURNER_GAUCHE</option><option>STOP</option></select><span id="prediction-feedback" role="status" aria-live="polite"></span></div></section>
+          <section class="card editor-card" id="atelier" aria-labelledby="editor-title"><div class="editor-head"><div><span class="overline">03 / PROGRAMMER</span><h2 id="editor-title">À toi de coder<span class="cursor-accent">_</span></h2></div><span class="file-chip">◧ &nbsp; solution.py</span></div>
+            <div class="editor-toolbar"><span class="language-dot" aria-hidden="true"></span><span>PYTHON 3 · FONCTION <code>decider</code></span><span class="editor-toolbar-right">COLORATION PYTHON · INDENTATION AUTOMATIQUE</span></div>
+            <div class="code-shell" id="code-shell"><div class="line-numbers" id="line-numbers" aria-hidden="true"><div id="line-number-content">1<br>2<br>3<br>4<br>5</div></div><div class="code-edit-area"><pre class="syntax-highlight" id="syntax-highlight" aria-hidden="true"><code class="language-python" id="syntax-code"></code></pre><label class="sr-only" for="code">Code Python de l'agent</label><textarea id="code" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" wrap="off" aria-describedby="code-help" aria-label="Éditeur Python, écrire la fonction decider(observation)">def decider(observation):
+    # Écris ici les conditions qui choisissent une action.
+    return "STOP"</textarea></div></div>
+            <div class="editor-assist" id="code-help"><span>● Mots-clés</span><span>● Chaînes</span><span>● Commentaires</span><span class="editor-shortcut">Entrée : indentation Python · Tab : 4 espaces · Maj+Tab : désindenter · Ctrl+Entrée : tester</span></div>
+            <div class="editor-footer"><div class="editor-tools"><button class="text-button" id="hint" type="button">✦ Indice progressif</button><button class="text-button" id="solution" type="button" disabled title="Prédis et exécute deux versions modifiant la logique du programme, puis consulte deux indices">◈ Solution commentée</button></div><div class="run-actions"><button class="btn-secondary" id="restart-python" type="button" title="Redémarrer Python sans perdre le code">↻ Redémarrer Python</button><button class="btn-secondary" id="reset" type="button" title="Effacer mon brouillon pour retrouver le code de départ">Remettre le code de départ</button><button class="btn-primary" id="run" type="button" disabled><span aria-hidden="true">▶</span> <span id="run-label">Charger Python…</span></button></div></div>
+            <div class="hint-box" id="hint-box" hidden></div>
+            <div class="draft-status"><span id="draft-status" role="status" aria-live="polite">Brouillon enregistré sur cet appareil.</span><span id="attempt-count">0 essai</span><button id="export" type="button" class="text-button">↓ Exporter mon bilan (.json)</button></div>
+            <div class="runtime" role="status" aria-live="polite"><span id="runtime-dot" class="runtime-dot waiting"></span><span id="runtime-text">Initialisation de Python dans le navigateur…</span><span class="runtime-meta">PYODIDE · WEB WORKER</span></div>
+          </section>
+        </div>
+        <div class="right-column">
+          <section class="card world-card" aria-labelledby="world-title"><div class="card-title"><div><span class="overline">04 / OBSERVER LE RÉSULTAT</span><h2 id="world-title">Le terrain et ton robot</h2></div><span class="live-badge"><i></i> MONDE SIMULÉ</span></div><div class="world-tabs" role="group" aria-label="Choisir le terrain"><button type="button" class="world-tab active" data-scenario="0" aria-pressed="true">Terrain 1</button><button type="button" class="world-tab" data-scenario="1" aria-pressed="false">Terrain 2</button><button type="button" class="world-tab" data-scenario="2" aria-pressed="false">Terrain 3</button><button type="button" class="world-tab surprise" data-scenario="3" aria-pressed="false" hidden>Terrain surprise</button></div><div class="map-wrap"><svg id="map" viewBox="0 0 490 350" role="img" aria-label="Terrain de sept colonnes et cinq lignes, robot et colis" preserveAspectRatio="xMidYMid meet"></svg><div class="map-legend"><span><i class="legend-robot"></i> Robot illustré</span><span><i class="legend-goal"></i> Colis</span><span><i class="legend-wall"></i> Obstacle</span></div></div><div class="observation-panel"><div><span class="overline">CAPTEURS · DONNÉES REÇUES</span><span class="sensor-status" id="sensor-status">AVANT EXÉCUTION</span></div><dl class="sensor-grid"><div><dt>Arrivé</dt><dd id="sensor-arrive">—</dd></div><div><dt>Orientation</dt><dd id="sensor-orientation">—</dd></div><div><dt>Balise</dt><dd id="sensor-balise">—</dd></div><div><dt>Devant libre</dt><dd id="sensor-free">—</dd></div></dl></div></section>
+          <section class="card test-card" aria-labelledby="test-title"><div class="card-title"><div><span class="overline">TESTS AUTOMATISÉS</span><h2 id="test-title">Le verdict</h2></div><span id="test-total" class="test-count">0 / 5</span></div><div id="test-results" class="test-results"><div class="test-item"><span class="test-icon neutral">○</span><span>Trajet direct</span><small>EN ATTENTE</small></div><div class="test-item"><span class="test-icon neutral">○</span><span>Obstacle qui apparaît</span><small>EN ATTENTE</small></div><div class="test-item"><span class="test-icon neutral">○</span><span>Changer de direction</span><small>EN ATTENTE</small></div><div class="test-item"><span class="test-icon neutral">○</span><span>Terrain surprise</span><small>NON DÉVOILÉ</small></div><div class="test-item"><span class="test-icon neutral">○</span><span>Sûreté : 16 observations de blocage</span><small>EN ATTENTE</small></div></div><div class="verdict" id="verdict" role="status" aria-live="polite"><span>✦</span><p><strong>Prêt pour l'expérience ?</strong><br>Écris ton programme puis lance les cinq vérifications.</p></div></section>
+          <div class="integrity-note"><span aria-hidden="true">ⓘ</span><p><strong>Ce que tu construis :</strong> un agent à règles, pas un LLM. La balise calcule un chemin ; ton code décide des actions. Aucun résultat n'est inventé par l'interface.</p></div>
+        </div>
+          <section class="card trace-card" id="trace" aria-labelledby="trace-title"><div class="card-title"><div><span class="overline">05 / ANALYSER</span><h2 id="trace-title">Journal des décisions</h2></div><span class="small-tag" id="trace-count">0 ÉVÉNEMENT</span></div><p class="trace-intro">Chaque ligne provient de l'exécution réelle de ta fonction Python. Sélectionne une décision pour voir le robot à cet instant.</p><div class="trace-scroll"><table><thead><tr><th>ÉTAPE</th><th>OBSERVATION</th><th>ACTION PYTHON</th><th>CONSÉQUENCE</th></tr></thead><tbody id="trace-body"><tr class="empty-row"><td colspan="4">Lance ton programme pour afficher les décisions de l'agent.</td></tr></tbody></table></div><div class="trace-controls"><button class="btn-secondary" id="previous" type="button" disabled>← Précédent</button><span id="step-label">Aucune décision</span><button class="btn-secondary" id="next" type="button" disabled>Suivant →</button><button class="btn-play" id="play" type="button" disabled>▶ Rejouer</button></div></section>
+      </div>
+      <footer class="footer"><span>ORCHESTRA NSI <b>·</b> LABORATOIRE PÉDAGOGIQUE</span><span>Parcours Première · <a href="../terminale/">Découvrir la Terminale</a></span><a href="README.md">Documentation technique ↗</a></footer>
+    </main>
+  </div>
+</div>
+</body>
+</html>

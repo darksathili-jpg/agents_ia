@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#f5f8f7">
+    <title>ORCHESTRA NSI — Apprendre à concevoir des agents avec Python</title>
+    <meta name="description"
+        content="Deux ateliers Python : découvrir l'agent déterministe en Première NSI, programmer BFS et la replanification en Terminale NSI.">
+    <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+    <a class="skip" href="#formations">Aller aux deux parcours</a>
+    <header class="masthead"><a class="identity" href="index.html"><img src="assets/logo-watteau.webp"
+                alt="Logo du lycée Watteau" width="58" height="58"><span><b>ORCHESTRA<span>
+                        NSI</span></b><small>LABORATOIRE PYTHON · LYCÉE WATTEAU</small></span></a>
+        <nav aria-label="Navigation"><a class="active" href="index.html" aria-current="page">Accueil</a><a
+                href="premiere/">Première NSI</a><a href="terminale/">Terminale NSI</a><a href="#methode">Notre
+                méthode</a></nav>
+    </header>
+    <main>
+        <section class="lead" aria-labelledby="lead-title">
+            <div class="lead-copy">
+                <div class="kicker"><span class="kicker-mark"></span> FORMATION · DEUX NIVEAUX · PYTHON</div>
+                <h1 id="lead-title">Du premier réflexe<br>au <em>premier plan.</em></h1>
+                <p class="lead-description">Comment un agent sait-il quoi faire ? Comment trouver un chemin, détecter
+                    qu’il est bloqué et changer de stratégie ? <strong>Tu vas le programmer toi-même.</strong></p>
+                <div class="lead-actions"><a href="#formations" class="primary-cta">Choisir mon parcours <span
+                            aria-hidden="true">↗</span></a><span class="lead-note">Du code Python réel, des tests et des
+                        traces explicables.</span></div>
+                <div class="metrics">
+                    <div><b>2</b><span>ateliers disponibles</span></div>
+                    <div><b>Python</b><span>dans le navigateur</span></div>
+                    <div><b>0</b><span>résultat inventé</span></div>
+                </div>
+            </div>
+            <div class="lead-art" aria-hidden="true">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <div class="art-label sensor">01<br><b>OBSERVER</b></div>
+                <div class="art-label reason">02<br><b>DÉCIDER</b></div>
+                <div class="art-label plan">03<br><b>PLANIFIER</b></div>
+                <div class="art-platform"></div><img src="assets/avatar-south.webp" class="robot-art" alt="">
+                <div class="light-point p1"></div>
+                <div class="light-point p2"></div>
+                <div class="light-point p3"></div>
+                <div class="art-bottom">UNE IDÉE → DU CODE → UNE ACTION</div>
+            </div>
+        </section>
+        <section class="routes-section" id="formations">
+            <div class="section-head">
+                <div>
+                    <div class="kicker">CHOISIR SELON TON NIVEAU</div>
+                    <h2>Deux parcours, deux défis.</h2>
+                </div>
+                <p>Chaque parcours dispose d’un éditeur Python et d’un moteur de vérification. Commence par celui qui
+                    correspond à ta classe.</p>
+            </div>
+            <div class="route-grid">
+                <article class="route-card route-premiere">
+                    <div class="route-top"><span class="route-number">01 / DÉCOUVERTE</span><span
+                            class="route-tag">PREMIÈRE NSI</span></div>
+                    <div class="route-icon">↗</div>
+                    <h3>Faire agir<br>un robot.</h3>
+                    <p>L’agent reçoit des observations et choisit une action. Apprends à écrire sa fonction de décision
+                        et à vérifier ses choix.</p>
+                    <div class="topic-tags"><span>Fonctions</span><span>Conditions</span><span>Dictionnaires</span>
+                    </div>
+                    <div class="route-details"><span><b>Ton
+                                programme</b><small><code>decider(observation)</code></small></span><span><b>Épreuve</b><small>4
+                                terrains + sûreté</small></span></div><a href="premiere/" class="route-link">Entrer dans
+                        l'atelier Première <span aria-hidden="true">↗</span></a>
+                </article>
+                <article class="route-card route-terminale">
+                    <div class="route-top"><span class="route-number">02 / ALGORITHMES</span><span
+                            class="route-tag">TERMINALE NSI</span></div>
+                    <div class="route-icon">⤳</div>
+                    <h3>Planifier.<br>Replanifier.</h3>
+                    <p>Le moteur ne te donne pas le chemin : construis toi-même un parcours en largeur (BFS) avec une
+                        file, puis réagis à un obstacle imprévu.</p>
+                    <div class="topic-tags"><span>Graphes</span><span>Files</span><span>POO</span></div>
+                    <div class="route-details"><span><b>Ton
+                                programme</b><small><code>AgentPlanificateur</code></small></span><span><b>Épreuve</b><small>9
+                                situations d’évaluation</small></span></div><a href="terminale/"
+                        class="route-link">Entrer dans l'atelier Terminale <span aria-hidden="true">↗</span></a>
+                </article>
+            </div>
+        </section>
+        <section class="method" id="methode">
+            <div class="method-heading"><span class="kicker">APPRENDRE EN EXPÉRIMENTANT</span>
+                <h2>Pas de réussite<br>sans explication.</h2>
+                <p>Les agents que tu construis ici sont <b>déterministes</b> : leurs décisions suivent les règles
+                    écrites en Python. Ce sont les fondations nécessaires pour aborder ensuite les agents utilisant des
+                    outils et des modèles de langage.</p>
+            </div>
+            <div class="method-steps">
+                <div><span>01</span><b>Prédire</b>
+                    <p>Avant l’exécution, formule ce que tu attends du programme.</p>
+                </div>
+                <div><span>02</span><b>Coder</b>
+                    <p>Écris tes propres conditions ou ton algorithme de parcours.</p>
+                </div>
+                <div><span>03</span><b>Observer</b>
+                    <p>Regarde les décisions, déplacements et erreurs réels.</p>
+                </div>
+                <div><span>04</span><b>Justifier</b>
+                    <p>Lis les traces et explique pourquoi les tests réussissent ou échouent.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer><span>ORCHESTRA NSI · LYCÉE WATTEAU</span><span>Deux séances pilotes fonctionnelles. Les autres modules de
+            formation ne sont pas encore disponibles.</span></footer>
+</body>
+
+</html>
