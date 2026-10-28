@@ -1,11 +1,12 @@
 /* Exécute le moteur Python et le code élève dans Pyodide, hors du fil UI.
  * Un Web Worker n'est PAS une frontière de sécurité contre du code hostile.
  * L'interface détruit le Worker en cas de blocage ou de réinitialisation. */
+const ALLOW_CDN_FALLBACK = true;
 const BASE = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
 const LOCAL = new URL('../pyodide/',self.location.href).href;
 let pyodide = null;
 async function boot() {
-  for (const base of [LOCAL, BASE]) {
+  for (const base of [LOCAL, ...(ALLOW_CDN_FALLBACK ? [BASE] : [])]) {
     try {
       const response = await fetch(base+'pyodide.js',{method:'HEAD',cache:'no-store'});
       if (!response.ok) throw Error('Pyodide absent');

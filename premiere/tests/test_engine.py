@@ -3,10 +3,11 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import engine
+from reference_solution import REFERENCE_SOLUTION
 
 class EngineTests(unittest.TestCase):
     def test_reference_passes_all_scenarios(self):
-        result = engine.evaluate_source(engine.REFERENCE_SOLUTION)
+        result = engine.evaluate_source(REFERENCE_SOLUTION)
         self.assertEqual(result['status'], 'complete')
         self.assertEqual(len(result['tests']), 4)
         self.assertTrue(result['safety']['passed'])
@@ -14,7 +15,7 @@ class EngineTests(unittest.TestCase):
         self.assertTrue(all(t['passed'] for t in result['tests']))
 
     def test_trace_observations_match_state(self):
-        result = engine.evaluate_source(engine.REFERENCE_SOLUTION)
+        result = engine.evaluate_source(REFERENCE_SOLUTION)
         for t in result['tests']:
             for event in t['trace']:
                 self.assertEqual(event['before']['orientation'], event['observation']['orientation'])
@@ -97,8 +98,8 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(engine.DIRECTIONS,('N','E','S','O'))
 
     def test_determinism(self):
-        a=engine.evaluate_source_json(engine.REFERENCE_SOLUTION)
-        b=engine.evaluate_source_json(engine.REFERENCE_SOLUTION)
+        a=engine.evaluate_source_json(REFERENCE_SOLUTION)
+        b=engine.evaluate_source_json(REFERENCE_SOLUTION)
         self.assertEqual(a,b)
 
     def test_success_requires_stop(self):
@@ -109,7 +110,7 @@ class EngineTests(unittest.TestCase):
         self.assertFalse(r['passed'])
 
     def test_safety_probes_cover_all_orientations_and_beacons(self):
-        r=engine.evaluate_source(engine.REFERENCE_SOLUTION)
+        r=engine.evaluate_source(REFERENCE_SOLUTION)
         probes=r['safety']['probes']
         self.assertEqual(len(probes),16)
         self.assertEqual({p['orientation'] for p in probes},set(engine.DIRECTIONS))
@@ -128,7 +129,7 @@ class EngineTests(unittest.TestCase):
         self.assertGreaterEqual(len([p for p in r['safety']['probes'] if not p['passed']]),1)
 
     def test_stale_beacon_is_observable_in_real_trace(self):
-        r=engine.evaluate_source(engine.REFERENCE_SOLUTION)
+        r=engine.evaluate_source(REFERENCE_SOLUTION)
         trace=r['tests'][1]['trace']
         events=[e for e in trace if e.get('world_event')]
         self.assertEqual(len(events),1)
@@ -150,8 +151,8 @@ class EngineTests(unittest.TestCase):
         self.assertIn('obstacle',r['tests'][1]['reason'].lower())
 
     def test_world_event_determinism(self):
-        a=engine.evaluate_source_json(engine.REFERENCE_SOLUTION)
-        b=engine.evaluate_source_json(engine.REFERENCE_SOLUTION)
+        a=engine.evaluate_source_json(REFERENCE_SOLUTION)
+        b=engine.evaluate_source_json(REFERENCE_SOLUTION)
         self.assertEqual(a,b)
 
     def test_ast_signature_ignores_comments_and_whitespace(self):
@@ -165,9 +166,9 @@ class EngineTests(unittest.TestCase):
         self.assertNotEqual(engine.ast_fingerprint(a),engine.ast_fingerprint(b))
 
     def test_reference_signature_differs_from_starter(self):
-        r=engine.evaluate_source(engine.REFERENCE_SOLUTION)
+        r=engine.evaluate_source(REFERENCE_SOLUTION)
         self.assertEqual(r['starter_fingerprint'],engine.ast_fingerprint(engine.STARTER_CODE))
-        self.assertEqual(r['fingerprint'],engine.ast_fingerprint(engine.REFERENCE_SOLUTION))
+        self.assertEqual(r['fingerprint'],engine.ast_fingerprint(REFERENCE_SOLUTION))
         self.assertNotEqual(r['fingerprint'],r['starter_fingerprint'])
 
     def test_no_reachable_goal(self):

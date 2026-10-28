@@ -43,3 +43,16 @@ Pas de DFS ni de cycle, de récursivité, ni de programmation par liste d'adjace
 **v1.2.** On n’impose plus `collections.deque` : la classe `File` fournie illustre les opérations FIFO avec des listes, et l’élève programme réellement l’exploration, les prédécesseurs et la replanification. La marche de Microduck dans le héros est décorative.
 
 Pour cette grille 7×5, l’implémentation pédagogique de `File` utilise `list.pop(0)` : elle reste simple mais retire les éléments en coût linéaire. Ce compromis n’est pas à privilégier pour de très grandes files.
+
+
+## Ajustements v1.5 — vérification du scénario dynamique
+
+Le panneau « Obstacle » montre d'abord un aperçu guidé et fixe. Le Worker de
+l'élève tire une graine pour choisir la ligne du parcours (0 à 4) : l'obstacle
+apparaît devant le robot après son premier pas. Le bilan exporté contient la
+graine afin que l'enseignant puisse reproduire la situation. Il ne s'agit pas
+d'un secret cryptographique ni d'une preuve de compréhension du BFS.
+
+**Publication :** utiliser exclusivement `scripts/build_site.py` et la liste
+blanche documentée dans `README_SECURITE_DEPLOIEMENT.md`. Ne pas publier ce
+guide ni les fichiers de tests.

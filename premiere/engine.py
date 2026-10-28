@@ -33,7 +33,7 @@ SCENARIOS = (
     {"id": "direct", "name": "01 · Trajet direct", "start": (0, 2), "goal": (5, 2), "orientation": "E", "walls": ()},
     {"id": "obstacle", "name": "02 · Contourner un obstacle", "start": (0, 2), "goal": (6, 2), "orientation": "E", "walls": ((3, 2), (3, 1), (4, 1)), "dynamic_wall": (1, 2)},
     {"id": "labyrinthe", "name": "03 · Changer de direction", "start": (0, 4), "goal": (6, 0), "orientation": "N", "walls": ((2, 4), (2, 3), (2, 2), (4, 1), (4, 2), (5, 2))},
-    {"id": "surprise", "name": "04 · Terrain surprise (inconnu avant le test)", "start": (0, 2), "goal": (6, 2), "orientation": "N", "walls": ((0, 1), (0, 4), (1, 3), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3), (6, 0), (6, 4))},
+    {"id": "surprise", "name": "04 · Terrain de contrôle (révélé après un essai)", "start": (0, 2), "goal": (6, 2), "orientation": "N", "walls": ((0, 1), (0, 4), (1, 3), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3), (6, 0), (6, 4))},
 )
 
 
@@ -187,15 +187,5 @@ def evaluate_source_json(source):
     return json.dumps(evaluate_source(source), ensure_ascii=False)
 
 
-REFERENCE_SOLUTION = '''def decider(observation):
-    if observation["arrive"]:
-        return "STOP"
-    if not observation["devant_libre"]:
-        return "TOURNER_DROITE"
-    if observation["orientation"] == observation["balise"]:
-        return "AVANCER"
-    return "TOURNER_DROITE"
-'''
-
 if __name__ == "__main__":
-    print(json.dumps(evaluate_source(REFERENCE_SOLUTION), ensure_ascii=False, indent=2))
+    print("Moteur ORCHESTRA NSI Première : lancer les tests enseignants séparément.")

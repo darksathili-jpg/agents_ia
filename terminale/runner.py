@@ -348,7 +348,7 @@ def _check_source(source):
     for n in ast.walk(tree):
         if isinstance(n, (ast.Import, ast.ImportFrom)):
             raise AssertionError('Aucun import n’est nécessaire : une classe File FIFO est déjà fournie.')
-        if isinstance(n, ast.Attribute) and (n.attr.startswith('__') or n.attr in ('_shortest', 'evaluate_source', '__dict__')):
+        if isinstance(n, ast.Attribute) and n.attr.startswith('_'):
             raise AssertionError('Accès aux fonctions ou attributs internes interdit.')
         if isinstance(n, ast.Name) and n.id in ('runner','sys','inspect','__builtins__','__import__'):
             raise AssertionError('Le vérificateur et ses composants internes ne sont pas accessibles.')
@@ -367,7 +367,30 @@ def _world_payload(case):
             'goal':case['goal'],'obstacles':case['obstacles']}
 
 
-def evaluate_source(source):
+HEIGHT_DYNAMIC = 5
+
+def cases_for_seed(variant_seed=0):
+    """Varie l'obstacle imprévu tout en conservant les neuf catégories de tests.
+
+    Graine 0 : scénario stable pour les démonstrations et tests historiques.
+    Graine positive : obstacle sélectionné parmi des positions devant le robot.
+    """
+    if type(variant_seed) is not int or not 0 <= variant_seed <= 2**32 - 1:
+        raise ValueError('Graine de scénario incorrecte.')
+    if variant_seed == 0:
+        return CASES
+    rng = Random(variant_seed)
+    # L'obstacle apparaît toujours DEVANT le robot après le premier pas.
+    # Varier uniquement la colonne plus éloignée provoquerait de faux rejets :
+    # la solution pédagogique ne recalcule son plan qu'à l'approche du blocage.
+    # Le couloir horizontal change de ligne pour limiter les cas codés en dur.
+    row = rng.randrange(HEIGHT_DYNAMIC)
+    return [({**c, 'start': (0, row), 'goal': (6, row),
+              'dynamic_at': (2, row)} if c['id'] == 'dynamic' else c)
+            for c in CASES]
+
+
+def evaluate_source(source, variant_seed=0):
     if not isinstance(source,str) or len(source)>20000:
         return {'success':False,'error':'Code absent ou trop long.','results':[], 'total':len(CASES),'passed':0}
     try:
@@ -384,8 +407,12 @@ def evaluate_source(source):
     except BaseException as exc:
         return {'success':False,'error':f'{type(exc).__name__} : {str(exc)[:280]}',
                 'results':[], 'total':len(CASES),'passed':0}
+    try:
+        cases = cases_for_seed(variant_seed)
+    except ValueError as exc:
+        return {'success':False,'error':str(exc),'results':[], 'total':len(CASES),'passed':0}
     results=[]
-    for case in CASES:
+    for case in cases:
         phases={}; errors=[]; exploration=[];plan=[];fifo_operations=[]
         try:
             exploration,plan=_check_plan_separately(cls,case)
@@ -431,9 +458,10 @@ def evaluate_source(source):
             'passed':sum(r['ok'] for r in results),
             'functional_passed':sum(r['functional_ok'] for r in results),
             'method_passed':sum(r['method_ok'] for r in results),
+            'variant_seed':variant_seed,
             'structure':{'fifo':structural_hint,'message':'Présence de File détectée dans le code : seul le comportement observé est évalué ; une justification humaine reste nécessaire.'},
             'limits':'Tests indicatifs, pas de preuve formelle de compréhension ni de sandbox hostile.'}
 
 
-def evaluate_source_json(source):
-    return json.dumps(evaluate_source(source),ensure_ascii=False)
+def evaluate_source_json(source, variant_seed=0):
+    return json.dumps(evaluate_source(source,variant_seed),ensure_ascii=False)

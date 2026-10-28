@@ -4,6 +4,7 @@ import sys, json, traceback
 root=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(root))
 import engine
+from reference_solution import REFERENCE_SOLUTION
 from playwright.sync_api import sync_playwright
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage'])
@@ -76,7 +77,7 @@ with sync_playwright() as p:
         assert 'modifie la logique' in page.locator('#hint-box').inner_text()
         assert page.locator('#solution').is_disabled()
         # second genuinely distinct version
-        page.locator('#code').fill(engine.REFERENCE_SOLUTION)
+        page.locator('#code').fill(REFERENCE_SOLUTION)
         page.locator('#run').click();page.wait_for_timeout(400)
         page.locator('#hint').click()
         assert 'Indice 3' in page.locator('#hint-box').inner_text()

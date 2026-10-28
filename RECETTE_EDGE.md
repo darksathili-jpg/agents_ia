@@ -16,3 +16,20 @@ Ne publiez pas le projet au lycée avant les contrôles ci-dessous.
 12. Faire expliquer à un élève la différence entre **sommet ajouté**, **sommet retiré**, **sommet exploré** et **déplacement du robot** ; recueillir sa justification du plus court chemin.
 
 **Non-validés par le présent paquet :** Pyodide réel, filtrage du réseau lycée, lecteur d'écran, projection physique.
+
+
+## Complément v1.5 — confidentialité et variabilité
+
+1. Dans Edge, tester la Première et la Terminale hors ligne une fois
+   l'installation locale Pyodide terminée, en utilisant `_site/` produit par
+   `python scripts/build_site.py --require-local-pyodide`.
+2. Dans l'onglet Réseau, vérifier qu'aucune requête vers Google Fonts ni
+   vers un CDN n'est effectuée. Les polices doivent utiliser les familles
+   système disponibles sur le poste.
+3. Sur la Terminale, exécuter plusieurs fois le scénario « Obstacle » avec
+   une vraie solution BFS ; vérifier les variantes de ligne et le bilan JSON,
+   sans faux échec sur un programme correct.
+4. À chaque exécution, vérifier que l'éditeur, le journal et la visualisation
+   gardent des résultats cohérents après le redémarrage du Worker.
+5. **Ne pas publier** si un test échoue, si l'ancien workflow GitHub publie
+   `path: '.'` ou si le manifest Pyodide manque.

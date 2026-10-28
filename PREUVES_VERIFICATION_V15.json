@@ -1,0 +1,18 @@
+{
+  "base_archive": "ORCHESTRA_NSI_v1_4_VISUALISEUR_BFS.zip",
+  "edition": "v1.5 securisation du build, fonts, tests et contrats",
+  "python_tests_passed": 104,
+  "pytest_subtests_passed": 37,
+  "editor_assertions_passed": 13,
+  "frontend_js_syntax": "node --check succeeded on 9 scripts",
+  "public_build_files_without_pyodide": 38,
+  "strict_offline_build": "blocked, missing local Pyodide binaries in supplied v1.4 archive",
+  "real_pyodide_edge": "not tested",
+  "deployment": "not performed",
+  "git_changes": "none performed to user repository",
+  "comments": [
+    "The delivered source ZIP includes teacher tests; deploy only _site, never this source ZIP.",
+    "Existing user repo may differ (workflow + bundled Pyodide) and must be reconciled.",
+    "The generated _site used for local preview is NOT a verified offline release."
+  ]
+}

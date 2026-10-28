@@ -30,7 +30,7 @@
     const state = {
       world: w, position: [...w.start], obstacles: (w.obstacles || []).map(p => [...p]),
       path: [], queue: [], visited: [], currentVertex: null,
-      phase: 'planning', searchNumber: 0, invalidQueue: false
+      phase: 'planning', searchNumber: 0, invalidQueue: false, facing: 'E', walkFrame: 1
     };
     const push = (title, detail, kind = 'info') => {
       snapshots.push({ ...state, position: [...state.position], obstacles: state.obstacles.map(p => [...p]),
@@ -51,6 +51,7 @@
       state.currentVertex = null;
       state.invalidQueue = false;
       state.searchNumber = index + 1;
+      state.walkFrame = 1;
       push(dynamicOccurred ? 'Le robot cherche un nouveau chemin.' : 'Le BFS commence sa recherche.',
         dynamicOccurred ? 'Le dernier plan n’est plus praticable : une nouvelle recherche commence.' :
           'Le parcours en largeur utilise une file FIFO pour déterminer l’ordre de découverte.','search');
@@ -94,7 +95,14 @@
         runSearches(row.step);
         state.phase = dynamicOccurred ? 'replanning' : 'planning';
         state.obstacles = (row.obstacles || state.obstacles).map(p => [...p]);
-        if (valid(row.position)) state.position = [...row.position];
+        if (valid(row.position)) {
+          const nextPosition=[...row.position];
+          const nextFacing=window.MicroduckSprite?.facing(state.position,nextPosition,state.facing) || state.facing;
+          if (key(state.position)!==key(nextPosition)) { state.walkFrame=state.walkFrame===0?2:0; }
+          else state.walkFrame=1;
+          state.facing=nextFacing;
+          state.position=nextPosition;
+        }
         if (Array.isArray(row.plan) && row.plan.length) state.path = row.plan.filter(valid).map(p => [...p]);
         push(`Microduck avance vers ${pretty(state.position)}`, 'Le déplacement et la position proviennent du moteur Python.', 'move');
       }
@@ -187,7 +195,11 @@
       if(f.currentVertex && key(f.currentVertex)===k)tile.classList.add('current');
       if(route.has(k) && !obstacles.has(k)){const badge=document.createElement('span');badge.className='bfs-route-index';badge.textContent=String(route.get(k));tile.appendChild(badge);}
       if(k===key(f.world.goal)){const target=document.createElement('span');target.className='bfs-target';target.textContent='◆';target.setAttribute('aria-hidden','true');tile.appendChild(target);}
-      if(k===key(f.position)){const img=document.createElement('img');img.src='../assets/avatar-east.webp';img.alt='';img.draggable=false;img.className='bfs-robot';tile.appendChild(img);}
+      if(k===key(f.position)){
+        const img=document.createElement('img');
+        img.src=window.MicroduckSprite?.frame(f.facing||'E', f.kind==='move'?f.walkFrame:1) || '../assets/avatar-east.webp';
+        img.alt='';img.draggable=false;img.className='bfs-robot';tile.appendChild(img);
+      }
       if(obstacles.has(k)){const block=document.createElement('span');block.className='bfs-block-x';block.textContent='×';tile.appendChild(block);}
       fragment.appendChild(tile);
     }

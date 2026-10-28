@@ -1,4 +1,5 @@
 import unittest
+import re
 from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 class EditorV3(unittest.TestCase):
@@ -19,6 +20,6 @@ class EditorV3(unittest.TestCase):
   self.assertIn("code.addEventListener('scroll',syncEditorScroll",js)
  def test_readable_fallback(self):
   css=(R/'styles.css').read_text()
-  self.assertIn('.code-shell.syntax-ready textarea{color:transparent',css)
-  self.assertIn('background:#fbfdff',css)
+  self.assertRegex(css,r'\.code-shell\.syntax-ready\s+textarea\s*\{\s*color\s*:\s*transparent\s*;')
+  self.assertRegex(css,r'background\s*:\s*#fbfdff(?:\s*!important)?\s*;')
 if __name__=='__main__':unittest.main()

@@ -23,7 +23,7 @@ class UXContractTests(unittest.TestCase):
         self.assertIn('DEMO_CASES',self.js)
         self.assertIn("$('demo-next').disabled=true",self.js)
     def test_given_sprite_used_on_page_and_map(self):
-        self.assertIn('src="assets/avatar-south.webp"',self.html)
+        self.assertIn('src="../assets/microduck-idle-south.webp"',self.html)
         self.assertIn('avatar-${DIRECTION_SPRITES',self.js)
         for facing in ('north','south','east','west'):
             asset=ROOT/'assets'/f'avatar-{facing}.webp'

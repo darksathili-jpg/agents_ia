@@ -2,6 +2,7 @@
 from pathlib import Path
 from PIL import Image
 import unittest
+import re
 
 ROOT=Path(__file__).resolve().parents[1]
 class V5UIContract(unittest.TestCase):
@@ -15,13 +16,13 @@ class V5UIContract(unittest.TestCase):
         with Image.open(ROOT/'assets/logo-watteau.webp') as img:
             self.assertEqual(img.size,(360,360))
     def test_animated_sprite_strip_is_three_frames(self):
-        self.assertIn('assets/microduck-marche.webp',self.css)
+        self.assertIn('../assets/microduck-walk-south.webp',self.css)
         self.assertIn('steps(3,end)',self.css)
         with Image.open(ROOT/'assets/microduck-marche.webp') as img:
             self.assertEqual(img.size,(768,256))
     def test_sidebar_scrolls_and_fallback_rail(self):
-        self.assertIn('.sidebar{overflow-y:auto;',self.css)
-        self.assertIn('.course-list{display:flex;gap:9px;overflow-x:auto;',self.css)
+        self.assertRegex(self.css,r'\.sidebar\s*\{\s*overflow-y\s*:\s*auto\s*;')
+        self.assertRegex(self.css,r'\.course-list\s*\{\s*display\s*:\s*flex\s*;\s*gap\s*:\s*9px\s*;\s*overflow-x\s*:\s*auto\s*;')
         self.assertIn('tabindex="0"',self.html)
         self.assertIn('href="#decouvrir" aria-current="step"',self.html)
     def test_motion_accessibility(self):

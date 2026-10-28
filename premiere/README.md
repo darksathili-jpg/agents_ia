@@ -22,7 +22,7 @@ Le site utilise Pyodide localement si le dossier `../pyodide/` a été installé
 
 `decider(observation)` reçoit quatre valeurs : `arrive` (booléen), `orientation` (`N`, `E`, `S`, `O`), `balise` (direction suggérée ou `None`) et `devant_libre` (booléen). Elle retourne **une chaîne** parmi `AVANCER`, `TOURNER_DROITE`, `TOURNER_GAUCHE`, `STOP`.
 
-- Les terrains 1 à 3 sont visibles avant le test ; le terrain 4, « surprise », se révèle après le premier essai.
+- Les terrains 1 à 3 sont visibles avant le test ; le terrain 4, « de contrôle », se révèle après le premier essai.
 - Le capteur `balise` est calculé par un parcours en largeur (BFS) dans les quatre terrains. L'élève ne programme pas ce parcours.
 - Le **terrain 2** comporte un obstacle mobile qui apparaît entre le calcul de la balise et la décision du robot. Une observation réelle de la trace contient alors `balise='E'` et `devant_libre=False`. Un cinquième contrôle, regroupant **16 sondes** (`4 orientations × 4 directions de balise`), vérifie l'interdiction d'avancer lorsque `devant_libre=False`. Ce contrôle n'est pas un terrain supplémentaire.
 - L'élève doit atteindre le colis et renvoyer `STOP` dans les quatre terrains, **et** réussir le contrôle de sûreté.
@@ -31,7 +31,7 @@ Le contrôle de sûreté est **un ensemble de tests de fonction**, pas un cinqui
 
 ## Éditeur et conservation des données
 
-Le vrai `textarea` contient le programme exécuté : Prism colore un calque visuel. `Entrée` reprend l'indentation et ajoute quatre espaces après une instruction de bloc (`if`, `for`, `def`…), `Tab` indente, `Maj+Tab` désindente, `Retour arrière` retire un palier d'indentation, `Ctrl+Entrée` lance l'évaluation. Une solution n'est visible qu'après deux **versions d'AST Python distinctes**, évaluées avec une prédiction, et deux indices consultés. Le second indice exige une première tentative et le troisième une deuxième : cliquer plusieurs fois ne suffit plus. Les variations d'espaces et de commentaires sont ignorées. Il s'agit d'une aide pédagogique, pas d'un dispositif anti-triche sécurisé.
+Le vrai `textarea` contient le programme exécuté : Prism colore un calque visuel. `Entrée` reprend l'indentation et ajoute quatre espaces après une instruction de bloc (`if`, `for`, `def`…), `Tab` indente, `Maj+Tab` désindente, `Retour arrière` retire un palier d'indentation, `Ctrl+Entrée` lance l'évaluation. Une aide méthodologique est accessible qu'après deux **versions d'AST Python distinctes**, évaluées avec une prédiction, et deux indices consultés. Le second indice exige une première tentative et le troisième une deuxième : cliquer plusieurs fois ne suffit plus. Les variations d'espaces et de commentaires sont ignorées. Il s'agit d'une aide pédagogique, pas d'un dispositif anti-triche sécurisé.
 
 Le code, la prédiction et les vingt derniers bilans synthétiques sont sauvegardés dans `localStorage`, si celui-ci est accessible. La remise à zéro du code exige une confirmation ; « Redémarrer Python » conserve le brouillon. Après neuf secondes de calcul sans réponse, le Worker est détruit puis recréé **sans perdre le code**. L'élève peut exporter un fichier `orchestra-bilan-agent.json` (code, prédiction, essais et verdicts).
 

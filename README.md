@@ -1,6 +1,8 @@
-# ORCHESTRA NSI — Première / Terminale · v1.4 (visualiseur BFS)
+# ORCHESTRA NSI — Première / Terminale · v1.5 (sécurisation des livrables et vérifications)
 
 **Statut : candidate de recette, non approuvée pour diffusion définitive.**
+
+**Important v1.5 :** `README_SECURITE_DEPLOIEMENT.md` décrit le déploiement par liste blanche et la désactivation nécessaire de tout ancien workflow publiant `path: '.'`. `RAPPORT_CORRECTIONS_V15.md` détaille les écarts avec le dépôt et les limites vérifiées. Un nouveau workflow ne désactive pas automatiquement l’ancien.
 
 ## Ce que contient cette livraison
 
@@ -11,7 +13,7 @@
 
 ## Exemple guidé vs résultats de l'élève
 
-Avant une exécution, le visualiseur propose un **exemple guidé** de 197 instantanés produits à partir de la sortie de la solution de référence exécutée sous CPython. Cette démonstration ne prouve **rien** sur le code de l'élève. Aucune solution Python de référence n'est intégrée au site.
+Avant une exécution, le visualiseur propose un **exemple guidé** de 197 instantanés produits à partir de la sortie de la solution de référence exécutée sous CPython. Cette démonstration ne prouve **rien** sur le code de l'élève. La solution de référence Première est désormais conservée dans les tests enseignants, exclus du site public. Le bouton de l’élève fournit une aide méthodologique, pas le corrigé intégral.
 
 Après l'exécution des tests, le bouton **Mon exécution Python** permet de voir les opérations réellement enregistrées par `runner.py` lors du scénario « Obstacle imprévu ». Si aucune recherche n'a eu lieu, aucune exploration n'est fabriquée. La démonstration peut être réaffichée explicitement.
 
@@ -26,7 +28,7 @@ La représentation de la file est reconstruite à partir des opérations instrum
 5. Cliquer sur les trois phases, puis sur **▶ Lire**, les flèches ou le curseur.
 6. Programmer les deux méthodes Python, lancer les tests, puis cliquer sur **Mon exécution Python**.
 
-Pyodide est chargé localement s'il a été installé avec `INSTALLER_PYODIDE.cmd`, sinon depuis un CDN. L'exécution Pyodide **n'a pas été validée dans Edge sur le réseau du lycée**.
+En développement, Pyodide est local s’il a été installé, avec CDN de secours. **En publication stricte v1.5**, Pyodide local et les empreintes sont requis et le CDN est désactivé. L'exécution Pyodide **n'a pas été validée dans Edge sur le réseau du lycée**.
 
 ## Vérifications
 
@@ -39,4 +41,4 @@ Voir `RAPPORT_VALIDATION_V14.md` et `RECETTE_EDGE.md`.
 
 ## Séparation élève / enseignant
 
-L'archive de l'application **ne contient pas** les corrigés ni les scripts de vérification enseignants. Une seconde archive destinée à l'enseignant fournit des audits reproductibles ; son contenu doit rester hors de la publication GitHub Pages destinée aux élèves.
+Seul le dossier `_site/` construit par `scripts/build_site.py` exclut les corrigés et les scripts de vérification enseignants ; l’archive source de développement contient les tests. Une seconde archive destinée à l'enseignant fournit des audits reproductibles ; son contenu doit rester hors de la publication GitHub Pages destinée aux élèves.

@@ -4,21 +4,6 @@
 const $ = id => document.getElementById(id);
 const code = $('code');
 const STARTER = code.value;
-const SOLUTION = `def decider(observation):
-    # Le robot a atteint le colis : il doit s'arrêter.
-    if observation["arrive"]:
-        return "STOP"
-
-    # Ne jamais avancer si la case devant est bloquée.
-    if not observation["devant_libre"]:
-        return "TOURNER_DROITE"
-
-    # La balise indique la direction du prochain déplacement.
-    if observation["orientation"] == observation["balise"]:
-        return "AVANCER"
-
-    # Sinon, le robot tourne et observera à nouveau.
-    return "TOURNER_DROITE"`;
 const HINTS = [
   'Indice 1 — Distingue trois situations : cible atteinte, obstacle devant, direction à choisir. Dans quel ordre faut-il les tester ?',
   'Indice 2 — Si observation["arrive"] vaut True, renvoie "STOP". Si observation["devant_libre"] vaut False, tourne pour éviter une collision.',
@@ -28,7 +13,7 @@ const SCENARIOS = [
   {id:'direct',name:'Trajet direct',start:[0,2],goal:[5,2],orientation:'E',walls:[]},
   {id:'obstacle',name:'Obstacle qui apparaît',start:[0,2],goal:[6,2],orientation:'E',walls:[[3,2],[3,1],[4,1]],dynamic_wall:[1,2]},
   {id:'labyrinthe',name:'Changer de direction',start:[0,4],goal:[6,0],orientation:'N',walls:[[2,4],[2,3],[2,2],[4,1],[4,2],[5,2]]},
-  {id:'surprise',name:'Terrain surprise',start:[0,2],goal:[6,2],orientation:'N',walls:[[0,1],[0,4],[1,3],[2,0],[3,0],[3,1],[3,2],[3,3],[6,0],[6,4]]}
+  {id:'surprise',name:'Terrain de contrôle',start:[0,2],goal:[6,2],orientation:'N',walls:[[0,1],[0,4],[1,3],[2,0],[3,0],[3,1],[3,2],[3,3],[6,0],[6,4]]}
 ];
 const DIRECTION_SPRITES = {N:'north',E:'east',S:'south',O:'west'};
 let worker = null, ready = false, running = false, runId = 0, timer = null;
@@ -174,7 +159,7 @@ function reset() {
 function clearVerdict() {
   $('test-total').textContent = '0 / 5';
   $('test-results').replaceChildren();
-  for (const s of SCENARIOS) addTestRow(s.name, null, s.id==='surprise' ? 'TERRAIN CACHÉ' : 'EN ATTENTE');
+  for (const s of SCENARIOS) addTestRow(s.name, null, s.id==='surprise' ? 'TERRAIN DE CONTRÔLE' : 'EN ATTENTE');
   addTestRow('Sûreté : 16 observations de blocage',null,'EN ATTENTE');
   const v=$('verdict'); v.className='verdict'; v.replaceChildren();
   const icon=document.createElement('span');icon.textContent='✦';
@@ -266,7 +251,12 @@ function renderMap() {
   const rx=ox+position.x*dx+28,ry=oy+position.y*dy+25;
   node('ellipse',{cx:rx,cy:ry+18,rx:21,ry:7,fill:'#173652',opacity:'.13'});
   node('circle',{cx:rx,cy:ry,r:23,fill:'#fffdf2',stroke:'#ffa92d','stroke-width':2.5});
-  const robot=node('image',{href:`assets/avatar-${DIRECTION_SPRITES[position.orientation] || 'south'}.webp`,x:rx-27,y:ry-30,width:54,height:58,'preserveAspectRatio':'xMidYMid meet'});
+  // La pose est un rendu du pas réellement enregistré, pas une décision simulée.
+  const marche = current?.action === 'AVANCER' && current?.outcome !== 'Collision ou sortie du terrain';
+  const pose = marche ? (current.step % 2 === 0 ? 0 : 2) : 1;
+  const sourceRobot = window.MicroduckSprite?.frame(position.orientation, pose)
+    || `assets/avatar-${DIRECTION_SPRITES[position.orientation] || 'south'}.webp`;
+  const robot=node('image',{href:sourceRobot,x:rx-27,y:ry-32,width:54,height:60,'preserveAspectRatio':'xMidYMid meet'});
   robot.classList.add('avatar-map-sprite');
   const indicator=node('g',{transform:`translate(${rx},${ry})`});
   node('path',{d:'M-5-24 0-32 5-24Z',fill:'#fb7f3f',stroke:'#fff','stroke-width':1.4,transform:`rotate(${({N:0,E:90,S:180,O:270})[position.orientation]})`},indicator);
@@ -311,7 +301,7 @@ $('hint').addEventListener('click',()=>{
   if (hints < HINTS.length) hints++;
   saveDraft();
 });
-$('solution').addEventListener('click',()=>{if(distinctAttemptHashes.length>=2 && hints>=2)showHint('Solution commentée (à comparer avec ton programme) :\n\n'+SOLUTION);});
+$('solution').addEventListener('click',()=>{if(distinctAttemptHashes.length>=2 && hints>=2)showHint('Pour vérifier ta stratégie : 1. Si le colis est atteint, arrête-toi. 2. Si la case devant est bloquée, tourne. 3. Sinon, compare la direction actuelle à la balise et avance uniquement lorsqu’elles correspondent. Explique dans quel ordre tu as choisi ces conditions.');});
 function updateSolutionAccess(){ $('solution').disabled = !(distinctAttemptHashes.length>=2 && hints>=2); } 
 // Modes clair / sombre / vidéoprojecteur, mémorisés sans modifier les missions.
 const THEMES = ['light','dark','projection'];
