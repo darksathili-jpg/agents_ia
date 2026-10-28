@@ -1,6 +1,8 @@
-# ORCHESTRA NSI — Première / Terminale · v1.5 (sécurisation des livrables et vérifications)
+# ORCHESTRA NSI — Première / Terminale · v1.6 (restauration Pyodide et contrôles de publication)
 
 **Statut : candidate de recette, non approuvée pour diffusion définitive.**
+
+**G2 — Publication :** les binaires Pyodide 0.27.7 ont été restaurés depuis le commit historique `1ecfac6`. Le site strict inclut `orchestra-build.json` avec l'identifiant Git du build et le contrôle SHA-256 de l'accueil. La recette réelle Edge sur un poste du lycée reste à effectuer. Voir `docs/stabilisation/G2_RESTAURATION_PUBLICATION.md`.
 
 **Important v1.5 :** `README_SECURITE_DEPLOIEMENT.md` décrit le déploiement par liste blanche et la désactivation nécessaire de tout ancien workflow publiant `path: '.'`. `RAPPORT_CORRECTIONS_V15.md` détaille les écarts avec le dépôt et les limites vérifiées. Un nouveau workflow ne désactive pas automatiquement l’ancien.
 
@@ -28,7 +30,7 @@ La représentation de la file est reconstruite à partir des opérations instrum
 5. Cliquer sur les trois phases, puis sur **▶ Lire**, les flèches ou le curseur.
 6. Programmer les deux méthodes Python, lancer les tests, puis cliquer sur **Mon exécution Python**.
 
-En développement, Pyodide est local s’il a été installé, avec CDN de secours. **En publication stricte v1.5**, Pyodide local et les empreintes sont requis et le CDN est désactivé. L'exécution Pyodide **n'a pas été validée dans Edge sur le réseau du lycée**.
+En développement, Pyodide 0.27.7 est disponible localement, avec CDN de secours. **En publication stricte v1.5**, Pyodide local et les empreintes sont requis et le CDN est désactivé. L'exécution Pyodide **n'a pas été validée dans Edge sur le réseau du lycée**.
 
 ## Vérifications
 
