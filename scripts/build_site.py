@@ -7,6 +7,9 @@ Publication hors-ligne : python scripts/build_site.py --require-local-pyodide
 from __future__ import annotations
 import argparse
 import hashlib
+import os
+import subprocess
+from datetime import datetime, timezone
 import json
 import re
 from pathlib import Path
@@ -87,6 +90,23 @@ def validate_publication() -> None:
         raise RuntimeError('Fichier masqué dans le site public')
 
 
+def _source_revision() -> str:
+    """Révision de la source construite, sans dépendance réseau."""
+    candidate = os.environ.get("GITHUB_SHA", "")
+    if re.fullmatch(r"[0-9a-f]{40}", candidate):
+        return candidate
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+            capture_output=True, text=True, timeout=5, check=True,
+        )
+        if re.fullmatch(r"[0-9a-f]{40}", result.stdout.strip()):
+            return result.stdout.strip()
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+        pass
+    return "inconnue"
+
+
 def guard_legacy_deployments() -> None:
     """Refuse une release si un autre workflow GitHub peut publier le dépôt entier.
 
@@ -131,9 +151,22 @@ def build(require_local: bool) -> dict:
                     raise RuntimeError('Garde de secours réseau introuvable : ' + relative)
                 target.write_text(js.replace(old,'const ALLOW_CDN_FALLBACK = false;'),encoding='utf-8')
         validate_publication()
+        # Cette métadonnée est publique et ne contient aucune information élève.
+        # Elle permet de comparer directement le site publié à la branche Git.
+        provenance = {
+            'source_commit': _source_revision(),
+            'built_at_utc': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+            'mode': 'pyodide-local-verifie' if require_local else 'developpement-cdn-autorise',
+            'index_sha256': hashlib.sha256((OUTPUT / 'index.html').read_bytes()).hexdigest(),
+        }
+        (OUTPUT / 'orchestra-build.json').write_text(
+            json.dumps(provenance, ensure_ascii=False, indent=2) + '\n',
+            encoding='utf-8',
+        )
         files = [x for x in OUTPUT.rglob('*') if x.is_file()]
         return {'destination': str(OUTPUT), 'files': len(files),
-                'pyodide_local_verified': local, 'size_bytes': sum(x.stat().st_size for x in files)}
+                'pyodide_local_verified': local, 'source_commit': provenance['source_commit'],
+                'size_bytes': sum(x.stat().st_size for x in files)}
     except BaseException:
         shutil.rmtree(OUTPUT, ignore_errors=True)
         raise
