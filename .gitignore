@@ -1,0 +1,22 @@
+# Fichiers produits automatiquement : ne pas les versionner.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Dependances JavaScript installees localement.
+node_modules/
+
+# Resultats des tests et captures temporaires.
+test-results/
+playwright-report/
+*.log
+
+# Site genere automatiquement avant publication.
+_site/
+
+# Fichiers locaux du systeme et des editeurs.
+.DS_Store
+Thumbs.db
+.vscode/.history/
