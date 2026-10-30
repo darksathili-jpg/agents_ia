@@ -44,7 +44,7 @@
 
   const $=id=>document.getElementById(id);
   let index=1,kind='guide',frames=[],step=0,lastStep=-1,lastPosition=null;
-  let sprite,playTimer=null,poseTimers=[],worker=null,workerReady=false,runId=0,runTimer=null;
+  let sprite,playTimer=null,poseTimers=[],worker=null,workerReady=false,runTimer=null;
   let submitted=null,validated=null,results=null,starter=null,activeResult=-1;
   const FACE={east:'east',west:'west',north:'north',south:'south'};
   const reduced=()=>!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -108,8 +108,8 @@
     for(const cell of board.querySelectorAll('.cell')) {
       const p=[+cell.dataset.x,+cell.dataset.y],k=key(p);
       cell.className='cell';
-      if(memory.has(k))cell.classList.add('seen');
-      else if(visible.has(k)&&world.has(k))cell.classList.add('wall');
+      if(visible.has(k)&&world.has(k))cell.classList.add('wall');
+      else if(memory.has(k))cell.classList.add('seen');
       if(same(p,scene.start))cell.classList.add('start');
       if(same(p,scene.goal))cell.classList.add('goal');
       if(same(p,frame.position))cell.classList.add('current');
@@ -195,7 +195,7 @@
     workerReady=false;clearTimeout(runTimer);runTimer=null;$('run-python').disabled=true;
   }
   function bootWorker() {
-    closeWorker();const generation=++runId;
+    closeWorker();const generation=++workerGeneration;
     if(typeof Worker==='undefined'){$('python-status').textContent='Worker indisponible.';return;}
     worker=new Worker('python-worker.js');
     worker.onmessage=({data})=>{
@@ -229,9 +229,7 @@
     $('python-status').textContent='Préparation de Pyodide…';
   }
   let workerGeneration=0,activeRun=0;
-  // Surcharge explicite de l'identifiant de génération après création.
-  const originalBoot=bootWorker;
-  function newWorker(){workerGeneration=runId+1;originalBoot();}
+  function newWorker(){bootWorker();}
   function showResults(data) {
     $('score').textContent=(data.passed||0)+' / '+(data.total||7);
     $('result-summary').textContent=data.error||(
