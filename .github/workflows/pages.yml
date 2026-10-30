@@ -32,7 +32,8 @@ jobs:
       - name: Contrôler l'indentation et JavaScript
         run: |
           node premiere/tests/editor_indent.test.cjs
-          for src in shared/editor-indent.js premiere/app.js premiere/python-worker.js premiere/hero-motion.js terminale/app.js terminale/python-worker.js terminale/hero-motion.js terminale/bfs-visualizer.js terminale/demo-bfs.js; do node --check "$src"; done
+          node tests/test_t02_visualizer.cjs
+          for src in shared/editor-indent.js premiere/app.js premiere/python-worker.js premiere/hero-motion.js terminale/app.js terminale/python-worker.js terminale/hero-motion.js terminale/bfs-visualizer.js terminale/demo-bfs.js terminale/t02/lab.js terminale/t02/python-worker.js; do node --check "$src"; done
       - name: Tester la liste blanche de publication, sans les binaires
         run: |
           python scripts/build_site.py --allow-cdn

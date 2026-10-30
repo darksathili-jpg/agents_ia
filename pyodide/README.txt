@@ -1,21 +1,21 @@
 ORCHESTRA NSI — Pyodide 0.27.7 (exécution Python dans le navigateur)
 
-Distribution restaurée depuis le commit Git historique
-1ecfac610d6d62d8b6656c9ff05b269b6263cd1a.
+L'archive v1.4 de départ contenait seulement ce fichier README. Le dépôt
+GitHub utilisé au lycée peut être différent et posséder déjà les binaires.
 
-Les fichiers requis sont :
-- pyodide.js, pyodide.asm.js, pyodide.asm.wasm
-- python_stdlib.zip, pyodide-lock.json
-- MANIFEST_INSTALLATION.json (tailles et empreintes SHA-256)
+Pour installer localement : lancer INSTALLER_PYODIDE.cmd depuis la racine
+sur un poste avec Internet. Vérifier ensuite que sont présents :
+  pyodide.js, pyodide.asm.js, pyodide.asm.wasm,
+  python_stdlib.zip, pyodide-lock.json, MANIFEST_INSTALLATION.json
 
-Validation du dossier public :
-    python scripts/build_site.py --require-local-pyodide
+Le manifeste contient taille et SHA-256 ; il détecte une altération par rapport
+aux fichiers enregistrés lors de l'installation, mais ne remplace pas une
+vérification indépendante de l'origine des téléchargements.
 
-Le script vérifie les empreintes et refuse la publication si un des fichiers
-est manquant ou altéré. Dans cette publication, le CDN est désactivé.
+Le script scripts/build_site.py --require-local-pyodide REFUSE une publication
+lorsqu'un fichier manque ou si son empreinte diffère. Dans ce mode, le site
+public désactive aussi la connexion de secours au CDN.
 
-L'identifiant du commit publié sera consultable dans :
-    /agents_ia/orchestra-build.json
-
-Cette vérification statique ne remplace PAS une recette Pyodide/Edge sur poste
-élève, ni une vérification indépendante de la provenance officielle des fichiers.
+Pour un test local de l'interface sans distribution, utiliser le serveur Python
+et, si Internet est autorisé, le secours CDN (pas adapté à un déploiement
+hors ligne garanti).

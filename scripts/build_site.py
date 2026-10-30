@@ -26,6 +26,9 @@ STATIC = (
     'terminale/python-worker.js', 'terminale/runner.py', 'terminale/monde.py',
     'terminale/cases.js', 'terminale/demo-bfs.js', 'terminale/bfs-visualizer.js',
     'terminale/hero-motion.js', 'terminale/eleve_a_completer.py',
+    'terminale/t02/index.html', 'terminale/t02/styles.css',
+    'terminale/t02/lab.js', 'terminale/t02/python-worker.js',
+    'terminale/t02/runner_t02.py', 'terminale/t02/eleve.py',
 )
 ASSET_DIRS = ('assets', 'premiere/assets', 'terminale/assets')
 ASSET_SUFFIXES = {'.png', '.jpg', '.jpeg', '.webp', '.avif', '.svg'}
@@ -143,7 +146,7 @@ def build(require_local: bool) -> dict:
         # En publication stricte, aucun secours vers le CDN : fonctionnement
         # exclusivement avec les binaires locaux vérifiés pendant le build.
         if require_local:
-            for relative in ('premiere/python-worker.js','terminale/python-worker.js'):
+            for relative in ('premiere/python-worker.js','terminale/python-worker.js','terminale/t02/python-worker.js'):
                 target = OUTPUT / relative
                 js = target.read_text(encoding='utf-8')
                 old = 'const ALLOW_CDN_FALLBACK = true;'
