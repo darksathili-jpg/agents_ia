@@ -89,5 +89,14 @@ for(const [name,walls] of Object.entries(PRESETS)){
   }
 }
 console.log('T02 : Microduck immobile pendant la recherche, puis un pas par arête : OK');
+// Le code de rendu doit utiliser les frames séparées et non l'image de bande
+// contenant trois personnages côte à côte.
+const fs=require('node:fs');
+const labSource=fs.readFileSync(require('node:path').join(__dirname,'../terminale/t02/lab.js'),'utf8');
+assert.ok(labSource.includes("'microduck-'+direction+'-0.webp'"));
+assert.ok(labSource.includes("'microduck-'+direction+'-1.webp'"));
+assert.ok(labSource.includes("'microduck-'+direction+'-2.webp'"));
+assert.ok(!labSource.includes("'microduck-walk-'+"));
+console.log('T02 : une seule pose Microduck par image, aucune bande affichée : OK');
 
 console.log('T02 : scénarios + 60 grilles × 2 ordres : OK');

@@ -33,11 +33,14 @@ def test_browser():
     thread.start()
     base = f"http://127.0.0.1:{server.server_port}/terminale/t02/"
     errors = []
+    strip_requests = []
     try:
         with sync_playwright() as play:
             browser = play.chromium.launch(headless=True)
             page = browser.new_page(viewport={"width": 1440, "height": 900}, reduced_motion="reduce")
             page.on("pageerror", lambda error: errors.append(str(error)))
+            page.on("request", lambda req: strip_requests.append(req.url)
+                    if "/assets/microduck-walk-" in req.url else None)
             page.on("requestfailed", lambda request: errors.append("REQ " + request.url + " " + str(request.failure)) if "ERR_ABORTED" not in str(request.failure) else None)
             page.on("response", lambda response: errors.append("HTTP " + str(response.status) + " " + response.url) if response.status >= 400 else None)
             page.on("console", lambda message: errors.append("console: "+message.text) if message.type == "error" else None)
@@ -49,6 +52,7 @@ def test_browser():
             assert page.locator("#board-bfs .board-microduck").count() == 1
             assert page.locator("#board-dfs .board-microduck").count() == 1
             assert page.locator("#phase-bfs").inner_text().startswith("EXPLORATION")
+            assert page.locator(".hero-art .microduck").get_attribute("src").endswith("microduck-idle-east.webp")
             for width, height in ((1440, 900), (900, 700), (390, 844)):
                 page.set_viewport_size({"width": width, "height": height})
                 page.wait_for_timeout(180)
@@ -95,6 +99,36 @@ def test_browser():
                 assert abs(coords["y"]-coords["expectedY"]) <= 1.5, coords
             page.locator("#board-bfs .cell[data-x='1'][data-y='2']").click()
             assert "wall" not in page.locator("#board-bfs .cell[data-x='1'][data-y='2']").get_attribute("class")
+
+            # Test de la marche non simulée avec motion autorisé : une pose
+            # unitaire à la fois, puis retour à l'immobilité sur une case.
+            page.emulate_media(reduced_motion="no-preference")
+            page.locator("#scenario").select_option("direct")
+            for _ in range(80):
+                if page.locator("#phase-bfs").inner_text().startswith("DÉPLACEMENT"):
+                    break
+                assert page.locator("#step").is_enabled(), "Le BFS ne déclenche aucun déplacement."
+                page.locator("#step").click()
+            else:
+                raise AssertionError("Le BFS n'a pas atteint la phase déplacement.")
+
+            bfs_sprite=page.locator("#board-bfs .board-microduck")
+            assert bfs_sprite.get_attribute("src").endswith("microduck-east-0.webp")
+            page.wait_for_function(
+                "() => document.querySelector('#board-bfs .board-microduck').getAttribute('src').endsWith('microduck-east-1.webp')",
+                timeout=1500
+            )
+            page.wait_for_function(
+                "() => document.querySelector('#board-bfs .board-microduck').getAttribute('src').endsWith('microduck-east-2.webp')",
+                timeout=1500
+            )
+            page.wait_for_function(
+                "() => document.querySelector('#board-bfs .board-microduck').getAttribute('src').endsWith('microduck-idle-east.webp')",
+                timeout=1500
+            )
+            assert page.locator("#board-bfs img.board-microduck").count() == 1
+            assert page.locator("#board-dfs img.board-microduck").count() == 1
+            assert not strip_requests, "Bande complète utilisée comme image : " + str(strip_requests)
 
             # Pyodide réel, distribution locale, pas de secours CDN.
             page.wait_for_function(

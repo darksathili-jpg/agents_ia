@@ -34,6 +34,21 @@ Référence officielle : https://eduscol.education.gouv.fr/5823/programmes-et-re
   de \`list.pop(0)\` en \`O(n)\` sur les listes Python.
 - Étudier une variante d'implémentation de file (indice de tête, etc.).
 
+## Animation Microduck — vérification visuelle
+
+Une grille possède un seul élément de sprite pour Microduck. Les
+fichiers `microduck-walk-*.webp` sont des **bandes de trois poses** et
+ne doivent jamais être affichés directement dans une balise image.
+Le rendu utilise les images séparées `microduck-<direction>-0/1/2.webp`,
+puis la pose immobile `microduck-idle-<direction>.webp`.
+
+Le personnage attend au départ pendant la recherche BFS/DFS, et n'avance
+qu'une fois le chemin reconstruit. Pour chaque arête du chemin, la
+position et l'orientation sont pilotées par la trace de la démonstration ;
+les changements de poses sont annulés lors d'un saut de chronologie.
+Le test Chromium vérifie les poses successives, le retour à l'immobilité,
+l'absence de fichier de bande et l'unicité du personnage sur chaque grille.
+
 ## Distinction indispensable
 
 La **démonstration guidée** est calculée en JavaScript, à partir

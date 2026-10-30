@@ -101,6 +101,8 @@
   let walls = PRESETS.difference.map(p => p.slice());
   let state = analyze(walls), stepIndex = 0, lastRenderedStep = -1,
       timer = null, worker = null,
+      lastFrames = {bfs:-1, dfs:-1},
+      poseTimers = {bfs:[],dfs:[]},
       workerReady = false, workerGeneration = 0, activeRun = 0, runTimer = null, sourceStarter = null,
       submittedSource = null, validatedSource = null;
 
@@ -112,6 +114,30 @@
     timer = null;
     $('play').textContent='▶ Lire';
     $('play').setAttribute('aria-pressed','false');
+  }
+  const POSE_MS = 430;
+  // Les fichiers "microduck-walk-*.webp" sont des bandes de trois poses,
+  // PAS des sprites individuels. Ne jamais les mettre dans une balise img.
+  // Afficher les images unitaires *-0.webp, *-1.webp, *-2.webp.
+  function pose(sprite, filename){
+    const src='../../assets/'+filename;
+    if(sprite.getAttribute('src')!==src)sprite.setAttribute('src',src);
+  }
+  function stopPose(method){
+    for(const handle of poseTimers[method])clearTimeout(handle);
+    poseTimers[method]=[];
+  }
+  function animateStep(sprite, method, direction){
+    stopPose(method);
+    pose(sprite,'microduck-'+direction+'-0.webp');
+    poseTimers[method]=[
+      setTimeout(()=>pose(sprite,'microduck-'+direction+'-1.webp'),140),
+      setTimeout(()=>pose(sprite,'microduck-'+direction+'-2.webp'),285),
+      setTimeout(()=>{
+        pose(sprite,'microduck-idle-'+direction+'.webp');
+        poseTimers[method]=[];
+      },POSE_MS)
+    ];
   }
   function makeCell(method,x,y) {
     const c=document.createElement('button');
@@ -140,7 +166,8 @@
   }
   function draw(method) {
     const result=state[method];
-    const frame=result.frames[Math.min(stepIndex,result.frames.length-1)];
+    const localFrameIndex=Math.min(stepIndex,result.frames.length-1);
+    const frame=result.frames[localFrameIndex];
     const visited=new Set(frame.examined), discovered=new Set(frame.discovered);
     const route=new Set(frame.path), blocked=new Set(walls.map(key));
     for(const cell of $('board-'+method).querySelectorAll('.cell')) {
@@ -174,8 +201,9 @@
     const cell=board.querySelector('.cell[data-x="'+robot.position[0]+'"][data-y="'+robot.position[1]+'"]');
     const sprite=board.querySelector('.board-microduck');
     const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const adjacentFrame=stepIndex===lastRenderedStep+1;
-    const walking=frame.phase==='travel' && !reduced;
+    const adjacentFrame=stepIndex===lastRenderedStep+1 &&
+      localFrameIndex===lastFrames[method]+1;
+    const walking=frame.phase==='travel' && adjacentFrame && !reduced;
     // Recul rapide / changement de terrain : éviter un faux déplacement
     // interpolé à travers les murs.
     sprite.style.transition=walking && adjacentFrame?
@@ -183,11 +211,15 @@
     sprite.style.left=(cell.offsetLeft+cell.offsetWidth/2)+'px';
     sprite.style.top=(cell.offsetTop+cell.offsetHeight/2)+'px';
     sprite.style.width=Math.max(21,Math.min(60,cell.offsetWidth*.93))+'px';
-    const onLastStep=frame.phase==='travel' && robot.step===robot.total;
-    const spriteFile=walking && !onLastStep?
-      'microduck-walk-'+robot.direction+'.webp':
-      'microduck-idle-'+robot.direction+'.webp';
-    if(!sprite.src.endsWith(spriteFile))sprite.src='../../assets/'+spriteFile;
+    // Un seul élément img par grille ; les trois poses sont affichées
+    // successivement, jamais ensemble. Les timers sont interrompus lors
+    // d'un saut de la chronologie, d'un changement de terrain ou de mode.
+    if(walking)animateStep(sprite,method,robot.direction);
+    else{
+      stopPose(method);
+      pose(sprite,'microduck-idle-'+robot.direction+'.webp');
+    }
+    lastFrames[method]=localFrameIndex;
     $('phase-'+method).textContent=frame.phase==='travel'
       ?'DÉPLACEMENT · Microduck suit le chemin '+robot.step+' / '+robot.total
       :frame.finished&&result.found&&result.path.length===1
@@ -230,6 +262,8 @@
   }
   function recompute(){
     stop();stepIndex=0;lastRenderedStep=-1;
+    for(const method of ['bfs','dfs'])stopPose(method);
+    lastFrames={bfs:-1,dfs:-1};
     state=analyze(walls,$('order').value);
     render();
   }
@@ -400,8 +434,16 @@
   }
   function init(){
     initBoards();render();
-    const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!reduced)document.querySelector('.microduck').src='../../assets/microduck-walk-east.webp';
+    // L'image décorative de l'accueil reste immobile tant que le robot
+    // n'exécute aucune instruction de déplacement.
+    const heroDuck=document.querySelector('.hero-art .microduck');
+    if(heroDuck)heroDuck.src='../../assets/microduck-idle-east.webp';
+    // Mettre en cache les poses unitaires pour limiter les ruptures visuelles.
+    for(const direction of ['north','east','south','west'])
+      for(let frame=0;frame<3;frame++){
+        const preload=new Image();
+        preload.src='../../assets/microduck-'+direction+'-'+frame+'.webp';
+      }
     $('scenario').addEventListener('change',()=>{walls=PRESETS[$('scenario').value].map(p=>p.slice());recompute();});
     $('order').addEventListener('change',recompute);
     $('reset').addEventListener('click',()=>{walls=PRESETS[$('scenario').value].map(p=>p.slice());recompute();});
