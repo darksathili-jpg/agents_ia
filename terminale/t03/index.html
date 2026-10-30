@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff6f7">
+<meta name="description" content="ORCHESTRA NSI T03 : programmer l'architecture d'un agent en Python, distinguer perception, mémoire, décision et action.">
+<title>ORCHESTRA · Terminale T03 — L'agent qui se souvient</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="../../shared/editor-indent.js"></script>
+<script defer src="lab.js"></script>
+</head>
+<body data-theme="light">
+<a class="skip" href="#terrain">Aller au laboratoire</a>
+<header class="topbar">
+<a class="brand" href="../../index.html"><img src="../../assets/logo-watteau.webp" alt="Logo du lycée Watteau" width="44" height="44"><span><b>ORCHESTRA <em>NSI</em></b><small>TERMINALE · LABORATOIRE D'AGENTS</small></span></a>
+<nav aria-label="Parcours"><a href="../">T01</a><a href="../t02/">T02 · BFS / DFS</a><span aria-current="page">T03 · Architecture</span></nav>
+<div class="themes" role="group" aria-label="Mode d'affichage">
+<button type="button" data-theme="light" aria-pressed="true">Clair</button>
+<button type="button" data-theme="dark" aria-pressed="false">Sombre</button>
+<button type="button" data-theme="projection" aria-pressed="false">Projection</button>
+</div>
+</header>
+<main>
+<section class="hero">
+<div><p class="eyebrow">MISSION 03 <span class="dot"></span> CLASSES ET OBJETS <span class="dot"></span> 3 SÉANCES</p>
+<h1>Voir n'est pas <em>savoir.</em><br>Décider n'est pas <em>agir.</em></h1>
+<p>Microduck ne connaît pas la carte entière. Il perçoit les obstacles voisins, garde en mémoire ce qu'il a observé et propose un déplacement. Le monde vérifie ensuite si l'action est possible.</p>
+<a class="cta" href="#terrain">Entrer dans le laboratoire <span aria-hidden="true">↘</span></a></div>
+<div class="hero-image" aria-hidden="true"><span class="radar radar-a"></span><span class="radar radar-b"></span><img src="../../assets/microduck-idle-east.webp" alt=""><span class="halo-tag t1">PERCEPTION</span><span class="halo-tag t2">MÉMOIRE</span><span class="halo-tag t3">DÉCISION</span></div>
+</section>
+<section class="strip" aria-label="Objectifs de formation">
+<div><span>01</span><b>Modéliser</b><small>Une classe, ses attributs, ses méthodes</small></div>
+<div><span>02</span><b>Expliquer</b><small>Observation partielle et état interne</small></div>
+<div><span>03</span><b>Programmer</b><small>Décision déterministe et tests Python</small></div>
+</section>
+<section class="intro" aria-label="Architecture">
+<div class="kicker">CONCEPT CLÉ · ARCHITECTURE DE L'AGENT</div>
+<h2>Quatre étapes. Quatre responsabilités.</h2>
+<div class="architecture">
+<article><strong>01 · Perception</strong><p>Le capteur renvoie la position courante et les obstacles adjacents, jamais la carte complète.</p></article>
+<article><strong>02 · Mémoire</strong><p>L'attribut <code>self.memoire</code> conserve les obstacles déjà observés.</p></article>
+<article><strong>03 · Décision</strong><p>La méthode <code>decider</code> choisit une case voisine à partir de l'état interne.</p></article>
+<article><strong>04 · Action</strong><p>Le monde valide le déplacement. Une décision ne change pas, à elle seule, la position.</p></article>
+</div>
+<p class="caution">Une politique locale fondée sur la distance de Manhattan n'est <strong>pas</strong> un BFS : elle ne garantit ni le plus court chemin ni l'atteinte de la cible dans tous les terrains. C'est précisément la limite à analyser.</p>
+</section>
+<section id="terrain" class="laboratory">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 01 · OBSERVER</p><h2>La boucle perception → décision</h2><p>Fais avancer la trace d'un cycle. Microduck est immobile pendant l'observation ; seul le passage au cycle suivant matérialise l'action validée.</p></div><span class="episode">T03 / LAB 01</span></div>
+<div class="toolbar">
+<label for="scenario">Situation<select id="scenario">
+<option value="0">01 · Route libre</option><option value="1" selected>02 · Obstacle découvert</option>
+<option value="2">03 · Mur au départ</option><option value="3">04 · Mémoire</option>
+<option value="4">05 · Arrivée</option><option value="5">06 · Agent encerclé</option>
+<option value="6">07 · Vers l'ouest</option>
+</select></label>
+<button type="button" id="reset" class="button">↺ Recommencer</button>
+<button type="button" id="next" class="button accent">Cycle suivant →</button>
+<button type="button" id="play" class="button" aria-pressed="false">▶ Lire</button>
+</div>
+<div class="lab-grid">
+<div class="terrain-card">
+<div class="card-head"><div><b>Terrain 6 × 3</b><small id="source-label">DÉMONSTRATION GUIDÉE · aucun code élève exécuté</small></div><span id="position-label" class="coordinates">(0, 1)</span></div>
+<div id="board" class="board" role="group" aria-label="Terrain de déplacement de Microduck"></div>
+<div class="legend"><span><i class="swatch neutral"></i>Libre</span><span><i class="swatch wall"></i>Obstacle réel</span><span><i class="swatch seen"></i>Mémorisé</span><span><i class="swatch target"></i>Cible</span></div>
+<div class="stepper"><label for="timeline">Cycle <output id="step-label">1 / 1</output></label><input type="range" id="timeline" value="0" min="0" max="0" step="1"></div>
+</div>
+<div class="inspector">
+<div class="inspector-head"><span class="live-dot"></span><b>ÉTAT INTERNE DE L'AGENT</b></div>
+<div class="inspector-section"><span>01 · OBSERVATION LOCALE</span><strong id="visible">Aucun obstacle visible</strong><small>Obstacles adjacents au personnage</small></div>
+<div class="inspector-section"><span>02 · MÉMOIRE DE L'OBJET</span><div id="memory" class="memory-chips"><em>Ensemble vide</em></div><small>Les obstacles restent mémorisés même lorsqu'ils ne sont plus visibles.</small></div>
+<div class="inspector-section decision"><span>03 · DÉCISION PROPOSÉE</span><strong id="decision">—</strong><small id="decision-note">Le monde autorise l'action avant tout déplacement.</small></div>
+<p class="explanation" id="explanation" aria-live="polite"></p>
+</div>
+</div>
+</section>
+<section id="programmer" class="workspace">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 02 · PROGRAMMER</p><h2>Construis ta classe Python.</h2><p>Complète <code>percevoir</code> et <code>decider</code>. La méthode <code>__init__</code> initialise les attributs. Les tests vérifient réellement le programme dans Pyodide.</p></div></div>
+<div class="two-col">
+<div class="editor-panel"><div class="editor-head"><b>t03_eleve.py</b><span>PYTHON · CLASSE / OBJET</span></div><textarea id="python-code" aria-label="Éditeur Python T03" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+<div class="actions"><button type="button" id="run-python" class="button accent" disabled>Exécuter les tests</button><button type="button" id="restore" class="button">Restaurer le squelette</button></div>
+<p id="python-status" role="status">Initialisation du moteur Python…</p><p class="hint">Tab : indenter · Maj+Tab : désindenter · brouillon enregistré localement.</p></div>
+<div class="results-panel"><div class="result-head"><div><span class="kicker">VÉRIFICATION PYTHON</span><h3>Résultats de ton code</h3></div><output id="score">— / 7</output></div><p id="result-summary" aria-live="polite">Aucun test exécuté. La démonstration n'attribue aucun point.</p><div id="result-cases" class="test-cases"><p class="quiet">Sept situations indépendantes seront contrôlées.</p></div><p class="hint">Une trace élève n'est disponible que si le programme a réellement passé la situation correspondante. Les contrôles ne constituent pas une preuve formelle ni un bac à sable sécurisé.</p></div>
+</div>
+</section>
+<section class="transfer" id="justifier"><p class="kicker">EXPÉRIENCE 03 · JUSTIFIER</p><h2>Quand la mémoire devient-elle utile ?</h2><p>Compare le trajet « Obstacle découvert » et « Mémoire ». Pourquoi l'objet doit-il conserver une information même lorsque le capteur ne la renvoie plus ? Quelle limite de la décision locale révèle un cul-de-sac ? Propose une amélioration en réutilisant T02.</p><label for="justification">Justification personnelle à faire relire par l'enseignant</label><textarea id="justification" rows="5" placeholder="L'attribut self.memoire… La méthode percevoir… La décision locale ne garantit pas…"></textarea><p class="hint">Aucune évaluation automatique de cette justification. Discussion et validation par l'enseignant.</p></section>
+</main>
+<footer><span>ORCHESTRA NSI · T03 · Travail supervisé</span><a href="../t02/">Revoir BFS / DFS</a><a href="../../index.html">Accueil</a></footer>
+</body>
+</html>
