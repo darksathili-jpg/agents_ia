@@ -74,8 +74,25 @@ def test_browser():
             assert dfs > bfs, (bfs, dfs)
             assert page.locator("#phase-bfs").inner_text().startswith("DÉPLACEMENT")
             assert page.locator("#phase-dfs").inner_text().startswith("DÉPLACEMENT")
-            assert page.locator("#board-bfs .board-microduck").get_attribute("src").endswith("microduck-idle-east.webp")
-            assert page.locator("#board-dfs .board-microduck").get_attribute("src") is not None
+            for method in ("bfs", "dfs"):
+                sprite = page.locator(f"#board-{method} .board-microduck")
+                source = sprite.get_attribute("src")
+                assert source.endswith(tuple(f"microduck-idle-{d}.webp"
+                                            for d in ("east", "west", "north", "south"))), source
+                # La position du personnage doit coïncider avec la case arrivée :
+                # vérifier les coordonnées réelles du sprite dans le DOM.
+                coords = page.evaluate("""(method) => {
+                    const board=document.querySelector('#board-'+method);
+                    const image=board.querySelector('.board-microduck');
+                    const goal=board.querySelector('.cell[data-x="6"][data-y="2"]');
+                    return {x:parseFloat(image.style.left),y:parseFloat(image.style.top),
+                        expectedX:goal.offsetLeft+goal.offsetWidth/2,
+                        expectedY:goal.offsetTop+goal.offsetHeight/2,
+                        loaded:image.complete&&image.naturalWidth>0};
+                }""", method)
+                assert coords["loaded"], coords
+                assert abs(coords["x"]-coords["expectedX"]) <= 1.5, coords
+                assert abs(coords["y"]-coords["expectedY"]) <= 1.5, coords
             page.locator("#board-bfs .cell[data-x='1'][data-y='2']").click()
             assert "wall" not in page.locator("#board-bfs .cell[data-x='1'][data-y='2']").get_attribute("class")
 
