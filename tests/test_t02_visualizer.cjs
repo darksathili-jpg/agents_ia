@@ -60,4 +60,34 @@ for(let i=0;i<60;i++){
 const diff=analyze(PRESETS.difference,'ESON');
 assert.ok(diff.bfs.found&&diff.dfs.found);
 assert.ok(diff.dfs.path.length>diff.bfs.path.length,'Le terrain principal doit montrer un DFS plus long');
+
+// Le robot n'est jamais déplacé entre sommets simplement explorés.
+// Ses déplacements ne démarrent qu'après la reconstruction du chemin.
+for(const [name,walls] of Object.entries(PRESETS)){
+  for(const order of ['ESON','NOSE']){
+    const data=analyze(walls,order);
+    for(const method of ['bfs','dfs']){
+      const result=data[method];
+      const travel=result.frames.filter(f=>f.phase==='travel');
+      assert.equal(travel.length,Math.max(0,result.path.length-1));
+      let previous=[0,2];
+      for(let i=0;i<travel.length;i++){
+        const frame=travel[i];
+        const dest=result.path[i+1];
+        assert.deepEqual(frame.robot.position,dest);
+        assert.equal(frame.robot.step,i+1);
+        assert.equal(frame.robot.total,result.path.length-1);
+        assert.equal(Math.abs(dest[0]-previous[0])+Math.abs(dest[1]-previous[1]),1);
+        assert.ok(['north','east','south','west'].includes(frame.robot.direction));
+        assert.deepEqual(frame.path,result.path.map(p=>p.join(',')));
+        assert.equal(frame.examined.length,result.examined);
+        previous=dest;
+      }
+      assert.deepEqual(previous,result.found?result.path.at(-1):[0,2]);
+      assert.ok(result.frames.slice(0,result.frames.length-travel.length).every(f=>!f.robot));
+    }
+  }
+}
+console.log('T02 : Microduck immobile pendant la recherche, puis un pas par arête : OK');
+
 console.log('T02 : scénarios + 60 grilles × 2 ordres : OK');
