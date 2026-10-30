@@ -68,9 +68,25 @@
     if(!path.length) {
       frames.push({
         current:null,examined:examined.slice(),discovered:[...discovered],
-        frontier:[],path:[],finished:true,
+        frontier:[],path:[],finished:true,phase:'search',
         explanation:'Aucun chemin : la structure est vide et la cible n’a pas été atteinte.'
       });
+    } else {
+      // L'exploration reste virtuelle : Microduck ne se déplace physiquement
+      // qu'APRÈS la reconstruction du chemin. Chaque frame ajoute une seule
+      // transition entre deux cases adjacentes de la véritable route calculée.
+      for (let i=1;i<path.length;i++) {
+        const previous=path[i-1], position=path[i];
+        const dx=position[0]-previous[0],dy=position[1]-previous[1];
+        const direction=dx===1?'east':dx===-1?'west':dy===1?'south':'north';
+        frames.push({
+          current:null, examined:examined.slice(), discovered:[...discovered],
+          frontier:frontier.slice(), path:path.map(key), finished:true,
+          phase:'travel', robot:{position:position.slice(),direction,step:i,total:path.length-1},
+          explanation:'Déplacement réel de Microduck : ('+previous.join(',')+') → ('
+            +position.join(',')+'). '+i+' / '+(path.length-1)+'.'
+        });
+      }
     }
     return {frames, path, examined:examined.length, found:!!path.length};
   }
@@ -83,7 +99,8 @@
 
   const $ = id => document.getElementById(id);
   let walls = PRESETS.difference.map(p => p.slice());
-  let state = analyze(walls), stepIndex = 0, timer = null, worker = null,
+  let state = analyze(walls), stepIndex = 0, lastRenderedStep = -1,
+      timer = null, worker = null,
       workerReady = false, workerGeneration = 0, activeRun = 0, runTimer = null, sourceStarter = null;
 
   function framesTotal() {
@@ -111,6 +128,13 @@
     for (const method of ['bfs','dfs']){
       const host=$('board-'+method);
       for(let y=0;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++)host.append(makeCell(method,x,y));
+      const sprite=document.createElement('img');
+      sprite.className='board-microduck';
+      sprite.src='../../assets/microduck-idle-east.webp';
+      sprite.alt='';
+      sprite.setAttribute('aria-hidden','true');
+      sprite.draggable=false;
+      host.appendChild(sprite);
     }
   }
   function draw(method) {
@@ -118,7 +142,7 @@
     const frame=result.frames[Math.min(stepIndex,result.frames.length-1)];
     const visited=new Set(frame.examined), discovered=new Set(frame.discovered);
     const route=new Set(frame.path), blocked=new Set(walls.map(key));
-    for(const cell of $('board-'+method).children) {
+    for(const cell of $('board-'+method).querySelectorAll('.cell')) {
       const x=+cell.dataset.x,y=+cell.dataset.y,k=key([x,y]);
       const isStart=x===START[0]&&y===START[1],isGoal=x===GOAL[0]&&y===GOAL[1];
       cell.className='cell';
@@ -142,6 +166,34 @@
          frame.current===k?' sommet traité':route.has(k)?' chemin':visited.has(k)?' traité':
          discovered.has(k)?' découvert':' libre'));
     }
+    // La position du personnage dépend du chemin reconstruit, pas du sommet
+    // exploré. Durant tout le BFS/DFS, Microduck attend sur le départ.
+    const robot=frame.robot||{position:START,direction:'east',step:0,total:result.path.length-1};
+    const board=$('board-'+method);
+    const cell=board.querySelector('.cell[data-x="'+robot.position[0]+'"][data-y="'+robot.position[1]+'"]');
+    const sprite=board.querySelector('.board-microduck');
+    const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const adjacentFrame=stepIndex===lastRenderedStep+1;
+    const walking=frame.phase==='travel' && !reduced;
+    // Recul rapide / changement de terrain : éviter un faux déplacement
+    // interpolé à travers les murs.
+    sprite.style.transition=walking && adjacentFrame?
+      'left 430ms linear, top 430ms linear':'none';
+    sprite.style.left=(cell.offsetLeft+cell.offsetWidth/2)+'px';
+    sprite.style.top=(cell.offsetTop+cell.offsetHeight/2)+'px';
+    sprite.style.width=Math.max(21,Math.min(60,cell.offsetWidth*.93))+'px';
+    const onLastStep=frame.phase==='travel' && robot.step===robot.total;
+    const spriteFile=walking && !onLastStep?
+      'microduck-walk-'+robot.direction+'.webp':
+      'microduck-idle-'+robot.direction+'.webp';
+    if(!sprite.src.endsWith(spriteFile))sprite.src='../../assets/'+spriteFile;
+    $('phase-'+method).textContent=frame.phase==='travel'
+      ?'DÉPLACEMENT · Microduck suit le chemin '+robot.step+' / '+robot.total
+      :frame.finished&&result.found&&result.path.length===1
+       ?'TERMINÉ · Microduck est déjà à destination'
+       :frame.finished&&!result.found
+        ?'ARRÊT · Cible inaccessible, Microduck reste au départ'
+        :'EXPLORATION · Recherche virtuelle, Microduck attend';
     $('count-'+method).textContent=String(frame.examined.length);
     $('length-'+method).textContent=frame.finished?
       (frame.path.length?String(frame.path.length-1):'∅'):'—';
@@ -154,6 +206,7 @@
   }
   function render() {
     draw('bfs');draw('dfs');
+    lastRenderedStep=stepIndex;
     $('step-number').textContent=stepIndex+' / '+(framesTotal()-1);
     $('timeline').max=Math.max(1,framesTotal()-1);
     $('timeline').value=String(stepIndex);
@@ -175,7 +228,7 @@
     }
   }
   function recompute(){
-    stop();stepIndex=0;
+    stop();stepIndex=0;lastRenderedStep=-1;
     state=analyze(walls,$('order').value);
     render();
   }
