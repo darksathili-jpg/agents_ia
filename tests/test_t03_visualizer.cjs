@@ -31,7 +31,9 @@ for(const scenario of CASES) {
   }
 }
 const source=fs.readFileSync(path.join(__dirname,'../terminale/t03/lab.js'),'utf8');
-assert.ok(source.includes('microduck-'+"' + direction + '"+'-0.webp')===false || true);
+assert.ok(source.includes("'microduck-'+direction+'-0.webp'"));
+assert.ok(source.includes("'microduck-'+direction+'-1.webp'"));
+assert.ok(source.includes("'microduck-'+direction+'-2.webp'"));
 assert.ok(!source.includes("'microduck-walk-'+"));
 assert.ok(source.includes("sprite.className='board-microduck'"));
 console.log('T03 : sept scénarios, décisions adjacentes et mémoire persistante : OK');
