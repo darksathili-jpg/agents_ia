@@ -47,6 +47,15 @@ Le dispositif n'affirme jamais que la visualisation guidée est une trace
 du code de l'élève. La justification écrite est indispensable ; elle n'est
 pas évaluée automatiquement.
 
+## Fiabilité des comptes rendus
+
+Une modification de code invalide immédiatement le score et les traces
+de l'exécution précédente. Les résultats d'une exécution encore en cours
+sont ignorés si le code a été modifié entre-temps. Chaque situation
+affiche séparément : chemin BFS, utilisation FIFO, chemin DFS, utilisation LIFO.
+Un score de deux parcours signifie que les deux méthodes passent leurs
+contrats ; il ne constitue **pas** une note de compréhension.
+
 ## Critères et limites
 
 - BFS : chemin valide **et minimal**.

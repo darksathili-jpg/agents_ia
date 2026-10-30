@@ -55,6 +55,21 @@ class T02Tests(unittest.TestCase):
         self.assertEqual(runner_t02._path_ok(path, graph, (0, 2), (6, 2), True)[0], False)
         self.assertEqual(runner_t02._path_ok(path, graph, (0, 2), (6, 2), False)[0], True)
 
+    def test_malformed_coordinates_produce_pedagogical_feedback(self):
+        graph = runner_t02.make_graph(())
+        for bad in (
+            [[0, 2], (6, 2)],
+            [(0, 2), [1, 2], (6, 2)],
+            [(0, 2), (True, 2), (6, 2)],
+            [(0, 2), (1.0, 2), (6, 2)],
+        ):
+            with self.subTest(path=bad):
+                ok, message = runner_t02._path_ok(
+                    bad, graph, (0, 2), (6, 2), False
+                )
+                self.assertFalse(ok)
+                self.assertIn("tuple de deux entiers", message)
+
     def test_boolean_coordinates_rejected(self):
         graph = runner_t02.make_graph(())
         path = [(0, 2), (True, 2), (6, 2)]

@@ -110,11 +110,11 @@ def _path_ok(path, graph, start, target, require_shortest):
     distance = independent_shortest(graph, start, target)
     if distance is None:
         return (not path, "Cible inaccessible : renvoyer [].")
-    if not path or path[0] != start or path[-1] != target:
-        return False, "Le chemin doit relier le départ à la cible."
     if any(type(p) is not tuple or len(p) != 2
            or type(p[0]) is not int or type(p[1]) is not int for p in path):
         return False, "Chaque case doit être un tuple de deux entiers."
+    if not path or path[0] != start or path[-1] != target:
+        return False, "Le chemin doit relier le départ à la cible."
     if len(set(path)) != len(path):
         return False, "Le chemin ne doit pas former de boucle."
     if any(p not in graph for p in path) or any(b not in graph[a] for a, b in zip(path, path[1:])):

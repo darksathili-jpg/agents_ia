@@ -101,7 +101,8 @@
   let walls = PRESETS.difference.map(p => p.slice());
   let state = analyze(walls), stepIndex = 0, lastRenderedStep = -1,
       timer = null, worker = null,
-      workerReady = false, workerGeneration = 0, activeRun = 0, runTimer = null, sourceStarter = null;
+      workerReady = false, workerGeneration = 0, activeRun = 0, runTimer = null, sourceStarter = null,
+      submittedSource = null, validatedSource = null;
 
   function framesTotal() {
     return Math.max(state.bfs.frames.length,state.dfs.frames.length);
@@ -263,6 +264,27 @@
       code:$('python-code').value,justification:$('justification').value
     }));}catch(_){}
   }
+  function clearResults(message){
+    $('score').textContent='— / 7';
+    $('result-summary').textContent=message;
+    const host=$('result-cases');
+    host.replaceChildren();
+    const notice=document.createElement('p');
+    notice.className='empty';
+    notice.textContent='Aucun résultat valide pour ce code.';
+    host.appendChild(notice);
+    $('student-trace').hidden=true;
+    $('student-trace-lines').textContent='';
+  }
+  function codeChanged(){
+    save();
+    if(submittedSource!==null || validatedSource!==null){
+      clearResults('Code modifié : les résultats précédents ne correspondent plus au programme. Relance les tests.');
+      validatedSource=null;
+      if(submittedSource!==null)
+        $('python-status').textContent='Code modifié pendant le test : résultat en cours non utilisable.';
+    }
+  }
   async function loadStarter(){
     try{
       const response=await fetch('eleve.py',{cache:'no-store'});
@@ -291,15 +313,27 @@
         $('run-python').disabled=false;
       }
       if(data.type==='error'){
+        if(data.stage==='run' && data.id!==activeRun)return;
+        clearTimeout(runTimer);runTimer=null;
+        submittedSource=null;validatedSource=null;
+        clearResults('Échec de l’exécution Python. Corrige le code puis relance les tests.');
         $('python-status').textContent='Erreur Python : '+data.message;
-        clearTimeout(runTimer);$('run-python').disabled=false;
+        $('run-python').disabled=!workerReady;
         if(data.stage==='load')workerStop();
       }
       if(data.type==='result'){
         if(data.id!==activeRun)return;
         clearTimeout(runTimer);runTimer=null;
-        $('python-status').textContent='Exécution terminée';
         $('run-python').disabled=false;
+        if(submittedSource===null || $('python-code').value!==submittedSource){
+          submittedSource=null;validatedSource=null;
+          clearResults('Le code a été modifié pendant le test : ancien résultat ignoré. Relance les tests.');
+          $('python-status').textContent='Résultat précédent ignoré · nouvelle exécution nécessaire';
+          return;
+        }
+        validatedSource=submittedSource;
+        submittedSource=null;
+        $('python-status').textContent='Exécution terminée · résultats du code affiché';
         showResult(data.data);
       }
     };
@@ -327,10 +361,13 @@
       appendText(row,'span',result.ok?'✓':'×','status-icon');
       const main=document.createElement('div');
       appendText(main,'strong',result.name);
-      appendText(main,'small','BFS : '+result.bfs.message);
-      appendText(main,'small','DFS : '+result.dfs.message);
+      appendText(main,'small','BFS · chemin '+(result.bfs.path_ok?'✓':'✕')
+        +' · FIFO '+(result.bfs.method_ok?'✓':'✕')+' — '+result.bfs.message);
+      appendText(main,'small','DFS · chemin '+(result.dfs.path_ok?'✓':'✕')
+        +' · LIFO '+(result.dfs.method_ok?'✓':'✕')+' — '+result.dfs.message);
       row.appendChild(main);
-      appendText(row,'span',(result.ok?'2':'—')+' parcours','scores');
+      const score=Number(result.bfs.ok)+Number(result.dfs.ok);
+      appendText(row,'span',score+' / 2','scores');
       cases.appendChild(row);
     }
     const first=(data.results||[]).find(r=>r.bfs.events.length||r.dfs.events.length);
@@ -346,13 +383,19 @@
   function run(){
     if(!workerReady||!worker)return;
     const id=++activeRun;
+    submittedSource=$('python-code').value;
+    validatedSource=null;
+    clearResults('Évaluation en cours : seuls les résultats du programme actuel seront affichés.');
     $('run-python').disabled=true;
     $('python-status').textContent='Exécution des 7 situations…';
-    worker.postMessage({type:'run',source:$('python-code').value,id});
+    worker.postMessage({type:'run',source:submittedSource,id});
     clearTimeout(runTimer);
     runTimer=setTimeout(()=>{
-      $('python-status').textContent='Exécution interrompue après 9 secondes. Worker redémarré.';
+      submittedSource=null;
+      validatedSource=null;
+      clearResults('La durée maximale de 9 secondes est dépassée. Vérifie notamment les conditions d’arrêt des boucles.');
       newWorker();
+      $('python-status').textContent='Exécution interrompue · redémarrage de Python…';
     },9000);
   }
   function init(){
@@ -366,11 +409,11 @@
     $('play').addEventListener('click',togglePlay);
     $('timeline').addEventListener('input',()=>{stop();stepIndex=Number($('timeline').value);render();});
     for(const button of document.querySelectorAll('.themes button'))button.addEventListener('click',()=>setTheme(button.dataset.theme));
-    $('python-code').addEventListener('input',save);
+    $('python-code').addEventListener('input',codeChanged);
     $('justification').addEventListener('input',save);
     $('restore').addEventListener('click',()=>{
       if(sourceStarter!==null&&window.confirm('Effacer ton code et restaurer le départ ?')){
-        $('python-code').value=sourceStarter;save();
+        $('python-code').value=sourceStarter;codeChanged();
       }
     });
     $('run-python').addEventListener('click',run);

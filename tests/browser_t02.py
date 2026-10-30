@@ -120,6 +120,17 @@ def test_browser():
             )
             assert page.locator(".case.failed").count() == 0
             assert page.locator("#student-trace").is_visible()
+            # Une réussite ne doit jamais rester valide après une modification
+            # de la source. Le même principe s'applique aux traces.
+            page.locator("#python-code").fill(REFERENCE+"\n# modification après validation\n")
+            assert page.locator("#score").inner_text() == "— / 7"
+            assert "Code modifié" in page.locator("#result-summary").inner_text()
+            assert page.locator("#student-trace").is_hidden()
+            page.locator("#run-python").click()
+            page.wait_for_function(
+                "() => document.querySelector('#score').textContent === '7 / 7'",
+                timeout=60_000,
+            )
             assert not errors, errors
             OUT.mkdir(parents=True, exist_ok=True)
             page.screenshot(path=str(OUT / "t02_python_reel.png"), full_page=True)
