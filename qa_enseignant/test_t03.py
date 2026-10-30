@@ -52,8 +52,8 @@ class T03AgentTests(unittest.TestCase):
         self.assertEqual(runner_t03.evaluate_source("pass")["passed"],0)
 
     def test_memory_is_not_reset_at_each_observation(self):
-        wrong=REFERENCE.replace('self.memoire.add(obstacle)',
-                                'self.memoire = set(observation["obstacles"])')
+        wrong=REFERENCE.replace('self.position = observation["position"]\n        for obstacle',
+                                'self.position = observation["position"]\n        self.memoire = set()\n        for obstacle')
         result=runner_t03.evaluate_source(wrong)
         self.assertFalse(result["success"])
         self.assertFalse(result["results"][1]["ok"])
