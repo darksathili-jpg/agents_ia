@@ -38,6 +38,8 @@ def test_browser():
             browser = play.chromium.launch(headless=True)
             page = browser.new_page(viewport={"width": 1440, "height": 900}, reduced_motion="reduce")
             page.on("pageerror", lambda error: errors.append(str(error)))
+            page.on("requestfailed", lambda request: errors.append("REQ " + request.url + " " + str(request.failure)))
+            page.on("response", lambda response: errors.append("HTTP " + str(response.status) + " " + response.url) if response.status >= 400 else None)
             page.on("console", lambda message: errors.append("console: "+message.text) if message.type == "error" else None)
             page.route("https://cdn.jsdelivr.net/**", lambda route: route.abort())
             assert page.goto(base, wait_until="domcontentloaded").status == 200
