@@ -5,6 +5,7 @@ const CDN = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
 const ALLOW_CDN_FALLBACK = true;
 let python = null;
 async function boot() {
+  const failures = [];
   for (const root of [LOCAL, ...(ALLOW_CDN_FALLBACK ? [CDN] : [])]) {
     try {
       const check = await fetch(root + 'pyodide.js', {method:'HEAD'});
@@ -18,9 +19,10 @@ async function boot() {
       postMessage({type:'ready', source:root===LOCAL?'local':'cdn'});
       return;
     } catch (e) {
-      if (root === CDN || !ALLOW_CDN_FALLBACK) throw e;
+      failures.push((root === LOCAL ? 'Local' : 'CDN') + ' : ' + String(e?.message||e));
     }
   }
+  throw Error(failures.join(' ; '));
 }
 (async () => {try {await boot();} catch(e) {postMessage({type:'error', stage:'load', message:String(e?.message||e)});}})();
 onmessage = async ({data}) => {
