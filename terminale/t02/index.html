@@ -44,7 +44,7 @@
 </section>
 <section id="manipuler" class="lab-section" aria-labelledby="lab-title">
   <div class="section-heading"><div><div class="overline">EXPÉRIENCE 01 · OBSERVER</div><h2 id="lab-title">Même terrain. Deux explorations.</h2>
-  <p>Les deux algorithmes partent de la même case. Avance étape par étape : la case mise en évidence est le <strong>sommet retiré de la structure</strong>, pas un déplacement physique de Microduck.</p></div></div>
+  <p>Les deux algorithmes partent de la même case. Pendant l'exploration, les sommets affichés correspondent à une <strong>recherche virtuelle</strong> : Microduck attend au départ. <strong>Une fois le chemin reconstruit</strong>, il avance réellement de case en case jusqu'à la cible.</p></div></div>
   <div class="toolbar">
     <div class="field"><label for="scenario">Terrain</label><select id="scenario"><option value="difference">Un détour trompeur</option><option value="direct">Route dégagée</option><option value="barrier">Barrière centrale</option><option value="isolated">Cible isolée</option></select></div>
     <div class="field"><label for="order">Ordre des voisins</label><select id="order"><option value="ESON">Est · Sud · Ouest · Nord</option><option value="NOSE">Nord · Ouest · Sud · Est</option></select></div>
@@ -57,6 +57,7 @@
     <article class="sim" data-algo="bfs">
       <div class="sim-head"><div><span class="algo">ALGORITHME 01</span><h3>Parcours en largeur <span class="abbr">BFS</span></h3><p>File FIFO — le premier arrivé est le premier traité.</p></div><span class="symbol round">F</span></div>
       <div class="board" id="board-bfs" role="group" aria-label="Grille du parcours en largeur"></div>
+      <p class="board-phase" id="phase-bfs">EXPLORATION · Recherche virtuelle, Microduck attend</p>
       <div class="numbers"><div><span>Sommets traités</span><strong id="count-bfs">0</strong></div><div><span>Longueur du chemin</span><strong id="length-bfs">—</strong></div></div>
       <div class="frontier"><div class="frontier-head"><strong>FILE · FIFO</strong><span>tête à gauche</span></div><div class="items" id="frontier-bfs">Aucune case</div></div>
       <p class="event" id="event-bfs" aria-live="off">Départ de la recherche.</p>
@@ -64,6 +65,7 @@
     <article class="sim" data-algo="dfs">
       <div class="sim-head"><div><span class="algo">ALGORITHME 02</span><h3>Parcours en profondeur <span class="abbr">DFS</span></h3><p>Pile LIFO — le dernier arrivé est le premier traité.</p></div><span class="symbol square">P</span></div>
       <div class="board" id="board-dfs" role="group" aria-label="Grille du parcours en profondeur"></div>
+      <p class="board-phase" id="phase-dfs">EXPLORATION · Recherche virtuelle, Microduck attend</p>
       <div class="numbers"><div><span>Sommets traités</span><strong id="count-dfs">0</strong></div><div><span>Longueur du chemin</span><strong id="length-dfs">—</strong></div></div>
       <div class="frontier"><div class="frontier-head"><strong>PILE · LIFO</strong><span>sommet à droite</span></div><div class="items" id="frontier-dfs">Aucune case</div></div>
       <p class="event" id="event-dfs" aria-live="off">Départ de la recherche.</p>
