@@ -34,6 +34,41 @@ class T02Tests(unittest.TestCase):
         self.assertFalse(r["success"])
         self.assertTrue(any(not c["dfs"]["method_ok"] for c in r["results"]))
 
+    def test_fictive_fifo_and_stack_calls_are_not_enough(self):
+        """Deux parcours sur listes indépendantes ne valident pas File/Pile."""
+        fake = REFERENCE.replace(
+            "    file = File()\n    file.enfiler(depart)\n    parents = {depart: None}\n"
+            "    while not file.est_vide():\n        actuel = file.defiler()",
+            "    file = File()\n    file.enfiler(depart)\n    file.defiler()\n"
+            "    en_attente = [depart]\n    parents = {depart: None}\n"
+            "    while en_attente:\n        actuel = en_attente.pop(0)"
+        ).replace(
+            "                file.enfiler(voisin)",
+            "                en_attente.append(voisin)"
+        ).replace(
+            "    pile = Pile()\n    pile.empiler(depart)\n    parents = {depart: None}\n"
+            "    while not pile.est_vide():\n        actuel = pile.depiler()",
+            "    pile = Pile()\n    pile.empiler(depart)\n    pile.depiler()\n"
+            "    en_attente = [depart]\n    parents = {depart: None}\n"
+            "    while en_attente:\n        actuel = en_attente.pop()"
+        ).replace(
+            "                pile.empiler(voisin)",
+            "                en_attente.append(voisin)"
+        )
+        self.assertNotEqual(fake, REFERENCE)
+        for seed in (0, 7):
+            with self.subTest(seed=seed):
+                response = runner_t02.evaluate_source(fake, seed)
+                self.assertEqual(response["passed"], 1)  # départ = objectif
+                for case in response["results"]:
+                    if case["name"] == "Départ = arrivée":
+                        self.assertTrue(case["ok"])
+                    elif case["name"] != "Cible isolée":
+                        self.assertTrue(case["bfs"]["path_ok"])
+                        self.assertTrue(case["dfs"]["path_ok"])
+                        self.assertFalse(case["bfs"]["method_ok"])
+                        self.assertFalse(case["dfs"]["method_ok"])
+
     def test_disconnected_case_uses_empty_path(self):
         g = runner_t02.make_graph(runner_t02.BASE_CASES[2]["walls"])
         a, b = runner_t02.BASE_CASES[2]["start"], runner_t02.BASE_CASES[2]["target"]

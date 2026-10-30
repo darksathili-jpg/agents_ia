@@ -129,6 +129,7 @@ def _run_algorithm(namespace, name, graph, start, target, method):
     cls = namespace["File" if method == "bfs" else "Pile"]
     push_name, pop_name = (("enfiler", "defiler") if method == "bfs" else ("empiler", "depiler"))
     events, shadow = [], {}
+    popped_vertices, neighbor_reads = [], []
     fifo_ok = True
     old_push, old_pop = getattr(cls, push_name), getattr(cls, pop_name)
 
@@ -146,29 +147,57 @@ def _run_algorithm(namespace, name, graph, start, target, method):
         expected = q.pop(0 if method == "bfs" else -1) if q else None
         if expected is None or result != expected:
             fifo_ok = False
+        popped_vertices.append(result)
         if len(events) < 240:
             events.append({"op": pop_name, "vertex": list(result) if type(result) is tuple else str(result)})
         return result
 
+    class ObservedGraph(dict):
+        """Observe les consultations des voisins, pas les métadonnées du graphe."""
+        def __getitem__(self, vertex):
+            result = super().__getitem__(vertex)
+            neighbor_reads.append(vertex)
+            return result
+
+        def get(self, vertex, default=None):
+            if vertex in self:
+                neighbor_reads.append(vertex)
+            return super().get(vertex, default)
+
     setattr(cls, push_name, tracked_push)
     setattr(cls, pop_name, tracked_pop)
     try:
-        path = fn({p: list(v) for p, v in graph.items()}, start, target)
+        path = fn(ObservedGraph({p: list(v) for p, v in graph.items()}), start, target)
     finally:
         setattr(cls, push_name, old_push)
         setattr(cls, pop_name, old_pop)
     path_ok, message = _path_ok(path, graph, start, target, method == "bfs")
     distance = independent_shortest(graph, start, target)
-    # Pour une recherche non triviale, exiger des appels réels à la structure.
-    needs_structure = distance is not None and distance > 0
+    # Le départ et l'objectif sont deux sommets distincts : même lorsque la
+    # cible est inaccessible, il faut réellement explorer pour le constater.
+    needs_structure = start in graph and target in graph and start != target
     used = (any(e["op"] == push_name for e in events)
             and any(e["op"] == pop_name for e in events))
-    method_ok = fifo_ok and (used or not needs_structure)
+    # L'utilisation fictive d'une File/Pile isolée ne valide pas la méthode :
+    # les voisins consultés doivent correspondre à des sommets retirés
+    # effectivement de la structure observée. Une solution sans lecture du
+    # graphe ne satisfait pas une recherche non triviale.
+    exploration_correlated = (
+        bool(neighbor_reads)
+        and all(vertex in popped_vertices for vertex in neighbor_reads)
+    )
+    method_ok = fifo_ok and (
+        (used and exploration_correlated) if needs_structure else True
+    )
     if not method_ok:
-        message = (message + " " if message else "") + (
-            "La file FIFO n'a pas été utilisée correctement." if method == "bfs"
-            else "La pile LIFO n'a pas été utilisée correctement."
+        detail = (
+            "File FIFO : les sommets dont les voisins sont lus doivent provenir "
+            "des retraits réels de la file."
+            if method == "bfs" else
+            "Pile LIFO : les sommets dont les voisins sont lus doivent provenir "
+            "des retraits réels de la pile."
         )
+        message = (message + " " if message else "") + detail
     return {
         "ok": path_ok and method_ok,
         "path_ok": path_ok,

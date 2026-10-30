@@ -60,8 +60,11 @@ contrats ; il ne constitue **pas** une note de compréhension.
 
 - BFS : chemin valide **et minimal**.
 - DFS : chemin valide, **sans imposer** qu'il soit minimal.
-- Utilisation effective de File/Pile vérifiée par appels observables, mais
-  ces contrôles ne prouvent pas formellement la méthode, ni la compréhension.
+- Utilisation effective de File/Pile vérifiée par appels observables ;
+  une consultation des voisins doit correspondre à un sommet retiré de la
+  structure. Les appels purement décoratifs ne suffisent pas. Cette
+  instrumentation ne prouve pas formellement la méthode, ni la compréhension :
+  le code Python de l'élève demeure inspectable et peut être contourné.
 - 7 situations de test, dont des grilles variées avec graine.
 - Fonctionnement local Pyodide 0.27.7 : requiert un serveur HTTP, et doit
   encore être éprouvé sur un poste Edge du lycée.
