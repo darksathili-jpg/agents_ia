@@ -46,6 +46,9 @@ def test_browser():
             page.wait_for_selector("#board-bfs .cell")
             assert page.locator("#board-bfs .cell").count() == 35
             assert page.locator("#board-dfs .cell").count() == 35
+            assert page.locator("#board-bfs .board-microduck").count() == 1
+            assert page.locator("#board-dfs .board-microduck").count() == 1
+            assert page.locator("#phase-bfs").inner_text().startswith("EXPLORATION")
             for width, height in ((1440, 900), (900, 700), (390, 844)):
                 page.set_viewport_size({"width": width, "height": height})
                 page.wait_for_timeout(180)
@@ -69,6 +72,10 @@ def test_browser():
             bfs = int(page.locator("#length-bfs").inner_text())
             dfs = int(page.locator("#length-dfs").inner_text())
             assert dfs > bfs, (bfs, dfs)
+            assert page.locator("#phase-bfs").inner_text().startswith("DÉPLACEMENT")
+            assert page.locator("#phase-dfs").inner_text().startswith("DÉPLACEMENT")
+            assert page.locator("#board-bfs .board-microduck").get_attribute("src").endswith("microduck-idle-east.webp")
+            assert page.locator("#board-dfs .board-microduck").get_attribute("src") is not None
             page.locator("#board-bfs .cell[data-x='1'][data-y='2']").click()
             assert "wall" not in page.locator("#board-bfs .cell[data-x='1'][data-y='2']").get_attribute("class")
 
