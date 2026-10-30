@@ -34,6 +34,19 @@ jobs:
           node premiere/tests/editor_indent.test.cjs
           node tests/test_t02_visualizer.cjs
           for src in shared/editor-indent.js premiere/app.js premiere/python-worker.js premiere/hero-motion.js terminale/app.js terminale/python-worker.js terminale/hero-motion.js terminale/bfs-visualizer.js terminale/demo-bfs.js terminale/t02/lab.js terminale/t02/python-worker.js; do node --check "$src"; done
+      - name: Recette Chromium T02 avec Pyodide réel local
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+          python tests/browser_t02.py
+      - name: Captures de recette T02
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures-t02-chromium
+          path: test-results/t02/
+          if-no-files-found: ignore
+          retention-days: 14
       - name: Tester la liste blanche de publication, sans les binaires
         run: |
           python scripts/build_site.py --allow-cdn
