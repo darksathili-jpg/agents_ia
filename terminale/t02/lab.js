@@ -84,7 +84,7 @@
   const $ = id => document.getElementById(id);
   let walls = PRESETS.difference.map(p => p.slice());
   let state = analyze(walls), stepIndex = 0, timer = null, worker = null,
-      workerReady = false, taskId = 0, runTimer = null, sourceStarter = null;
+      workerReady = false, workerGeneration = 0, activeRun = 0, runTimer = null, sourceStarter = null;
 
   function framesTotal() {
     return Math.max(state.bfs.frames.length,state.dfs.frames.length);
@@ -125,7 +125,7 @@
       if(blocked.has(k))cell.classList.add('wall');
       else if(route.has(k))cell.classList.add('route');
       else if(frame.current===k)cell.classList.add('active');
-      else if(visited.has(k))cell.classList.add('active','seen');
+      else if(visited.has(k))cell.classList.add('seen');
       else if(discovered.has(k))cell.classList.add('seen');
       if (isStart)cell.classList.add('fixed','start');
       if (isGoal)cell.classList.add('fixed','target');
@@ -225,13 +225,13 @@
   }
   function newWorker(){
     workerStop();
-    const id=++taskId;
+    const id=++workerGeneration;
     if(typeof Worker==='undefined'){
       $('python-status').textContent='Web Worker indisponible dans ce navigateur.';return;
     }
     worker=new Worker('python-worker.js');
     worker.onmessage=({data})=>{
-      if(id!==taskId)return;
+      if(id!==workerGeneration)return;
       if(data.type==='ready'){
         workerReady=true;$('python-status').textContent=
           data.source==='local'?'Python prêt · distribution locale':'Python prêt · secours réseau';
@@ -243,7 +243,7 @@
         if(data.stage==='load')workerStop();
       }
       if(data.type==='result'){
-        if(data.id!==taskId)return;
+        if(data.id!==activeRun)return;
         clearTimeout(runTimer);runTimer=null;
         $('python-status').textContent='Exécution terminée';
         $('run-python').disabled=false;
@@ -284,21 +284,18 @@
     if(first){
       $('student-trace').hidden=false;
       const entries=['FILE · appels Python observés',
-        ...first.bfs.events.slice(0,15).map(e=>e.op+' ('+e.vertex.join(',')+')'),
+        ...first.bfs.events.slice(0,15).map(e=>e.op+' ('+(Array.isArray(e.vertex)?e.vertex.join(','):String(e.vertex))+')'),
         'PILE · appels Python observés',
-        ...first.dfs.events.slice(0,15).map(e=>e.op+' ('+e.vertex.join(',')+')')];
+        ...first.dfs.events.slice(0,15).map(e=>e.op+' ('+(Array.isArray(e.vertex)?e.vertex.join(','):String(e.vertex))+')')];
       $('student-trace-lines').textContent=entries.join('\n');
     }else $('student-trace').hidden=true;
   }
   function run(){
     if(!workerReady||!worker)return;
-    const id=++taskId;
-    // taskId identifie l'exécution ; le handler conserve l'identifiant du Worker.
-    // Ne pas incrémenter le jeton du Worker lors d'une simple exécution.
-    taskId=id-1;
+    const id=++activeRun;
     $('run-python').disabled=true;
     $('python-status').textContent='Exécution des 7 situations…';
-    worker.postMessage({type:'run',source:$('python-code').value,id:taskId});
+    worker.postMessage({type:'run',source:$('python-code').value,id});
     clearTimeout(runTimer);
     runTimer=setTimeout(()=>{
       $('python-status').textContent='Exécution interrompue après 9 secondes. Worker redémarré.';
@@ -307,6 +304,8 @@
   }
   function init(){
     initBoards();render();
+    const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduced)document.querySelector('.microduck').src='../../assets/microduck-walk-east.webp';
     $('scenario').addEventListener('change',()=>{walls=PRESETS[$('scenario').value].map(p=>p.slice());recompute();});
     $('order').addEventListener('change',recompute);
     $('reset').addEventListener('click',()=>{walls=PRESETS[$('scenario').value].map(p=>p.slice());recompute();});
