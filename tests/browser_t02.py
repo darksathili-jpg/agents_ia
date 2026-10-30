@@ -38,6 +38,8 @@ def test_browser():
             browser = play.chromium.launch(headless=True)
             page = browser.new_page(viewport={"width": 1440, "height": 900}, reduced_motion="reduce")
             page.on("pageerror", lambda error: errors.append(str(error)))
+            page.on("console", lambda message: errors.append("console: "+message.text) if message.type == "error" else None)
+            page.route("https://cdn.jsdelivr.net/**", lambda route: route.abort())
             assert page.goto(base, wait_until="domcontentloaded").status == 200
             page.wait_for_selector("#board-bfs .cell")
             assert page.locator("#board-bfs .cell").count() == 35
@@ -69,11 +71,12 @@ def test_browser():
             assert "wall" not in page.locator("#board-bfs .cell[data-x='1'][data-y='2']").get_attribute("class")
 
             # Pyodide réel, distribution locale, pas de secours CDN.
-            page.route("https://cdn.jsdelivr.net/**", lambda route: route.abort())
             page.wait_for_function(
-                "() => document.querySelector('#python-status').textContent.includes('Python prêt · distribution locale')",
-                timeout=120_000,
+                "() => /Python prêt|Erreur Python|indisponible/.test(document.querySelector('#python-status').textContent)",
+                timeout=35_000,
             )
+            status = page.locator("#python-status").inner_text()
+            assert "Python prêt · distribution locale" in status, {"status":status,"errors":errors}
             page.locator("#run-python").click()
             page.wait_for_function(
                 "() => document.querySelector('#score').textContent !== '— / 7'",
