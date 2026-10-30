@@ -136,3 +136,15 @@ body[data-theme=projection] .cell.seen{background:#bde2eb}body[data-theme=projec
 @media(max-width:760px){.topbar{min-height:0;gap:10px}.topbar nav{order:3;width:100%;margin:0;justify-content:center}.themes{margin-left:auto}.hero{grid-template-columns:1fr}.hero-copy{padding:30px 24px 15px}.hero-art{min-height:160px}.microduck{max-height:145px}.orbit.one{max-width:180px}.orbit.two{max-width:140px}.route-a{top:8%;left:20%}.route-b{right:19%;bottom:12%}.objectives{grid-template-columns:1fr}.objectives article{flex-wrap:nowrap}.objectives article>span:last-child{width:auto;padding-left:0}.simulators,.concepts{grid-template-columns:1fr}.toolbar .button{flex:1}.board{max-width:660px;margin:auto}.cell span{font-size:15px}.section-heading h2{font-size:28px}}
 @media(max-width:430px){main{padding:15px 11px 30px}.topbar{padding:9px 11px}.brand strong{font-size:17px}.brand small{font-size:8px}.brand img{width:40px;height:40px}.topbar nav{gap:0}.topbar nav a,.topbar nav span{font-size:11px;padding:7px}.themes button{font-size:11px;padding:7px}.hero h1{font-size:36px}.hero-copy>p{font-size:14px}.objectives{margin-bottom:29px}.sim{padding:10px}.board{gap:3px;padding:8px}.cell{border-radius:5px}.cell span{font-size:12px}.numbers div{display:block;padding:9px}.numbers strong{display:block;margin-top:4px}.frontier{padding:9px}.editor-actions .button{flex:1}.result-header h3{font-size:20px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Même spritesheet Microduck que T01 : avatar présent dans les deux grilles.
+   Sa position vient exclusivement du chemin reconstruit, jamais des visites BFS/DFS. */
+.board{position:relative}
+.board-microduck{position:absolute;z-index:5;pointer-events:none;object-fit:contain;height:auto;
+  transform:translate(-50%,-63%);filter:drop-shadow(0 4px 3px #183b453c);
+  will-change:left,top}
+.board-phase{margin:9px 0 3px;min-height:20px;padding:5px 8px;border-radius:7px;
+  color:var(--teal);background:var(--mint);font:800 10px/1.4 ui-monospace,Consolas,monospace;letter-spacing:.02em}
+body[data-theme=dark] .board-microduck{filter:drop-shadow(0 3px 4px #031018a0)}
+body[data-theme=projection] .board-phase{border:1px solid var(--teal);font-size:12px}
+@media(prefers-reduced-motion:reduce){.board-microduck{transition:none!important}}
