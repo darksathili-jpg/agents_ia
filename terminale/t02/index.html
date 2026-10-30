@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f8f8">
+<meta name="description" content="ORCHESTRA NSI Terminale T02 — comparer BFS et DFS, programmer une file FIFO et une pile LIFO avec Microduck.">
+<title>ORCHESTRA NSI — T02 · BFS ou DFS ?</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="../../shared/editor-indent.js"></script>
+<script defer src="lab.js"></script>
+</head>
+<body data-theme="light">
+<a class="skip" href="#manipuler">Aller à la manipulation</a>
+<header class="topbar">
+  <a class="brand" href="../../index.html"><img src="../../assets/logo-watteau.webp" alt="Logo du lycée Watteau" width="45" height="45">
+    <span><strong>ORCHESTRA <em>NSI</em></strong><small>ATELIER DE GRAPHE · TERMINALE</small></span></a>
+  <nav aria-label="Navigation"><a href="../../index.html">Accueil</a><a href="../">T01 · Planifier</a><span aria-current="page">T02 · Comparer</span></nav>
+  <div class="themes" role="group" aria-label="Mode d'affichage">
+    <button data-theme="light" aria-pressed="true">Clair</button>
+    <button data-theme="dark" aria-pressed="false">Sombre</button>
+    <button data-theme="projection" aria-pressed="false">Projection</button>
+  </div>
+</header>
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <div class="overline">MISSION T02 <span class="dot"></span> GRAPHE NON PONDÉRÉ <span class="dot"></span> 3 SÉANCES</div>
+    <h1>Une destination.<br><em>Deux façons de la chercher.</em></h1>
+    <p>Une file, une pile : la différence paraît minime. Pourtant, l'ordre d'exploration change et le chemin obtenu peut être très différent.</p>
+    <div class="hero-cta"><a class="primary" href="#manipuler">Comparer les parcours <span aria-hidden="true">↘</span></a><span>Manipuler · Programmer · Justifier</span></div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="orbit one"></div><div class="orbit two"></div>
+    <div class="hero-halo"></div>
+    <img src="../../assets/microduck-idle-east.webp" alt="" class="microduck"/>
+    <span class="route-tag route-a">FIFO <b>↗</b></span>
+    <span class="route-tag route-b">LIFO <b>↘</b></span>
+  </div>
+</section>
+<section class="objectives" aria-label="Objectifs du module">
+  <article><span class="seq">01</span><strong>Prédire</strong><span>Quel sommet sera traité ensuite ?</span></article>
+  <article><span class="seq">02</span><strong>Comparer</strong><span>Pourquoi les chemins diffèrent-ils ?</span></article>
+  <article><span class="seq">03</span><strong>Programmer</strong><span>Deux fonctions et leurs tests Python.</span></article>
+</section>
+<section id="manipuler" class="lab-section" aria-labelledby="lab-title">
+  <div class="section-heading"><div><div class="overline">EXPÉRIENCE 01 · OBSERVER</div><h2 id="lab-title">Même terrain. Deux explorations.</h2>
+  <p>Les deux algorithmes partent de la même case. Pendant l'exploration, les sommets affichés correspondent à une <strong>recherche virtuelle</strong> : Microduck attend au départ. <strong>Une fois le chemin reconstruit</strong>, il avance réellement de case en case jusqu'à la cible.</p></div></div>
+  <div class="toolbar">
+    <div class="field"><label for="scenario">Terrain</label><select id="scenario"><option value="difference">Un détour trompeur</option><option value="direct">Route dégagée</option><option value="barrier">Barrière centrale</option><option value="isolated">Cible isolée</option></select></div>
+    <div class="field"><label for="order">Ordre des voisins</label><select id="order"><option value="ESON">Est · Sud · Ouest · Nord</option><option value="NOSE">Nord · Ouest · Sud · Est</option></select></div>
+    <button id="reset" class="button ghost" type="button">Recommencer</button>
+    <button id="step" class="button accent" type="button">Étape suivante <span aria-hidden="true">→</span></button>
+    <button id="play" class="button" type="button" aria-pressed="false">▶ Lire</button>
+  </div>
+  <p class="edit-note"><span class="mark"></span> Clique sur une case libre pour ajouter un mur, ou sur un mur pour le retirer. Départ et arrivée ne peuvent pas être déplacés. Le terrain reste identique pour BFS et DFS.</p>
+  <div class="simulators">
+    <article class="sim" data-algo="bfs">
+      <div class="sim-head"><div><span class="algo">ALGORITHME 01</span><h3>Parcours en largeur <span class="abbr">BFS</span></h3><p>File FIFO — le premier arrivé est le premier traité.</p></div><span class="symbol round">F</span></div>
+      <div class="board" id="board-bfs" role="group" aria-label="Grille du parcours en largeur"></div>
+      <p class="board-phase" id="phase-bfs">EXPLORATION · Recherche virtuelle, Microduck attend</p>
+      <div class="numbers"><div><span>Sommets traités</span><strong id="count-bfs">0</strong></div><div><span>Longueur du chemin</span><strong id="length-bfs">—</strong></div></div>
+      <div class="frontier"><div class="frontier-head"><strong>FILE · FIFO</strong><span>tête à gauche</span></div><div class="items" id="frontier-bfs">Aucune case</div></div>
+      <p class="event" id="event-bfs" aria-live="off">Départ de la recherche.</p>
+    </article>
+    <article class="sim" data-algo="dfs">
+      <div class="sim-head"><div><span class="algo">ALGORITHME 02</span><h3>Parcours en profondeur <span class="abbr">DFS</span></h3><p>Pile LIFO — le dernier arrivé est le premier traité.</p></div><span class="symbol square">P</span></div>
+      <div class="board" id="board-dfs" role="group" aria-label="Grille du parcours en profondeur"></div>
+      <p class="board-phase" id="phase-dfs">EXPLORATION · Recherche virtuelle, Microduck attend</p>
+      <div class="numbers"><div><span>Sommets traités</span><strong id="count-dfs">0</strong></div><div><span>Longueur du chemin</span><strong id="length-dfs">—</strong></div></div>
+      <div class="frontier"><div class="frontier-head"><strong>PILE · LIFO</strong><span>sommet à droite</span></div><div class="items" id="frontier-dfs">Aucune case</div></div>
+      <p class="event" id="event-dfs" aria-live="off">Départ de la recherche.</p>
+    </article>
+  </div>
+  <div class="playback"><label for="timeline">Étape de l'exploration <span id="step-number">0 / 0</span></label><input id="timeline" type="range" min="0" max="1" value="0" step="1"><p id="compare-result" aria-live="polite">Choisis un terrain, puis lance les deux algorithmes.</p></div>
+  <div class="legend" aria-label="Légende"><span><i class="key start"></i>Départ</span><span><i class="key goal"></i>Arrivée</span><span><i class="key wall"></i>Mur</span><span><i class="key seen"></i>Découvert</span><span><i class="key active"></i>Traité</span><span><i class="key path"></i>Chemin reconstruit</span></div>
+</section>
+<section class="concepts" aria-label="Comprendre les structures">
+  <article><div class="overline">EXPLIQUER</div><h2>La structure change l'ordre.</h2><p>Le BFS explore les sommets à distance croissante du départ. Dans un graphe non pondéré, le premier chemin trouvé est de longueur minimale. Le DFS explore une branche avant de revenir en arrière : il ne garantit pas un plus court chemin.</p><p><strong>Attention :</strong> un DFS peut parfois trouver un chemin aussi court que le BFS. Ce n'est pas une garantie générale.</p></article>
+  <article class="complexity"><div class="overline">COMPLEXITÉ</div><h3>Une question de représentation</h3><p>Avec une représentation par listes de voisins et des opérations de file/pile à coût constant, les parcours complets ont un coût en <code>O(V + E)</code>, où V est le nombre de sommets et E le nombre d'arêtes.</p><p>Dans notre classe <code>File</code> utilisant <code>list.pop(0)</code>, le retrait peut coûter <code>O(n)</code> : déplacer les éléments de la liste a un coût.</p></article>
+</section>
+<section class="worksheet" id="programmer">
+  <div class="section-heading"><div><div class="overline">EXPÉRIENCE 02 · PROGRAMMER</div><h2>Ton Python. Tes parcours.</h2><p>Complète les deux fonctions. Le moteur Python vérifie les chemins et observe les appels réels à <code>File</code> et <code>Pile</code> : la démonstration ci-dessus reste indépendante de ton code.</p></div></div>
+  <div class="workgrid">
+    <div class="editor-wrap"><div class="editor-header"><strong>t02_eleve.py</strong><span>Python · Pyodide local</span></div>
+      <textarea id="python-code" aria-label="Éditeur Python Terminale T02" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+      <div class="editor-actions"><button class="button accent" id="run-python" type="button" disabled>Exécuter les tests</button><button class="button ghost" id="restore" type="button">Restaurer le départ</button><span id="python-status" role="status">Chargement de Python…</span></div>
+      <p class="editor-hint">Tab pour indenter, Maj+Tab pour désindenter. Le code est sauvegardé dans ce navigateur.</p>
+    </div>
+    <div class="results"><div class="result-header"><div><div class="overline">RETROACTION</div><h3>Résultats réels</h3></div><strong id="score">— / 7</strong></div>
+      <p id="result-summary" aria-live="polite">Les sept situations de contrôle seront exécutées par Python. Aucun score n'est simulé.</p>
+      <div id="result-cases" class="cases"><p class="empty">Aucune exécution pour le moment.</p></div>
+      <div class="student-trace" id="student-trace" hidden><strong>Extrait de la trace du code élève</strong><pre id="student-trace-lines"></pre></div>
+      <p class="bound">Un test réussi ne prouve pas à lui seul la compréhension. Les contrôles de méthode sont indicatifs et ne constituent pas un bac à sable pour du code hostile.</p>
+    </div>
+  </div>
+</section>
+<section class="transfer" id="justifier"><div class="overline">EXPÉRIENCE 03 · JUSTIFIER</div><h2>Sans indices : explique ton choix.</h2><p>Un robot doit atteindre une cible avec un nombre minimal de déplacements. Sur une autre mission, il suffit de trouver <em>un</em> chemin. Quelle méthode choisirais-tu dans chaque cas et pourquoi ?</p><label for="justification">Ta justification personnelle</label><textarea id="justification" rows="5" placeholder="Je choisis… parce que… Le rôle de la file ou de la pile est…"></textarea><p class="bound">À faire relire par l'enseignant : aucune note automatique n'est attribuée à ce texte.</p></section>
+</main>
+<footer><span>ORCHESTRA NSI · Terminale T02 · Travail pédagogique supervisé</span><a href="../">Retour à T01</a><a href="../../index.html">Accueil</a></footer>
+</body>
+</html>
