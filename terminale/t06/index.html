@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#edf5f6">
+<meta name="description" content="ORCHESTRA NSI T06 : gérer un incident, contrôler un correctif et autoriser une reprise sûre de Microduck.">
+<title>ORCHESTRA NSI — T06 · Reprendre sans répéter l'erreur</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="../../shared/editor-indent.js"></script>
+<script defer src="lab.js"></script>
+</head>
+<body data-theme="light">
+<a class="skip" href="#lab">Aller au laboratoire T06</a>
+<header class="topbar">
+<a class="brand" href="../../index.html"><img src="../../assets/logo-watteau.webp" width="44" height="44" alt="Logo du lycée Watteau"><span><b>ORCHESTRA <em>NSI</em></b><small>LABORATOIRE DES AGENTS · TERMINALE</small></span></a>
+<nav aria-label="Progression"><a href="../">T01</a><a href="../t02/">T02</a><a href="../t03/">T03</a><a href="../t04/">T04</a><a href="../t05/">T05</a><span aria-current="page">T06 · Reprise</span></nav>
+<div class="themes" role="group" aria-label="Mode d'affichage"><button data-theme="light" aria-pressed="true" type="button">Clair</button><button data-theme="dark" aria-pressed="false" type="button">Sombre</button><button data-theme="projection" aria-pressed="false" type="button">Projection</button></div>
+</header>
+<main>
+<section class="hero t06-hero">
+<div><p class="eyebrow">MISSION 06 <span class="dot"></span> INCIDENT ET REPRISE <span class="dot"></span> 3 SÉANCES</p>
+<h1>Un incident ne s'efface <em>pas d'un clic.</em></h1>
+<p>Microduck est arrêté. Un agent propose un correctif, mais l'orchestrateur doit vérifier la nouvelle révision, les fichiers modifiés, les tests réellement refaits et le point sûr. La reprise est une <strong>nouvelle décision</strong>, jamais une conséquence automatique du rapport.</p>
+<a class="cta" href="#lab">Entrer dans le poste de reprise <span aria-hidden="true">↘</span></a></div>
+<div class="hero-image" aria-hidden="true"><span class="radar radar-a"></span><span class="radar radar-b"></span><img src="../../assets/microduck-idle-east.webp" alt=""><span class="halo-tag t1">INCIDENT</span><span class="halo-tag t2">NOUVELLES PREUVES</span><span class="halo-tag t3">REPRISE ?</span></div>
+</section>
+<section class="strip" aria-label="Objectifs de T06">
+<div><span>01</span><b>Isoler</b><small>Arrêter l'action lorsqu'une anomalie survient</small></div>
+<div><span>02</span><b>Vérifier</b><small>Contrôler le correctif et les preuves nouvelles</small></div>
+<div><span>03</span><b>Reprendre</b><small>Autoriser un seul pas depuis un point sûr</small></div>
+</section>
+<section class="intro">
+<p class="kicker">LE CONTRAT DE REPRISE</p>
+<h2>Corriger ≠ vérifier ≠ reprendre.</h2>
+<div class="architecture">
+<article><strong>01 · INCIDENT DÉTECTÉ</strong><p>Microduck s'arrête ; l'état sûr est conservé avant toute correction.</p></article>
+<article><strong>02 · CORRECTIF PROPOSÉ</strong><p>Le rapport de l'agent reste non fiable tant que la révision n'a pas été contrôlée.</p></article>
+<article><strong>03 · REVÉRIFICATION</strong><p>Le registre indépendant doit prouver que tous les tests requis passent sur la nouvelle version.</p></article>
+<article><strong>04 · REPRISE EXPLICITE</strong><p>Après validation et éventuel accord humain, une instruction distincte autorise un seul déplacement.</p></article>
+</div>
+<p class="caution">Ce laboratoire simule un orchestrateur : le registre des tests, les révisions et les approbations sont des données pédagogiques. Il n'exécute pas Git et ne répare pas un robot physique.</p>
+</section>
+<section class="laboratory" id="lab">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 01 · DIAGNOSTIQUER</p><h2>Une reprise se mérite.</h2><p>Choisis un dossier, examine les preuves de la nouvelle révision, puis fais évoluer l'état de la mission. Tu verras quand Microduck peut réellement repartir.</p></div><span class="episode">T06 / INCIDENT GATE</span></div>
+<div class="toolbar">
+<label for="scenario">Dossier d'incident
+<select id="scenario">
+<option value="0">01 · Correctif vérifié — reprise autorisable</option>
+<option value="1" selected>02 · Test encore en échec</option>
+<option value="2">03 · Preuve de l'ancienne révision</option>
+<option value="3">04 · Fichier hors du périmètre</option>
+<option value="4">05 · Point de reprise incohérent</option>
+<option value="5">06 · Auto-approbation inventée</option>
+<option value="6">07 · Accord humain nécessaire</option>
+<option value="7">08 · Preuve inventée</option>
+<option value="8">09 · Révision du correctif inchangée</option>
+</select></label>
+<button class="button" id="reset" type="button">↺ Recommencer</button>
+<button class="button accent" id="next" type="button">Étape suivante →</button>
+</div>
+<div class="recovery-states" role="group" aria-label="Machine à états de reprise">
+<span data-state-marker="INCIDENT_DÉTECTÉ">INCIDENT_DÉTECTÉ</span>
+<span data-state-marker="BLOQUÉE">BLOQUÉE</span>
+<span data-state-marker="CORRECTIF_PROPOSÉ">CORRECTIF_PROPOSÉ</span>
+<span data-state-marker="EN_REVÉRIFICATION">EN_REVÉRIFICATION</span>
+<span data-state-marker="ATTENTE_HUMAINE">ATTENTE_HUMAINE</span>
+<span data-state-marker="REPRISE_AUTORISÉE">REPRISE_AUTORISÉE</span>
+<span data-state-marker="REPRISE_EXÉCUTÉE">REPRISE_EXÉCUTÉE</span>
+</div>
+<div class="audit-grid">
+<div class="terrain-card">
+<div class="card-head"><div><b>Microduck · Point sûr 6 × 3</b><small>DÉMONSTRATION GUIDÉE · AUCUN CODE ÉLÈVE ÉVALUÉ</small></div><span id="position-label" class="coordinates">(0, 1)</span></div>
+<div id="board" class="board" role="group" aria-label="Terrain Microduck au point de reprise"></div>
+<p id="effect" class="underboard" aria-live="polite">Incident détecté : aucune action permise.</p>
+<div class="audit-documents">
+<div class="mini-panel report-panel"><span class="mini-title">CORRECTIF DE L'AGENT · NON FIABLE</span><pre id="correctif-code"></pre></div>
+<div class="mini-panel trusted-panel"><span class="mini-title">TESTS DE LA NOUVELLE RÉVISION · REGISTRE SIMULÉ</span><div id="registry-rows"></div></div>
+</div>
+</div>
+<aside class="inspector">
+<div class="inspector-head"><span class="live-dot"></span><b>ORCHESTRATEUR · CONTRÔLE DE REPRISE</b></div>
+<div class="inspector-section"><span>ÉTAT DE LA MISSION</span><strong id="status" class="state-label">INCIDENT_DÉTECTÉ</strong><small id="status-note">Microduck est arrêté au dernier point sûr.</small></div>
+<div class="inspector-section"><span>CONTRAT DE REPRISE</span><div id="scope" class="mission-scope"></div><small>La position sûre et la révision doivent correspondre aux exigences de la mission.</small></div>
+<div class="inspector-section"><span>VALIDATION DES NOUVELLES PREUVES</span><strong id="proofs-status">Aucun contrôle exécuté</strong><small>Aucune preuve d'une version ancienne ne permet de reprendre.</small></div>
+<div id="approval" class="approval-panel" hidden><b>Accord humain requis</b><p>Les nouvelles preuves sont conformes. Une personne doit encore approuver cette reprise.</p><div class="approval-actions"><button class="button accent" id="approve" type="button">Autoriser une fois</button><button class="button" id="deny" type="button">Refuser la reprise</button></div><small>Décision simulée, distincte de toute déclaration de l'agent.</small></div>
+<button id="resume" type="button" class="button accent resume-button" disabled>▶ Reprendre Microduck d'une case</button>
+<div class="log-head">JOURNAL DES TRANSITIONS ET PREUVES</div><ol id="audit-log" class="audit-log" aria-live="polite"></ol>
+</aside>
+</div>
+</section>
+<section class="workspace" id="programmer">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 02 · PROGRAMMER</p><h2>Écris le vérificateur de reprise.</h2><p>Complète <code>decider_reprise(mission, incident, correctif, registre)</code> et contrôle les tests de la nouvelle révision. Une réussite du programme élève ne déplace pas automatiquement Microduck dans la démonstration.</p></div></div>
+<div class="two-col">
+<div class="editor-panel"><div class="editor-head"><b>t06_eleve.py</b><span>PYTHON · INCIDENT / PREUVES / REPRISE</span></div>
+<textarea id="python-code" aria-label="Éditeur Python T06" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+<div class="actions"><button id="run-python" class="button accent" type="button" disabled>Exécuter les tests</button><button id="restore" class="button" type="button">Restaurer le squelette</button></div>
+<p id="python-status" role="status">Chargement du moteur Python…</p>
+<p class="hint">Tab : indenter · Maj+Tab : désindenter. Brouillon enregistré localement. Pyodide ne constitue pas une sandbox contre du code hostile.</p>
+</div>
+<div class="results-panel"><div class="result-head"><div><span class="kicker">CONTRÔLE RÉEL DU CODE ÉLÈVE</span><h3>19 situations contradictoires</h3></div><output id="score">— / 19</output></div>
+<p id="result-summary" aria-live="polite">Aucun résultat encore produit par le programme élève.</p>
+<div id="result-cases" class="test-cases"><p class="quiet">La validation exige une nouvelle révision, un point sûr et des preuves de test vérifiables.</p></div>
+<div id="student-proof" class="student-proof" hidden><b>Trace réelle du code Python élève</b><pre id="student-proof-data"></pre><p>Le registre pédagogique est simulé et n'a aucune valeur d'attestation cryptographique.</p></div>
+</div>
+</div>
+</section>
+<section class="transfer" id="justifier">
+<p class="kicker">EXPÉRIENCE 03 · EXPLIQUER</p><h2>Qu'est-ce qui autorise une reprise ?</h2>
+<p>Un agent corrige une collision et annonce « tout fonctionne ». Pourtant, le seul test disponible date de l'ancienne révision. Pourquoi est-il obligatoire de bloquer ? Pourquoi le point de reprise doit-il être cohérent ? Une fois la mission déclarée <code>REPRISE_AUTORISÉE</code>, pourquoi faut-il encore une instruction distincte pour déplacer Microduck ?</p>
+<label for="justification">Justification écrite, à faire relire par l'enseignant</label>
+<textarea id="justification" rows="5" placeholder="Je bloque la reprise car… La nouvelle révision… Le point sûr…"></textarea><p class="hint">Cette argumentation n'est pas évaluée automatiquement.</p>
+</section>
+</main>
+<footer><span>ORCHESTRA NSI · T06 · Simulation pédagogique supervisée</span><a href="../t05/">Revoir T05</a><a href="../../index.html">Accueil</a></footer>
+</body></html>
