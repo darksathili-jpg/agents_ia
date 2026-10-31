@@ -150,8 +150,13 @@ def evaluate_source(source):
             if response["statut"] != expected:
                 raise AssertionError("Décision incorrecte : attendu " + expected + ".")
             before, after, changed = _execute_world(case, expected)
+            feedback = {
+                "AUTORISÉ": "Appel autorisé : contrat et permission valides.",
+                "ATTENTE_HUMAINE": "Attente conforme : approbation humaine requise, aucun effet sans accord.",
+                "REFUSÉ": "Refus conforme : appel non admissible, aucun effet.",
+            }[expected]
             results.append({"name": case["name"], "ok": True,
-                            "message": "Contrat et permission vérifiés.",
+                            "message": feedback,
                             "trace": {"appel": initial_call, "permissions": sorted(rights),
                                       "statut": response["statut"], "motif": response["motif"],
                                       "accord_humain_simule": case.get("human", None),
