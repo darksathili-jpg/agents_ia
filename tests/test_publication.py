@@ -20,7 +20,7 @@ class SitePublicationTests(unittest.TestCase):
 
     def test_publication_list_is_explicit_and_small(self):
         self.assertGreater(self.report['files'], 30)
-        self.assertLess(self.report['files'], 110)
+        self.assertLess(self.report['files'], 120)
         self.assertTrue((self.site/'terminale/python-worker.js').exists())
         self.assertTrue((self.site/'premiere/python-worker.js').exists())
         self.assertTrue((self.site/'terminale/bfs-visualizer.js').exists())
@@ -30,6 +30,8 @@ class SitePublicationTests(unittest.TestCase):
         self.assertTrue((self.site/'terminale/t05/runner_t05.py').exists())
         self.assertTrue((self.site/'terminale/t06/runner_t06.py').exists())
         self.assertTrue((self.site/'terminale/t06/lab.js').exists())
+        self.assertTrue((self.site/'terminale/t07/runner_t07.py').exists())
+        self.assertTrue((self.site/'terminale/t07/lab.js').exists())
 
     def test_no_teacher_data_or_build_artifacts(self):
         forbidden = ['tests','scripts','.github','RAPPORT_VALIDATION_V14.md',

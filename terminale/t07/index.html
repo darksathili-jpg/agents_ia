@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#edf7f8">
+<meta name="description" content="T07 ORCHESTRA NSI : auditer un journal d'agent, vérifier les preuves et reconstruire un parcours Microduck.">
+<title>ORCHESTRA NSI — T07 · Le journal est-il vrai ?</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="../../shared/editor-indent.js"></script>
+<script defer src="lab.js"></script>
+</head>
+<body data-theme="light">
+<a class="skip" href="#lab">Aller au laboratoire d'audit</a>
+<header class="topbar">
+<a class="brand" href="../../index.html"><img src="../../assets/logo-watteau.webp" width="44" height="44" alt="Logo du lycée Watteau"><span><b>ORCHESTRA <em>NSI</em></b><small>LABORATOIRE DES AGENTS · TERMINALE</small></span></a>
+<nav aria-label="Progression"><a href="../">T01</a><a href="../t02/">T02</a><a href="../t03/">T03</a><a href="../t04/">T04</a><a href="../t05/">T05</a><a href="../t06/">T06</a><span aria-current="page">T07 · Audit</span></nav>
+<div class="themes" role="group" aria-label="Mode d'affichage"><button data-theme="light" aria-pressed="true" type="button">Clair</button><button data-theme="dark" aria-pressed="false" type="button">Sombre</button><button data-theme="projection" aria-pressed="false" type="button">Projection</button></div>
+</header>
+<main>
+<section class="hero t07-hero">
+<div><p class="eyebrow">MISSION 07 <span class="dot"></span> TRACE ET AUDIT <span class="dot"></span> 3 SÉANCES</p>
+<h1>Le journal dit <em>« J’ai avancé ».</em><br>Qui peut le <em>prouver ?</em></h1>
+<p>Microduck rapporte ses étapes. Un événement peut pourtant être inventé, déplacé, répété ou associé à une preuve ancienne. Ton travail : reconstruire une trace cohérente et confronter chaque action au registre de vérification indépendant.</p>
+<a class="cta" href="#lab">Examiner les traces <span aria-hidden="true">↘</span></a></div>
+<div class="hero-image" aria-hidden="true"><span class="radar radar-a"></span><span class="radar radar-b"></span><img src="../../assets/microduck-idle-east.webp" alt=""><span class="halo-tag t1">JOURNAL</span><span class="halo-tag t2">PREUVES</span><span class="halo-tag t3">REJEU CONTRÔLÉ</span></div>
+</section>
+<section class="strip" aria-label="Objectifs">
+<div><span>01</span><b>Reconstruire</b><small>Une séquence d'événements de mission</small></div>
+<div><span>02</span><b>Recouper</b><small>Chaque déplacement avec sa preuve indépendante</small></div>
+<div><span>03</span><b>Auditer</b><small>Refuser les trous, doublons et falsifications</small></div>
+</section>
+<section class="intro">
+<p class="kicker">TRAÇABILITÉ · PREUVE ET RECONSTRUCTION</p>
+<h2>Un journal peut être complet et pourtant faux.</h2>
+<div class="architecture">
+<article><strong>01 · Déclaration</strong><p>L'agent produit une liste chronologique. Le journal est une entrée non fiable.</p></article>
+<article><strong>02 · Séquence</strong><p>Chaque événement porte un numéro, une position, une révision et un type.</p></article>
+<article><strong>03 · Recoupement</strong><p>Le registre de tests indépendant atteste chaque déplacement et ses coordonnées.</p></article>
+<article><strong>04 · Rejeu</strong><p>Une trace conforme peut être rejouée manuellement, un déplacement après l'autre.</p></article>
+</div>
+<p class="caution"><strong>Limite essentielle :</strong> le registre « indépendant » est simulé dans ce laboratoire. Ce dispositif montre la vérification d'une trace, mais il ne prouve pas cryptographiquement son authenticité. Il ne contrôle ni un dépôt Git réel ni un robot physique.</p>
+</section>
+<section class="laboratory" id="lab">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 01 · CONFRONTER</p><h2>Le centre d'audit Microduck.</h2><p>Examine le journal, lance l'audit, puis ne rejoue les étapes que si le verdict est conforme. Microduck reste immobile pendant l'analyse.</p></div><span class="episode">T07 / TRACE GATE</span></div>
+<div class="toolbar">
+<label for="scenario">Dossier à auditer
+<select id="scenario">
+<option value="0">01 · Journal conforme</option>
+<option value="1" selected>02 · Déplacement sans preuve</option>
+<option value="2">03 · Test réellement échoué</option>
+<option value="3">04 · Preuve d'une ancienne révision</option>
+<option value="4">05 · Observation manquante</option>
+<option value="5">06 · Téléportation annoncée</option>
+<option value="6">07 · Accord humain nécessaire</option>
+<option value="7">08 · Événement après FIN</option>
+<option value="8">09 · Séquence incohérente</option>
+</select></label>
+<button class="button" id="reset" type="button">↺ Recommencer</button>
+<button class="button accent" id="audit" type="button">Auditer le journal →</button>
+</div>
+<div class="audit-states" role="group" aria-label="États d'audit">
+<span data-state-marker="JOURNAL_REÇU">JOURNAL_REÇU</span>
+<span data-state-marker="AUDIT_EN_COURS">AUDIT_EN_COURS</span>
+<span data-state-marker="ANOMALIE">ANOMALIE</span>
+<span data-state-marker="ATTENTE_HUMAINE">ATTENTE_HUMAINE</span>
+<span data-state-marker="CONFORME">CONFORME</span>
+<span data-state-marker="REJEU_TERMINÉ">REJEU_TERMINÉ</span>
+</div>
+<div class="audit-grid">
+<section class="terrain-card">
+<div class="card-head"><div><b>Microduck · Terrain 6 × 3</b><small>DÉMONSTRATION GUIDÉE · AUCUN CODE ÉLÈVE ÉVALUÉ</small></div><span class="coordinates" id="position-label">(0, 1)</span></div>
+<div id="board" class="board" role="group" aria-label="Terrain et rejeu Microduck"></div>
+<p class="underboard" id="effect" aria-live="polite">En attente d'audit : aucun déplacement.</p>
+<div class="replay-controls"><button id="replay" class="button accent" type="button" disabled>▶ Rejouer l'événement suivant</button><output id="replay-progress">0 / 6 événements</output></div>
+<div class="trace-panels">
+<div class="mini-panel report-panel"><span class="mini-title">JOURNAL DE L'AGENT · NON FIABLE</span><ol class="event-list" id="event-list"></ol></div>
+<div class="mini-panel trusted-panel"><span class="mini-title">REGISTRE DES PREUVES · INDÉPENDANT SIMULÉ</span><div id="registry-rows"></div></div>
+</div>
+</section>
+<aside class="inspector">
+<div class="inspector-head"><span class="live-dot"></span><b>VÉRIFICATEUR · AUDIT CHRONOLOGIQUE</b></div>
+<div class="inspector-section"><span>VERDICT</span><strong class="state-label" id="status">JOURNAL_REÇU</strong><small id="status-note">Données reçues, aucune validation.</small></div>
+<div class="inspector-section"><span>CONTRAT DE LA MISSION</span><div id="scope" class="mission-scope"></div><small>La révision et le point d'arrivée viennent de la mission, pas du journal.</small></div>
+<div class="inspector-section"><span>CONTRÔLE DES ACTIONS</span><strong id="proofs-status">Non vérifié</strong><small>Une ligne de journal n'est pas une preuve d'action réelle.</small></div>
+<div class="approval-panel" id="approval" hidden><b>Décision humaine nécessaire</b><p>Les preuves correspondent au journal, mais la mission exige encore ton accord.</p><div class="approval-actions"><button class="button accent" type="button" id="approve">Autoriser ce rejeu</button><button class="button" type="button" id="deny">Refuser</button></div><small>Accord humain simulé, étranger au rapport de l'agent.</small></div>
+<div class="log-head">JOURNAL DE L'AUDITEUR</div><ol id="audit-log" class="audit-log" aria-live="polite"></ol>
+</aside>
+</div>
+</section>
+<section class="workspace" id="programmer">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 02 · PROGRAMMER</p><h2>Écris l'auditeur Python.</h2><p>Complète <code>auditer_journal(mission, journal, registre)</code>. Il doit valider la chronologie, reconstituer les positions, puis consulter chaque preuve indépendante. La démonstration visuelle ne produit aucun score.</p></div></div>
+<div class="two-col">
+<div class="editor-panel"><div class="editor-head"><b>t07_eleve.py</b><span>PYTHON · JOURNAL / PREUVES / AUDIT</span></div>
+<textarea id="python-code" aria-label="Éditeur Python T07" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+<div class="actions"><button class="button accent" id="run-python" type="button" disabled>Exécuter les tests</button><button class="button" id="restore" type="button">Restaurer le squelette</button></div>
+<p id="python-status" role="status">Chargement du moteur Python…</p>
+<p class="hint">Brouillon enregistré localement. Pyodide dans un Worker n'est pas une sandbox contre du code hostile.</p></div>
+<div class="results-panel"><div class="result-head"><div><span class="kicker">RÉSULTATS PYTHON RÉELS</span><h3>19 contrôles contradictoires</h3></div><output id="score">— / 19</output></div>
+<p id="result-summary" aria-live="polite">Aucun test exécuté.</p>
+<div id="result-cases" class="test-cases"><p class="quiet">Les événements inventés, déplacés et associés à de fausses preuves doivent être détectés.</p></div>
+<div id="student-proof" class="student-proof" hidden><b>Trace de l'exécution Python</b><pre id="student-proof-data"></pre><p>Registre et accord simulés, sans attestation cryptographique.</p></div></div>
+</div>
+</section>
+<section class="transfer" id="justifier"><p class="kicker">EXPÉRIENCE 03 · JUSTIFIER</p><h2>Quelle preuve manque à un journal parfait ?</h2>
+<p>Un agent écrit six événements parfaitement ordonnés, puis affirme que Microduck a atteint la cible. La preuve du second déplacement porte sur une ancienne révision. Explique pourquoi l'audit doit être refusé, même si les positions décrivent un trajet géométriquement possible. Propose une façon d'attester les événements dans un système réel.</p>
+<label for="justification">Justification écrite à relire par l'enseignant</label><textarea id="justification" rows="5" placeholder="L'ordre du journal ne suffit pas… Le registre…"></textarea><p class="hint">Cette justification n'est pas évaluée automatiquement.</p></section>
+</main>
+<footer><span>ORCHESTRA NSI · T07 · Traçabilité simulée</span><a href="../t06/">Revoir T06</a><a href="../../index.html">Accueil</a></footer>
+</body></html>
