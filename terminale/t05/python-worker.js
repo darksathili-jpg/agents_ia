@@ -27,7 +27,9 @@ let python = null;
 onmessage = async ({data}) => {
   if(!data || data.type!=='run' || !python)return;
   try {
-    python.globals.set('student_source',data.source);\n    const seed=(self.crypto&&self.crypto.getRandomValues)?self.crypto.getRandomValues(new Uint32Array(1))[0]:1;\n    python.globals.set('scenario_seed',seed);
+    python.globals.set('student_source',data.source);
+    const seed=(self.crypto&&self.crypto.getRandomValues)?self.crypto.getRandomValues(new Uint32Array(1))[0]:1;
+    python.globals.set('scenario_seed',seed);
     const result=await python.runPythonAsync('runner_t05.evaluate_source_json(student_source, scenario_seed)');
     postMessage({type:'result',id:data.id,data:JSON.parse(result)});
   } catch(error) {
