@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff7f8">
+<meta name="description" content="Terminale NSI : simuler une machine à états, vérifier les rapports d'un agent et bloquer les anomalies.">
+<title>ORCHESTRA NSI — T05 · Ne crois pas le rapport</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="../../shared/editor-indent.js"></script>
+<script defer src="lab.js"></script>
+</head>
+<body data-theme="light">
+<a class="skip" href="#audit">Aller au laboratoire de vérification</a>
+<header class="topbar">
+<a class="brand" href="../../index.html"><img src="../../assets/logo-watteau.webp" alt="Logo du lycée Watteau" width="44" height="44"><span><b>ORCHESTRA <em>NSI</em></b><small>LABORATOIRE DES AGENTS · TERMINALE</small></span></a>
+<nav aria-label="Progression"><a href="../">T01</a><a href="../t02/">T02</a><a href="../t03/">T03</a><a href="../t04/">T04</a><span aria-current="page">T05 · Preuves</span></nav>
+<div class="themes" role="group" aria-label="Mode d'affichage">
+<button data-theme="light" type="button" aria-pressed="true">Clair</button>
+<button data-theme="dark" type="button" aria-pressed="false">Sombre</button>
+<button data-theme="projection" type="button" aria-pressed="false">Projection</button>
+</div>
+</header>
+<main>
+<section class="hero t05-hero">
+<div><p class="eyebrow">MISSION 05 <span class="dot"></span> MACHINE À ÉTATS <span class="dot"></span> 3 SÉANCES</p>
+<h1>Il dit <em>« Réussi ».</em><br>Où est la <em>preuve ?</em></h1>
+<p>Un agent peut déclarer avoir corrigé Microduck et réussi tous ses tests. L'orchestrateur ne le croit pas sur parole : il contrôle les fichiers autorisés, la révision testée et les preuves d'un vérificateur indépendant. À la moindre incohérence, la mission est bloquée.</p>
+<a class="cta" href="#audit">Ouvrir le banc de vérification <span aria-hidden="true">↘</span></a></div>
+<div class="hero-image" aria-hidden="true"><span class="radar radar-a"></span><span class="radar radar-b"></span><img src="../../assets/microduck-idle-east.webp" alt=""><span class="halo-tag t1">RAPPORT ≠ PREUVE</span><span class="halo-tag t2">VÉRIFIER</span><span class="halo-tag t3">BLOQUER SI DOUTE</span></div>
+</section>
+<section class="strip" aria-label="Objectifs">
+<div><span>01</span><b>Confronter</b><small>Rapport de l'agent et résultats indépendants</small></div>
+<div><span>02</span><b>Orchestrer</b><small>États et transitions de mission</small></div>
+<div><span>03</span><b>Argumenter</b><small>Bloquer sans inventer une réussite</small></div>
+</section>
+<section class="intro">
+<p class="kicker">CONTRAT DE CONTRÔLE · PRINCIPE DE NON-CONFIANCE</p>
+<h2>Les mots ne remplacent pas les vérifications.</h2>
+<div class="architecture">
+<article><strong>01 · SPÉCIFIÉE</strong><p>Une mission précise les fichiers autorisés, la révision et les tests requis.</p></article>
+<article><strong>02 · EN VÉRIFICATION</strong><p>L'orchestrateur récupère et confronte les preuves au registre de tests indépendant.</p></article>
+<article><strong>03 · BLOQUÉE</strong><p>Fichier interdit, résultat échoué, mauvaise révision ou preuve absente : aucun effet.</p></article>
+<article><strong>04 · ATTENTE / VALIDÉE</strong><p>Une action sensible attend l'humain. Une mission validée peut seulement ensuite agir.</p></article>
+</div>
+<p class="caution"><strong>Simulation pédagogique :</strong> le « registre indépendant » est un jeu de résultats construits par le banc de tests local. Ce n'est pas une preuve cryptographique ni une vérification de code GitHub réel. Seul le code de l'élève est exécuté par Pyodide dans l'expérience 02.</p>
+</section>
+<section id="audit" class="laboratory">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 01 · AUDITER</p><h2>Le rapport d'un agent face aux faits.</h2><p>Choisis un scénario, observe ce que l'agent affirme, puis avance dans la machine à états. Microduck ne bouge que si l'orchestrateur valide réellement la mission.</p></div><span class="episode">T05 / AUDIT</span></div>
+<div class="toolbar">
+<label for="scenario">Dossier de mission
+<select id="scenario">
+<option value="0">01 · Rapport honnête et preuves conformes</option>
+<option value="1" selected>02 · Agent trompeur : faux succès</option>
+<option value="2">03 · Fichier hors périmètre</option>
+<option value="3">04 · Preuve inventée</option>
+<option value="4">05 · Preuve d'une autre révision</option>
+<option value="5">06 · Approbation humaine requise</option>
+<option value="6">07 · Agent prétend s'être approuvé</option>
+</select></label>
+<button id="reset" type="button" class="button">↺ Recommencer</button>
+<button id="next" type="button" class="button accent">Étape suivante →</button>
+</div>
+<div class="mission-timeline" role="group" aria-label="États de mission">
+<span data-state-marker="SPÉCIFIÉE">SPÉCIFIÉE</span>
+<span data-state-marker="EN VÉRIFICATION">EN VÉRIFICATION</span>
+<span data-state-marker="BLOQUÉE">BLOQUÉE</span>
+<span data-state-marker="ATTENTE_HUMAINE">ATTENTE_HUMAINE</span>
+<span data-state-marker="VALIDÉE">VALIDÉE</span>
+</div>
+<div class="audit-grid">
+<section class="terrain-card" aria-label="Rapport proposé et effets physiques">
+<div class="card-head"><div><b>Microduck · Terrain 6 × 3</b><small id="source-label">DÉMONSTRATION GUIDÉE · PAS LE PROGRAMME ÉLÈVE</small></div><span class="coordinates" id="position-label">(0, 1)</span></div>
+<div class="board" id="board" role="group" aria-label="Terrain Microduck"></div>
+<p class="underboard" id="effect">Mission spécifiée : aucun déplacement.</p>
+<div class="audit-documents">
+<div class="mini-panel report-panel"><span class="mini-title">RAPPORT DE L'AGENT · SOURCE NON FIABLE</span><pre id="report-code"></pre></div>
+<div class="mini-panel trusted-panel"><span class="mini-title">REGISTRE DES TESTS · SOURCE INDÉPENDANTE SIMULÉE</span><div id="registry-rows"></div></div>
+</div>
+</section>
+<aside class="inspector">
+<div class="inspector-head"><span class="live-dot"></span><b>ORCHESTRATEUR · VÉRIFICATION</b></div>
+<div class="inspector-section"><span>ÉTAT DE LA MISSION</span><strong id="status" class="state-label">SPÉCIFIÉE</strong><small id="status-note">Le rapport n'a pas été vérifié.</small></div>
+<div class="inspector-section"><span>PÉRIMÈTRE AUTORISÉ</span><div id="mission-scope" class="mission-scope"></div><small>Le rapport ne peut pas modifier les permissions ni changer la révision.</small></div>
+<div class="inspector-section"><span>VÉRIFICATION DES PREUVES</span><strong id="proofs-status">Aucune vérification</strong><small>Un identifiant déclaré par l'agent ne prouve rien sans entrée correspondante dans le registre.</small></div>
+<div id="approval" class="approval-panel" hidden>
+<b>Décision humaine nécessaire</b>
+<p>Toutes les preuves sont conformes. L'orchestrateur attend néanmoins une décision indépendante.</p>
+<div class="approval-actions"><button class="button accent" id="approve" type="button">Autoriser une fois</button><button class="button" id="deny" type="button">Refuser</button></div>
+<small>Décision locale et simulée. Aucun privilège réel n'est accordé.</small>
+</div>
+<div class="log-head">JOURNAL DES TRANSITIONS</div><ol id="audit-log" class="audit-log" aria-live="polite"><li>Mission spécifiée, attente du contrôle.</li></ol>
+</aside>
+</div>
+</section>
+<section class="workspace" id="programmer">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 02 · PROGRAMMER</p><h2>Programme l'orchestrateur Python.</h2><p>Complète <code>controler_mission(mission, rapport, registre)</code>. Les dix-neuf situations de contrôle utilisent les résultats d'un registre indépendant, avec trois variantes dont les noms de fichiers et de tests changent.</p></div></div>
+<div class="two-col">
+<div class="editor-panel"><div class="editor-head"><b>t05_eleve.py</b><span>PYTHON · MISSION / ÉTATS / PREUVES</span></div><textarea id="python-code" aria-label="Éditeur Python T05" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+<div class="actions"><button id="run-python" class="button accent" type="button" disabled>Exécuter les tests</button><button id="restore" class="button" type="button">Restaurer le squelette</button></div>
+<p id="python-status" role="status">Préparation du moteur Python…</p><p class="hint">Tab et Maj+Tab pour indenter. Brouillon enregistré dans ce navigateur. Les résultats affichés proviennent de Pyodide.</p>
+</div>
+<div class="results-panel"><div class="result-head"><div><span class="kicker">CONTRÔLES RÉELS</span><h3>Verdicts du programme élève</h3></div><output id="score">— / 19</output></div>
+<p id="result-summary" aria-live="polite">Aucun contrôle exécuté. Le simulateur de démonstration n'attribue aucune réussite.</p>
+<div id="result-cases" class="test-cases"><p class="quiet">Dix-neuf situations seront exécutées dans le moteur Python.</p></div>
+<div id="student-proof" class="student-proof" hidden><b>Trace de vérification du programme élève</b><pre id="student-proof-data"></pre><p>Ce registre de tests est indépendant du rapport dans le banc de vérification simulé ; il ne constitue pas une attestation cryptographique.</p></div>
+<p class="hint">Un test réussi atteste seulement des situations contrôlées. Ne pas exécuter de code Python hostile dans Pyodide.</p>
+</div>
+</div>
+</section>
+<section class="transfer" id="justifier"><p class="kicker">EXPÉRIENCE 03 · TRANSFÉRER</p><h2>Pourquoi un agent ne doit-il pas être son propre juge ?</h2><p>Un agent annonce « 100 % des tests réussis », mais le registre indépendant indique un échec. Quelle transition doit réaliser l'orchestrateur ? Pourquoi le fait de modifier uniquement un fichier autorisé ne suffit-il pas ? Et pourquoi l'accord humain doit-il venir d'une source indépendante du rapport ?</p><label for="justification">Justification personnelle — validation par l'enseignant</label><textarea id="justification" rows="5" placeholder="Je bloque la mission parce que… Le registre indépendant montre…"></textarea><p class="hint">Aucune note automatique : la justification doit être relue.</p></section>
+</main>
+<footer><span>ORCHESTRA NSI · T05 · Simulation pédagogique</span><a href="../t04/">Revoir T04</a><a href="../../index.html">Accueil</a></footer>
+</body>
+</html>
