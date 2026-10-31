@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eef6f7">
+<meta name="description" content="Terminale NSI — T04 : contrats d'outils, permissions et validation humaine dans une simulation Microduck.">
+<title>ORCHESTRA NSI — T04 · L'agent n'a pas tous les droits</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="../../shared/editor-indent.js"></script>
+<script defer src="lab.js"></script>
+</head>
+<body data-theme="light">
+<a class="skip" href="#sandbox">Aller au laboratoire</a>
+<header class="topbar">
+<a class="brand" href="../../index.html"><img src="../../assets/logo-watteau.webp" alt="Logo du lycée Watteau" width="44" height="44"><span><b>ORCHESTRA <em>NSI</em></b><small>LABORATOIRE DES AGENTS · TERMINALE</small></span></a>
+<nav aria-label="Progression"><a href="../">T01</a><a href="../t02/">T02</a><a href="../t03/">T03</a><span aria-current="page">T04 · Autorisations</span></nav>
+<div class="themes" role="group" aria-label="Mode d'affichage">
+<button data-theme="light" type="button" aria-pressed="true">Clair</button>
+<button data-theme="dark" type="button" aria-pressed="false">Sombre</button>
+<button data-theme="projection" type="button" aria-pressed="false">Projection</button>
+</div>
+</header>
+<main>
+<section class="hero t04-hero">
+<div><p class="eyebrow">MISSION 04 <span class="dot"></span> CONTRATS D'INTERFACE <span class="dot"></span> 3 SÉANCES</p>
+<h1>Un agent peut <em>demander.</em><br>Pas s'<em>autoriser.</em></h1>
+<p>Microduck sait proposer un appel d'outil. L'orchestrateur vérifie le nom de l'outil, les arguments, les permissions et les actions qui exigent une décision humaine. Un appel accepté peut encore échouer à cause du monde réel.</p>
+<a class="cta" href="#sandbox">Expérimenter les autorisations <span aria-hidden="true">↘</span></a></div>
+<div class="hero-image" aria-hidden="true"><span class="radar radar-a"></span><span class="radar radar-b"></span><img src="../../assets/microduck-idle-east.webp" alt=""><span class="halo-tag t1">PROPOSER</span><span class="halo-tag t2">VÉRIFIER</span><span class="halo-tag t3">AGIR ?</span></div>
+</section>
+<section class="strip" aria-label="Objectifs">
+<div><span>01</span><b>Spécifier</b><small>Contrat : outil et arguments attendus</small></div>
+<div><span>02</span><b>Contrôler</b><small>Liste blanche et permissions explicites</small></div>
+<div><span>03</span><b>Justifier</b><small>Arrêt, refus, validation humaine</small></div>
+</section>
+<section class="intro">
+<p class="kicker">ARCHITECTURE · RESPONSABILITÉS SÉPARÉES</p>
+<h2>L'appel d'un outil n'est pas son exécution.</h2>
+<div class="architecture">
+<article><strong>01 · Agent</strong><p>Propose un dictionnaire contenant le nom de l'outil et ses arguments. Aucun accès direct au monde.</p></article>
+<article><strong>02 · Contrat</strong><p>Vérifie les types, les noms des paramètres et les valeurs autorisées.</p></article>
+<article><strong>03 · Orchestrateur</strong><p>Applique les permissions. Demande une approbation explicite pour une opération sensible.</p></article>
+<article><strong>04 · Monde</strong><p>Valide les contraintes physiques et effectue éventuellement l'unique action autorisée.</p></article>
+</div>
+<p class="caution">Ce laboratoire est une <strong>simulation pédagogique</strong>, pas un système de contrôle d'accès déployable. Le bouton d'approbation représente une décision humaine locale à cette page, sans effet externe.</p>
+</section>
+<section id="sandbox" class="laboratory">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 01 · SIMULER</p><h2>Le poste de contrôle Microduck</h2><p>Choisis un cas, examine l'appel et les droits, puis soumets-le à l'orchestrateur. Il est impossible de déplacer Microduck par une requête refusée ou en attente.</p></div><span class="episode">T04 / GATE</span></div>
+<div class="toolbar">
+<label for="scenario">Situation à examiner<select id="scenario">
+<option value="0">01 · Observer (autorisé)</option>
+<option value="1">02 · Avancer d'une case</option>
+<option value="2">03 · Droit manquant</option>
+<option value="3">04 · Ouvrir une porte (accord requis)</option>
+<option value="4">05 · Fausse auto-approbation</option>
+<option value="5">06 · Téléportation interdite</option>
+<option value="6">07 · Déplacement vers un mur</option>
+</select></label>
+<button class="button" id="reset" type="button">↺ Réinitialiser</button>
+<button class="button accent" id="inspect" type="button">Vérifier l'appel →</button>
+</div>
+<div class="gate-grid">
+<div class="terrain-card gate-map">
+<div class="card-head"><div><b>Terrain contrôlé · 6 × 3</b><small>UNE INSTRUCTION AUTORISÉE = AU PLUS UN DÉPLACEMENT</small></div><span class="coordinates" id="position-label">(0, 1)</span></div>
+<div class="board" id="board" role="group" aria-label="Grille de simulation"></div>
+<div class="legend"><span><i class="swatch neutral"></i>Case libre</span><span><i class="swatch wall"></i>Mur / porte fermée</span><span><i class="swatch target"></i>Objectif</span></div>
+<div class="call-panels">
+<div class="mini-panel"><span class="mini-title">REQUÊTE FORMULÉE PAR L'AGENT</span><pre id="request-code"></pre></div>
+<div class="mini-panel"><span class="mini-title">DROITS ACCORDÉS À CETTE MISSION</span><div class="rights" id="rights"></div></div>
+</div>
+</div>
+<div class="inspector gate-inspector">
+<div class="inspector-head"><span class="live-dot"></span><b>ORCHESTRATEUR · VERDICT</b></div>
+<div class="inspector-section"><span>01 · NOM, ARGUMENTS ET LISTE BLANCHE</span><strong id="contract">En attente d'analyse</strong><small>Les champs imprévus et les types incorrects sont refusés.</small></div>
+<div class="inspector-section"><span>02 · AUTORISATION</span><strong id="status" class="state-label">NON VÉRIFIÉ</strong><small id="status-note">L'agent n'a pas encore soumis sa demande.</small></div>
+<div class="approval-panel" id="approval" hidden>
+<b>Décision humaine nécessaire</b><p>L'ouverture d'une porte est sensible. Aucun effet tant que tu n'as pas décidé.</p>
+<div class="approval-actions"><button id="approve" type="button" class="button accent">Autoriser une fois</button><button id="deny" type="button" class="button">Refuser</button></div>
+<small>Simulation locale : cette approbation ne vaut que pour cet appel.</small></div>
+<div class="inspector-section"><span>03 · EFFET PHYSIQUE</span><strong id="effect">Aucun effet</strong><small>Un droit d'appeler l'outil n'efface ni les murs ni les règles du monde.</small></div>
+<div class="log-head">JOURNAL DE DÉCISION</div><ol id="audit-log" class="audit-log" aria-live="polite"><li>Aucun appel exécuté.</li></ol>
+</div></div>
+</section>
+<section class="workspace" id="programmer">
+<div class="section-title"><div><p class="kicker">EXPÉRIENCE 02 · PROGRAMMER</p><h2>Écris le vérificateur Python.</h2><p>Complète <code>verifier_appel(appel, permissions)</code>. La fonction valide les contrats et renvoie <code>AUTORISÉ</code>, <code>ATTENTE_HUMAINE</code> ou <code>REFUSÉ</code>, accompagnés d'un motif. Elle ne réalise aucune action.</p></div></div>
+<div class="two-col">
+<div class="editor-panel"><div class="editor-head"><b>t04_eleve.py</b><span>PYTHON · CONTRATS ET PERMISSIONS</span></div><textarea id="python-code" aria-label="Code Python T04" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea><div class="actions"><button class="button accent" id="run-python" type="button" disabled>Exécuter les tests</button><button class="button" id="restore" type="button">Restaurer le squelette</button></div><p id="python-status" role="status">Préparation de Python…</p><p class="hint">Les résultats sont issus du programme Python exécuté dans Pyodide. Le code est conservé dans ce navigateur.</p></div>
+<div class="results-panel"><div class="result-head"><div><span class="kicker">CONTRÔLES CONTRADICTOIRES</span><h3>Verdicts réels</h3></div><output id="score">— / 13</output></div><p id="result-summary" aria-live="polite">Aucune évaluation. Les appels fictifs de démonstration ne donnent aucun point.</p><div class="test-cases" id="result-cases"><p class="quiet">Treize tests contrôleront les permissions, les types, le refus et l'approbation humaine.</p></div><div class="student-proof" id="student-proof" hidden><b>Preuve issue du code Python élève</b><pre id="student-proof-data"></pre><p>La validation humaine indiquée dans ce rapport est simulée par le banc de test, et non accordée par l'agent.</p></div><p class="hint">Le moteur n'est pas un bac à sable contre du code hostile ; activité à réaliser sous supervision.</p></div>
+</div></section>
+<section class="transfer" id="justifier"><p class="kicker">EXPÉRIENCE 03 · ARGUMENTER</p><h2>Une permission n'est pas une validation humaine.</h2><p>Un agent réclame <code>ouvrir_porte</code> et joint <code>"approuve": true</code> à sa requête. Explique pourquoi cette information doit être refusée. Puis distingue : permission de demander, validation humaine, et résultat réel de l'action. Pourquoi <code>avancer</code> autorisé peut-il ne provoquer aucun déplacement ?</p><label for="justification">Justification personnelle — relecture enseignante</label><textarea id="justification" rows="5" placeholder="L'agent ne peut pas s'approuver lui-même… Le monde valide séparément…"></textarea><p class="hint">Aucune note automatique sur la justification : l'enseignant contrôle l'argumentation.</p></section>
+</main>
+<footer><span>ORCHESTRA NSI · T04 · Simulation pédagogique sous supervision</span><a href="../t03/">Retour T03</a><a href="../../index.html">Accueil</a></footer>
+</body>
+</html>
