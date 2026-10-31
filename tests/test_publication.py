@@ -28,6 +28,8 @@ class SitePublicationTests(unittest.TestCase):
         self.assertTrue((self.site/'terminale/t04/lab.js').exists())
         self.assertTrue((self.site/'terminale/t05/lab.js').exists())
         self.assertTrue((self.site/'terminale/t05/runner_t05.py').exists())
+        self.assertTrue((self.site/'terminale/t06/runner_t06.py').exists())
+        self.assertTrue((self.site/'terminale/t06/lab.js').exists())
 
     def test_no_teacher_data_or_build_artifacts(self):
         forbidden = ['tests','scripts','.github','RAPPORT_VALIDATION_V14.md',
