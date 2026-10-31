@@ -49,6 +49,13 @@ class T04Tests(unittest.TestCase):
         self.assertEqual(result["passed"],13)
         self.assertEqual(result["total"],13)
 
+    def test_feedback_describes_successful_refusals_as_refusals(self):
+        rows=runner_t04.evaluate_source(REFERENCE)["results"]
+        self.assertIn("Appel autorisé",rows[0]["message"])
+        self.assertIn("Refus conforme",rows[2]["message"])
+        self.assertIn("Attente conforme",rows[5]["message"])
+        self.assertNotIn("permission vérifiée",rows[2]["message"])
+
     def test_human_agreement_does_not_automatically_authorize(self):
         result=runner_t04.evaluate_source(REFERENCE)
         pending=result["results"][5]["trace"]
