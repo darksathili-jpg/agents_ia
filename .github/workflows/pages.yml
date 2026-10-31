@@ -28,7 +28,7 @@ jobs:
       - name: Installer le nécessaire pour les tests
         run: python -m pip install pytest pillow
       - name: Exécuter les tests Première et Terminale
-        run: python -m pytest -q premiere/tests tests qa_enseignant/test_redressement.py qa_enseignant/test_variantes.py qa_enseignant/test_visualiseur_bfs.py qa_enseignant/test_t03.py qa_enseignant/test_t04.py qa_enseignant/test_t05.py
+        run: python -m pytest -q premiere/tests tests qa_enseignant/test_redressement.py qa_enseignant/test_variantes.py qa_enseignant/test_visualiseur_bfs.py qa_enseignant/test_t03.py qa_enseignant/test_t04.py qa_enseignant/test_t05.py qa_enseignant/test_t06.py
       - name: Contrôler l'indentation et JavaScript
         run: |
           node premiere/tests/editor_indent.test.cjs
@@ -36,7 +36,8 @@ jobs:
           node tests/test_t03_visualizer.cjs
           node tests/test_t04_visualizer.cjs
           node tests/test_t05_visualizer.cjs
-          for src in shared/editor-indent.js premiere/app.js premiere/python-worker.js premiere/hero-motion.js terminale/app.js terminale/python-worker.js terminale/hero-motion.js terminale/bfs-visualizer.js terminale/demo-bfs.js terminale/t02/lab.js terminale/t02/python-worker.js terminale/t03/lab.js terminale/t03/python-worker.js terminale/t04/lab.js terminale/t04/python-worker.js terminale/t05/lab.js terminale/t05/python-worker.js; do node --check "$src"; done
+          node tests/test_t06_visualizer.cjs
+          for src in shared/editor-indent.js premiere/app.js premiere/python-worker.js premiere/hero-motion.js terminale/app.js terminale/python-worker.js terminale/hero-motion.js terminale/bfs-visualizer.js terminale/demo-bfs.js terminale/t02/lab.js terminale/t02/python-worker.js terminale/t03/lab.js terminale/t03/python-worker.js terminale/t04/lab.js terminale/t04/python-worker.js terminale/t05/lab.js terminale/t05/python-worker.js terminale/t06/lab.js terminale/t06/python-worker.js; do node --check "$src"; done
       - name: Recette Chromium T02 avec Pyodide réel local
         run: |
           python -m pip install playwright==1.61.0
@@ -45,6 +46,7 @@ jobs:
           python tests/browser_t03.py
           python tests/browser_t04.py
           python tests/browser_t05.py
+          python tests/browser_t06.py
       - name: Captures de recette T02
         if: always()
         uses: actions/upload-artifact@v4
@@ -59,6 +61,14 @@ jobs:
         with:
           name: captures-t05-chromium
           path: test-results/t05/
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Captures de recette T06
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures-t06-chromium
+          path: test-results/t06/
           if-no-files-found: ignore
           retention-days: 14
       - name: Tester la liste blanche de publication, sans les binaires
