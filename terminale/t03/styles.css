@@ -133,3 +133,12 @@ body[data-theme=projection] .cell.wall{background:#4d6070}
 @media(max-width:800px){main{padding:16px 13px}.hero{grid-template-columns:1fr}.hero>div:first-child{padding:33px 23px}.hero-image{min-height:230px}.hero-image img{height:190px}.halo-tag{font-size:9px}.lab-grid{grid-template-columns:1fr}.inspector{border-left:0;border-top:1px solid var(--stroke)}.section-title{display:block}.episode{display:inline-block;margin-top:10px}}
 @media(max-width:480px){.topbar{gap:8px}.brand b{font-size:17px}.brand small{font-size:8px}nav{order:3;width:100%;justify-content:center}.themes{margin-left:auto}.themes button{padding:6px;font-size:11px}.hero-image{min-height:200px}.strip>div{flex-wrap:wrap}.architecture{grid-template-columns:1fr}.terrain-card,.inspector{padding:12px}.board{padding:7px;gap:3px}.cell{border-radius:5px;font-size:9px}.legend{gap:8px;font-size:10px}.toolbar .button{flex:1}.transfer{padding:20px 15px}.result-head h3{font-size:19px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* T04 : la navigation Terminale s'étend à quatre missions. Sur 390 px, les
+ * liens se répartissent sur deux lignes sans créer de scroll horizontal. */
+@media(max-width:560px){
+  .topbar{min-width:0}
+  .topbar nav{display:flex;flex-wrap:wrap;min-width:0;width:100%;gap:3px;justify-content:center}
+  .topbar nav a,.topbar nav span{white-space:normal;text-align:center;max-width:100%;font-size:11px;padding:6px 8px}
+  .topbar .themes{max-width:100%}
+}
