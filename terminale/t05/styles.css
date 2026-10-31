@@ -1,0 +1,59 @@
+@charset "UTF-8";
+@import url("../t04/styles.css");
+/* T05 — identité visuelle propre au banc de preuves, lisible en classe. */
+.t05-hero{background:linear-gradient(118deg,#edf7f7 0%,#d4e8ed 68%,#e4e8f5 100%)}
+.t05-hero h1{font-size:clamp(32px,4vw,60px)}
+.t05-hero .halo-tag.t1{top:24%;left:1%}
+.t05-hero .halo-tag.t2{top:55%;right:5%}
+.t05-hero .halo-tag.t3{bottom:15%;left:10%}
+.mission-timeline{display:flex;align-items:stretch;gap:7px;background:var(--soft);border-left:1px solid var(--stroke);border-right:1px solid var(--stroke);padding:13px;overflow-x:auto}
+.mission-timeline span{flex:1;min-width:105px;border:1px solid var(--stroke);border-radius:9px;padding:9px 10px;background:var(--panel);color:var(--muted);font:850 10px/1.35 ui-monospace,Consolas,monospace;text-align:center;white-space:normal;display:grid;place-items:center;min-height:43px}
+.mission-timeline span.active{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.mission-timeline span.active.blocked{background:#922d32;color:#fff;border-color:#922d32}
+.mission-timeline span.active.pending{background:#906114;color:#fff;border-color:#906114}
+.mission-timeline span.completed{border-color:var(--accent);color:var(--ink)}
+.audit-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);border:1px solid var(--stroke);border-top:0;border-radius:0 0 13px 13px;overflow:hidden}
+.audit-grid>.inspector{border-left:1px solid var(--stroke);min-width:0}
+.audit-grid>.terrain-card{min-width:0}
+.audit-grid .board{aspect-ratio:6/3.15}
+.underboard{margin:14px 0 5px;background:var(--soft);color:var(--ink);border:1px solid var(--stroke);border-left:4px solid var(--accent);padding:10px 13px;border-radius:8px;font-size:13px}
+.audit-documents{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:15px}
+.report-panel{border-top:4px solid #c37835}
+.trusted-panel{border-top:4px solid var(--accent)}
+.mini-title{font-size:11px}
+.report-panel pre{font:12px/1.55 Consolas,ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.trusted-panel .proof{padding:8px 0;border-top:1px solid var(--stroke);font:12px/1.35 ui-monospace,Consolas,monospace;color:var(--ink)}
+.trusted-panel .proof:first-child{border-top:0}
+.trusted-panel .proof b{display:block;font-size:11px}
+.trusted-panel .proof small{display:block;font:11px ui-monospace,monospace;color:var(--muted);margin-top:3px}
+.trusted-panel .proof.fail b{color:#a32f2f}
+.trusted-panel .proof.pass b{color:#087b50}
+.mission-scope{font:12px/1.6 Consolas,ui-monospace,monospace;color:var(--ink);background:var(--panel);border:1px solid var(--stroke);padding:9px;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.inspector-section strong#proofs-status{font-size:15px}
+#status{font-size:19px!important}
+#status[data-state="BLOQUÉE"]{color:#ac2a37}
+#status[data-state="ATTENTE_HUMAINE"]{color:#8e6016}
+#status[data-state="VALIDÉE"]{color:#0b855a}
+#status[data-state="EN VÉRIFICATION"]{color:var(--blue)}
+#status[data-state="SPÉCIFIÉE"]{color:var(--muted)}
+#approval[hidden]{display:none}
+body[data-theme=dark] .t05-hero{background:linear-gradient(116deg,#18313d,#204250 64%,#293b57)}
+body[data-theme=dark] .trusted-panel .proof.pass b{color:#78dcb8}
+body[data-theme=dark] .trusted-panel .proof.fail b{color:#f99c9c}
+body[data-theme=dark] #status[data-state="BLOQUÉE"]{color:#ff9a9a}
+body[data-theme=dark] #status[data-state="ATTENTE_HUMAINE"]{color:#ffcb80}
+body[data-theme=dark] #status[data-state="VALIDÉE"]{color:#72ddb2}
+body[data-theme=dark] #status[data-state="EN VÉRIFICATION"]{color:#99b6ff}
+body[data-theme=dark] .mission-timeline span.active{color:#062b2c}
+body[data-theme=dark] .mission-timeline span.active.blocked,body[data-theme=dark] .mission-timeline span.active.pending{color:#fff}
+body[data-theme=projection] .t05-hero{background:#f7fbf7}
+body[data-theme=projection] .report-panel{border-top:5px solid #975313}
+body[data-theme=projection] .trusted-panel{border-top:5px solid #00635b}
+body[data-theme=projection] .mission-timeline span{border-width:2px}
+body[data-theme=projection] .mission-timeline span.active{color:#fff;background:#005955}
+body[data-theme=projection] #status[data-state="BLOQUÉE"]{color:#961722}
+body[data-theme=projection] #status[data-state="ATTENTE_HUMAINE"]{color:#754400}
+body[data-theme=projection] #status[data-state="VALIDÉE"]{color:#005c45}
+@media(max-width:1090px){.audit-grid{grid-template-columns:1fr}.audit-grid>.inspector{border-left:0;border-top:1px solid var(--stroke)}}
+@media(max-width:650px){.audit-documents{grid-template-columns:1fr}.mission-timeline{flex-wrap:wrap}.mission-timeline span{min-width:calc(50% - 8px);flex:1 1 calc(50% - 8px)}.audit-grid .terrain-card{padding:12px}.audit-grid .inspector{padding:16px}.report-panel pre{font-size:11px}}
+@media(max-width:425px){.mission-timeline span{font-size:9px;padding:8px 5px;min-height:39px}.audit-documents{gap:9px}.topbar nav{justify-content:center;flex-wrap:wrap}.topbar nav a,.topbar nav span{white-space:normal}}
